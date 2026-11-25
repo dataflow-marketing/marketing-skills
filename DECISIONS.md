@@ -266,3 +266,8 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** a short code of conduct adapted from the Contributor Covenant 2.0: respectful disagreement about ideas, good-faith questions and owning mistakes are encouraged; harassment, trolling and sharing private information are not; reports go to matt@mattcameron.me
 **Over:** no code of conduct; the full Contributor Covenant text
 **Why:** people can think clearly, disagree respectfully and still feel safe; a short summary is one people read
+
+## 2026-11-25: The GitHub organisation is dataflow-marketing (changes "Repo marketing-skills, marketplace dataflow-marketing")
+**Chose:** the repo lives at `dataflow-marketing/marketing-skills`; install is `/plugin marketplace add dataflow-marketing/marketing-skills`
+**Over:** `dataflowmarketing/marketing-skills`
+**Why:** the organisation's name now matches the marketplace name and reads as the brand, dataflow marketing; changed before anyone installed or linked to it: nothing breaks; GitHub redirects the old address

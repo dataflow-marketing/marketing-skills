@@ -16,12 +16,12 @@
   ],
   "homepage": "https://dataflow.marketing",
   "bugs": {
-    "url": "https://github.com/dataflowmarketing/marketing-skills/issues",
+    "url": "https://github.com/dataflow-marketing/marketing-skills/issues",
     "email": "matt@mattcameron.me"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dataflowmarketing/marketing-skills.git"
+    "url": "git+https://github.com/dataflow-marketing/marketing-skills.git"
   },
   "license": "MIT",
   "author": "mattcam <matt@mattcameron.me>",
