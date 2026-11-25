@@ -65,6 +65,81 @@ function readValueAfter(prefix, line) {
   return value;
 }
 
+// ../../src/settings/add-line.ts
+var LINE_KINDS = [
+  { name: "time zone", addTo: addTimeZone },
+  { name: "week starts", addTo: addWeekStarts },
+  { name: "keys file", addTo: addKeysFile },
+  { name: "site", addTo: addSite },
+  { name: "store", addTo: addStore },
+  { name: "binding", addTo: addBinding },
+  { name: "house rule", addTo: addHouseRule }
+];
+function addLine(settings, line) {
+  for (const kind of LINE_KINDS) {
+    if (kind.addTo(settings, line)) {
+      return kind.name;
+    }
+  }
+  return void 0;
+}
+function addTimeZone(settings, line) {
+  const timeZone = readValueAfter("time zone:", line);
+  if (timeZone === void 0) {
+    return false;
+  }
+  settings.timeZone = timeZone;
+  return true;
+}
+function addWeekStarts(settings, line) {
+  const weekStarts = readValueAfter("week starts:", line);
+  if (weekStarts === void 0) {
+    return false;
+  }
+  settings.weekStarts = weekStarts;
+  return true;
+}
+function addKeysFile(settings, line) {
+  const keysFile = readValueAfter("keys file:", line);
+  if (keysFile === void 0) {
+    return false;
+  }
+  settings.keysFile = keysFile;
+  return true;
+}
+function addSite(settings, line) {
+  const site = readSiteLine(line);
+  if (site === void 0) {
+    return false;
+  }
+  settings.sites.push(site);
+  return true;
+}
+function addStore(settings, line) {
+  const store = readStoreLine(line);
+  if (store === void 0) {
+    return false;
+  }
+  settings.stores.push(store);
+  return true;
+}
+function addBinding(settings, line) {
+  const binding = readBindingLine(line);
+  if (binding === void 0) {
+    return false;
+  }
+  settings.bindings.push(binding);
+  return true;
+}
+function addHouseRule(settings, line) {
+  const houseRule = readHouseRuleLine(line);
+  if (houseRule === void 0) {
+    return false;
+  }
+  settings.houseRules.push(houseRule);
+  return true;
+}
+
 // ../../src/settings/check-settings.ts
 var DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 function checkSettings(settings) {
@@ -112,40 +187,21 @@ function checkBindings(settings) {
 var SPEC_LINE = "spec 1";
 var DEFAULT_WEEK_START = "Monday";
 var ONCE_ONLY = ["time zone", "week starts", "keys file"];
-var KINDS = ["time zone", "week starts", "keys file", "site", "store", "binding", "house rule"];
 function parseSettings(text) {
+  const lines = numberedLines(text);
   const settings = emptySettings();
-  const problems = [];
-  const lines = text.split(/\r?\n/);
-  const firstLine = lines[0]?.trim();
-  if (firstLine !== SPEC_LINE) {
-    problems.push(`line 1: expected "${SPEC_LINE}"`);
-  }
-  const given = /* @__PURE__ */ new Set();
-  for (let index = 1; index < lines.length; index++) {
-    const line = lines[index].trim();
-    if (line === "") {
-      continue;
-    }
-    const kind = addLine(settings, line);
-    if (!kind) {
-      problems.push(notUnderstood(index + 1, line));
-      continue;
-    }
-    if (ONCE_ONLY.includes(kind) && given.has(kind)) {
-      problems.push(`line ${index + 1}: ${kind} is given more than once`);
-    }
-    given.add(kind);
-  }
-  problems.push(...checkSettings(settings));
-  return { settings, problems };
+  const specProblems = checkSpecLine(lines);
+  const lineProblems = addEachLine(settings, lines);
+  const repeatProblems = findRepeatedLines(lines);
+  const settingsProblems = checkSettings(settings);
+  return {
+    settings,
+    problems: [...specProblems, ...lineProblems, ...repeatProblems, ...settingsProblems]
+  };
 }
-function notUnderstood(lineNumber, line) {
-  const kind = KINDS.find((first) => line.startsWith(first));
-  if (kind) {
-    return `line ${lineNumber}: a ${kind} line that is not understood`;
-  }
-  return `line ${lineNumber}: not understood`;
+function numberedLines(text) {
+  const lines = text.split(/\r?\n/).map((line, index) => ({ number: index + 1, text: line.trim() }));
+  return lines.filter((line) => line.text !== "");
 }
 function emptySettings() {
   return {
@@ -157,43 +213,50 @@ function emptySettings() {
     houseRules: []
   };
 }
-function addLine(settings, line) {
-  const timeZone = readValueAfter("time zone:", line);
-  if (timeZone) {
-    settings.timeZone = timeZone;
-    return "time zone";
+function checkSpecLine(lines) {
+  const first = lines[0];
+  if (first?.number === 1 && first.text === SPEC_LINE) {
+    return [];
   }
-  const weekStarts = readValueAfter("week starts:", line);
-  if (weekStarts) {
-    settings.weekStarts = weekStarts;
-    return "week starts";
+  return [`line 1: expected "${SPEC_LINE}"`];
+}
+function addEachLine(settings, lines) {
+  const problems = [];
+  for (const line of linesAfterSpec(lines)) {
+    const kind = addLine(settings, line.text);
+    if (kind === void 0) {
+      problems.push(notUnderstood(line));
+    }
   }
-  const keysFile = readValueAfter("keys file:", line);
-  if (keysFile) {
-    settings.keysFile = keysFile;
-    return "keys file";
+  return problems;
+}
+function findRepeatedLines(lines) {
+  const problems = [];
+  const given = /* @__PURE__ */ new Set();
+  for (const line of linesAfterSpec(lines)) {
+    const kind = kindOf(line.text);
+    if (kind === void 0 || !ONCE_ONLY.includes(kind)) {
+      continue;
+    }
+    if (given.has(kind)) {
+      problems.push(`line ${line.number}: ${kind} is given more than once`);
+    }
+    given.add(kind);
   }
-  const site = readSiteLine(line);
-  if (site) {
-    settings.sites.push(site);
-    return "site";
+  return problems;
+}
+function linesAfterSpec(lines) {
+  return lines.filter((line) => line.number > 1);
+}
+function kindOf(text) {
+  return addLine(emptySettings(), text);
+}
+function notUnderstood(line) {
+  const kind = LINE_KINDS.find((each) => line.text.startsWith(each.name));
+  if (kind) {
+    return `line ${line.number}: a ${kind.name} line that is not understood`;
   }
-  const store = readStoreLine(line);
-  if (store) {
-    settings.stores.push(store);
-    return "store";
-  }
-  const binding = readBindingLine(line);
-  if (binding) {
-    settings.bindings.push(binding);
-    return "binding";
-  }
-  const houseRule = readHouseRuleLine(line);
-  if (houseRule) {
-    settings.houseRules.push(houseRule);
-    return "house rule";
-  }
-  return void 0;
+  return `line ${line.number}: not understood`;
 }
 
 // ../../src/output/output-mode.ts

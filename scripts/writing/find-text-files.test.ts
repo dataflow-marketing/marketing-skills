@@ -13,6 +13,8 @@ beforeAll(async () => {
     "spec/notes.txt",
     "package.json",
     "src/run.ts",
+    ".github/workflows/ci.yml",
+    "writing/find-breaks.test.ts",
     "node_modules/some-package/README.md",
     "dist/notes.md",
     ".wrangler/state.json",
@@ -28,8 +30,8 @@ afterAll(async () => {
 });
 
 describe("findTextFiles", () => {
-  it("finds .md, .txt and .json files and skips node_modules, dist and .wrangler", async () => {
+  it("finds .md, .txt, .json, .ts and .yml files and skips node_modules, dist, .wrangler and find-breaks.test.ts", async () => {
     const found = (await findTextFiles(folder)).map((path) => relative(folder, path));
-    expect(found).toEqual(["README.md", "package.json", "spec/notes.txt"]);
+    expect(found).toEqual([".github/workflows/ci.yml", "README.md", "package.json", "spec/notes.txt", "src/run.ts"]);
   });
 });

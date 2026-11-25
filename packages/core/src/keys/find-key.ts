@@ -1,6 +1,6 @@
 // Finds one named key.
-// A missing key is an error that names the key, never its value,
-// so nothing secret ever reaches the terminal or Claude.
+// A missing key is an error that names the key, never its value.
+// Nothing secret ever reaches the terminal or Claude.
 
 import type { Keys } from "./parse-keys-file.ts";
 

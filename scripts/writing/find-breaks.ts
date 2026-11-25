@@ -12,18 +12,25 @@ type Rule = {
   pattern: RegExp;
 };
 
+const COMMA_RULE = "comma before a joining word";
+const JOINING_START = /^(?:and|but|so|or)\b/i;
+
 const RULES: Rule[] = [
   { name: "em dash", pattern: /\u2014/g },
-  { name: "comma before a joining word", pattern: /,\s+(?:and|but|so|or)\b/gi },
-  { name: "emoji", pattern: /[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}]/gu },
+  { name: COMMA_RULE, pattern: /,\s+(?:and|but|so|or)\b/gi },
+  // anything outside plain ASCII: emojis, symbols such as the copyright sign, accents (an em dash has its own rule)
+  { name: "not plain ASCII", pattern: /[^\x00-\x7F\u2014]/gu },
 ];
 
 const EXCERPT_SIDE = 30;
 
 export function findBreaks(text: string): WritingBreak[] {
-  const breaks: WritingBreak[] = [];
   const lines = text.split("\n");
+  return [...breaksInEachLine(lines), ...commasAcrossLines(lines)].sort((a, b) => a.line - b.line);
+}
 
+function breaksInEachLine(lines: string[]): WritingBreak[] {
+  const breaks: WritingBreak[] = [];
   lines.forEach((lineText, index) => {
     for (const rule of RULES) {
       for (const match of lineText.matchAll(rule.pattern)) {
@@ -35,8 +42,29 @@ export function findBreaks(text: string): WritingBreak[] {
       }
     }
   });
-
   return breaks;
+}
+
+// A line ending in a comma whose next line starts with a joining word (comment marks set aside)
+function commasAcrossLines(lines: string[]): WritingBreak[] {
+  const breaks: WritingBreak[] = [];
+  for (let index = 0; index < lines.length - 1; index++) {
+    const endsInComma = lines[index].trimEnd().endsWith(",");
+    const nextStartsJoining = JOINING_START.test(withoutCommentMark(lines[index + 1]));
+    if (endsInComma && nextStartsJoining) {
+      breaks.push({
+        line: index + 1,
+        rule: COMMA_RULE,
+        excerpt: excerptAround(lines[index], lines[index].length),
+      });
+    }
+  }
+  return breaks;
+}
+
+// "// and so on" and " * and so on" read as "and so on"
+function withoutCommentMark(lineText: string): string {
+  return lineText.trimStart().replace(/^(?:\/\/|#+|\*|>|-)\s*/, "");
 }
 
 function excerptAround(lineText: string, position: number): string {

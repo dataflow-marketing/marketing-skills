@@ -1,5 +1,5 @@
-// pnpm check: every .md, .txt and .json file in the repo keeps the writing rules.
-// No em dashes, no comma before "and", "but", "so" or "or", no emojis.
+// pnpm check: every .md, .txt, .json, .ts and .yml file in the repo keeps the writing rules.
+// No em dashes, no comma before "and", "but", "so" or "or", nothing outside plain ASCII.
 // Exit code 0 when every file keeps them, 1 when any break is found.
 
 import { relative } from "node:path";

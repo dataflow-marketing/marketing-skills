@@ -66,7 +66,7 @@ Any of these can be built on the formats here. None of them is a skill.
 4. **Want, expect and happened never mix.** A goal is what a business wants, a forecast what it expects, a fact what happened.
 5. **No money.** Goals and facts are counts of actions (sign ups, sales, donations, bookings), never revenue or cost.
 6. **Groups, not individuals.** Named people stay in the business's own systems. A ledger holds rules and counts.
-7. **The business's own words for things.** A café's "regulars", not a standard term.
+7. **The business's own words for things.** A cafe's "regulars", not a standard term.
 8. **Nothing personal in a skill.** Sites, keys, members and house rules live in settings.
 
 ## The example business

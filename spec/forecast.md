@@ -17,7 +17,7 @@ A week still running (`counted to`) is not a counted week yet.
 | now | the weekly number today | the average of the counted weeks |
 | likely | the week the goal is likely reached | where a straight line through the counted weeks reaches the goal |
 | rough | the line is not settled yet | true until 8 weeks are counted: a line through a few weeks moves a lot with one good or bad week |
-| rise | how much the weekly number has to go up each week to reach the goal by its date | (goal − now) ÷ weeks left |
+| rise | how much the weekly number has to go up each week to reach the goal by its date | (goal - now) / weeks left |
 
 ## Rules
 

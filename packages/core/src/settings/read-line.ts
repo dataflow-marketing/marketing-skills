@@ -4,9 +4,20 @@
 
 import type { Binding, HouseRule, Site, Store } from "./types.ts";
 
+// site <business>: <platform> <address> key in <NAME>
+// site coffee-shop: ghost https://coffee-shop.example key in COFFEE_SHOP_GHOST_ADMIN_KEY
 const SITE_LINE = /^site ([a-z0-9-]+): (\S+) (\S+) key in (\S+)$/;
+
+// store <name>: <connector> <where> [key in <NAME>]
+// store api: rest https://api.coffee-shop.example key in COFFEE_SHOP_API_KEY
 const STORE_LINE = /^store ([a-z0-9-]+): (\S+) (.+?)(?: key in (\S+))?$/;
+
+// binding <object> <business>: <store> <place>
+// binding ledger coffee-shop: members field next
 const BINDING_LINE = /^binding (\S+) ([a-z0-9-]+): (\S+) (.+)$/;
+
+// house rule <name>: <rule>
+// house rule message length: three sentences at most
 const HOUSE_RULE_LINE = /^house rule (.+?): (.+)$/;
 
 export function readSiteLine(line: string): Site | undefined {

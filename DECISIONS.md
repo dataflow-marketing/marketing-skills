@@ -327,3 +327,32 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** a separate test/ folder
 **Why:** a file without a test shows at a glance
 
+## 2026-11-26: The README shows the whole plan and where each part is up to
+**Chose:** one section in the README listing every planned skill, recipe and foundation part with its state (planned, next, built, works), its kind (code, model, recipe) and whether its script is built
+**Over:** listing a skill only once it works
+**Why:** the whole plan and its progress are seen in one place
+
+## 2026-11-26: The plan shows each plugin's version
+**Chose:** a version column for the foundation and each plugin's version in its heading (not started until its first skill is built); the other platforms split into their own plugins in the plan
+**Over:** a plan with no versions
+**Why:** a plugin is installed and versioned on its own; the plan shows what someone would get
+
+## 2026-11-26: Work stays on develop until the skills have done real work
+**Chose:** every commit goes to develop; main, what people install, changes only once the skills have been applied to real work
+**Over:** merging to main as each piece is built
+**Why:** nothing has been tried on real work yet; main should only offer what has
+
+## 2026-11-26: A main function reads as an outline; repeated cases become a table
+**Chose:** a main function lists its steps as named calls, each step its own short function; cases of the same shape (the kinds of settings line) are a table of names and functions; every pattern carries its shape and an example line
+**Over:** one loop doing several jobs and a run of near identical if blocks
+**Why:** the structure shows what the code does: it can be read back and understood
+
+## 2026-11-26: The writing check reads code and workflow files too
+**Chose:** the writing check reads .ts and .yml files as well as .md, .txt and .json, skipping only the test file that holds breaks on purpose; a comma at the end of a line before a joining word on the next line is caught
+**Over:** checking only the documents
+**Why:** comments and messages in code are words people read; four breaks slipped into code comments on 26 Nov
+
+## 2026-11-26: Every file in the repo is plain ASCII
+**Chose:** the writing check fails any character outside plain ASCII; the ledger format writes links with `->` and taken off steps with `-`; readers still accept the Unicode arrow (U+2192) and minus sign (U+2212) from older ledgers; the coffee shop is a "cafe", without the accent
+**Over:** banning only emojis and em dashes; allowing a short list of other characters
+**Why:** the files stay plain text, predictable in any editor or terminal; one rule covers emojis, em dashes and symbols

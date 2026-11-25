@@ -13,7 +13,7 @@ result: 3 problems
 quote found: "The first hot morning always brings the same question at the counter." (line 4)
 name found: Sam (line 1)
 number not found: 1987
-claim to read: "the oldest café on the street"
+claim to read: "the oldest cafe on the street"
 house rule broken: em dashes (2)
 ```
 

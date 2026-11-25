@@ -39,17 +39,19 @@ A business just starting has only the done part. The summary is written by a ski
 | **fact** | `fact visits: cloudflare coffee-shop.example visits (observed)` | something counted, where it is counted and its source | in use |
 | **group** | `group Regulars: tag regulars` | who is in a group, by a rule; a person can be in several | in use |
 | **needs** | `group Regulars needs: a quiet table before work` | why a group responds: its problem or want | new |
-| **moving between groups** | `[Keen] not seen 6 weeks → [Drifting]` | people changing state; what makes a simulation | new |
+| **moving between groups** | `[Keen] not seen 6 weeks -> [Drifting]` | people changing state; what makes a simulation | new |
 | **offer** | `offer loyalty card: the tenth coffee free (plan)` | what is offered or asked for: a sale, a plan, an ask or a seat; never a price | new |
-| **channel** | `channel Instagram: the café's own account` | where things are said or sent | new |
-| **→** | `new post → visits: 20 to 40 of 100 views (assumed)` | this leads to that, at a rate, with its strength | in use |
-| **→ with a group** | `comeback email [Drifting] → visits: ? (unknown)` | how one group responds | in use (read, not yet played by group) |
-| **when** | `when not seen 6 weeks → comeback email` | something that happens and what follows | in use |
-| **rule** | `rule visits down 3 weeks → extra post` | what the business does when a number moves | to settle |
+| **channel** | `channel Instagram: the cafe's own account` | where things are said or sent | new |
+| **->** | `new post -> visits: 20 to 40 of 100 views (assumed)` | this leads to that, at a rate, with its strength | in use |
+| **-> with a group** | `comeback email [Drifting] -> visits: ? (unknown)` | how one group responds | in use (read, not yet played by group) |
+| **when** | `when not seen 6 weeks -> comeback email` | something that happens and what follows | in use |
+| **rule** | `rule visits down 3 weeks -> extra post` | what the business does when a number moves | to settle |
 | **limit** | `limit seats: 24` | hours, jobs, seats, cups | new |
 | **campaign** | `campaign winter warmers: from 2026-06-01 to 2026-08-31` | a named window that gathers a goal, a group, an offer, steps and content | new; how a line names its campaign is to settle |
 | **cycle** | `cycle weekly` | the length of one turn; only the default for a step with no timing | in use (as `cycle:`) |
 | area, icon | `area Website: visits, found the site` | how the picture is drawn | in use |
+
+**Plain ASCII.** A ledger is written in plain ASCII: a link is `->` and a step taken off is `-`. A reader also accepts the Unicode arrow (U+2192) and minus sign (U+2212), which older ledgers use.
 
 **A link's rate** is a count (`8 of 41`), a range when assumed (`1 to 3 of 10`), borrowed (`like offers to share`), from the people list (`from people`) or unknown (`?`). It can say how long it takes (`, within 2 weeks`) and be marked a downside (`(unknown, downside)`).
 
@@ -89,10 +91,10 @@ The planning settled "the seven group rules as they are"; dfm reads eight. This 
 | repeat | `every day`, `every week`, `every month`, each with an optional `from` date | `every week new post from 2026-11-23` | in use for `every week`; new for day and month |
 | ad hoc | a dated line | `2026-12-03 market stall` | in use |
 | series | one step on several dates, each with its own detail after a colon | `2026-11-30 guest barista: Ana` then `2026-12-07 guest barista: Joe` | new (the detail) |
-| added or taken off | a date with `+` or `−` | `2026-11-23 + flyer drop` | in use |
+| added or taken off | a date with `+` or `-` | `2026-11-23 + flyer drop` | in use |
 | unplanned | a done or said line with no plan step | see Done | new |
 
-**A `+` step not ticked in its week carries forward** to every later week, marked with its week, until it is ticked or a `−` line takes it off. Each date in a series is ticked on its own and carries forward on its own; counts roll up under the step's name.
+**A `+` step not ticked in its week carries forward** to every later week, marked with its week, until it is ticked or a `-` line takes it off. Each date in a series is ticked on its own and carries forward on its own; counts roll up under the step's name.
 
 **Unplanned is never marked with `+`.** A check reports a done line with no plan step as unplanned, not as an error.
 
@@ -134,7 +136,7 @@ Written on every change from the three parts above, never by hand. The goal, eac
 | Word | Example | Status |
 |---|---|---|
 | extends | `extends coffee-shop.graph` | in use |
-| removes | `removes: comeback email → visits` | new (`remove:` in dfm today) |
+| removes | `removes: comeback email -> visits` | new (`remove:` in dfm today) |
 
 ## Outside the ledger
 

@@ -1,6 +1,6 @@
 // Each test sits beside the file it tests, named <file>.test.ts. Two kinds of test:
-// work: the work modules, run inside workerd the way a Worker runs them. The pool turns some Node flags on so the
-//   runner works, so a passing work test does not prove a module has no Node API: the guards for that are
+// work: the work modules, run inside workerd the way a Worker runs them. The pool turns some Node flags on for the
+//   runner itself: a passing work test does not prove a module has no Node API. The guards for that are
 //   `pnpm typecheck` (tsconfig.work.json has no Node types) and src/index.test.ts
 // edge: the Node edges (src/node), the build (src/build), the guard for index.ts, the fixture and each example's build,
 //   run in Node

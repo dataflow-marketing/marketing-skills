@@ -3,11 +3,11 @@ spec 1
 fact followers: told (stated)
 fact comments: told (stated)
 
-check your profiles → followers: ? (unknown)
-new post → followers: ? (unknown)
-new post → comments: ? (unknown)
-post once on social → followers: ? (unknown)
-reply to comments → followers: ? (unknown)
+check your profiles -> followers: ? (unknown)
+new post -> followers: ? (unknown)
+new post -> comments: ? (unknown)
+post once on social -> followers: ? (unknown)
+reply to comments -> followers: ? (unknown)
 
 === plan ===
 start 2026-11-30

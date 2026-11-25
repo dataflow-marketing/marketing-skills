@@ -52,7 +52,7 @@ A pull request is merged when it meets all of these:
 6. **Tested.** Every module has a test with the coffee shop example, written in Vitest. `pnpm -r test` passes across the workspace. `pnpm -r build` leaves every `dist/` unchanged.
 7. **Nothing real or private.** No keys, no real customer or member data, no real business in an example. Examples use the coffee shop.
 8. **No skill publishes.** Anything a skill puts on a platform is a draft.
-9. **The house style.** Plain words. No em dashes, no emojis, no comma before a joining word such as "and" or "but".
+9. **The house style.** Plain words in plain ASCII. No em dashes, no emojis or other symbols, no comma before a joining word such as "and" or "but".
 10. **The why is written down.** A pull request that makes a design choice adds an entry to [DECISIONS.md](DECISIONS.md): what was chosen, over what and why.
 
 ## Who owns the work

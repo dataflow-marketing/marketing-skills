@@ -27,7 +27,7 @@ Make the same copy for your own business. Plain text in any editor is enough.
 
 Start from the [starter plan](../examples/starter/README.md): copy its ledger and change the dates to yours. Later, the [coffee shop's ledger](../examples/coffee-shop/ledger.txt) shows where a plan can grow. Keep the four parts. The [ledger spec](../spec/ledger.md) lists every kind of line.
 
-- **graph:** what you count (`fact`) and what you believe leads to what (`→`). If you have never counted a link, its rate is `?`.
+- **graph:** what you count (`fact`) and what you believe leads to what (`->`). If you have never counted a link, its rate is `?`.
 - **plan:** your goal as a number a week (`want new customers 2 a week by 2027-03-31`) and your steps (`every week new post`). Add a `how` line to say what each step involves.
 - **done:** each week, under its Monday, the steps you did and your counts (`2026-11-30 fact count visits: 560`).
 - **summary:** add up your counts and write the lines yourself, as in the example. Mark each one `calculated`. Leave the forecast out: it is worked out by code, as the [forecast spec](../spec/forecast.md) shows. Check every sum twice: the AI trusts these numbers.
@@ -73,7 +73,7 @@ Paste it into a new chat. Answer with numbers. Pick "Top 3 quick wins" if you wa
 
 ### 6. Make the changes yourself
 
-When the AI gives you `Change:` lines, read each one. Keep the ones you want. For each one you keep, take off `Change:` and add the line to your ledger, in its part: a step to the plan, a `→` to the graph, a `said` line to done.
+When the AI gives you `Change:` lines, read each one. Keep the ones you want. For each one you keep, take off `Change:` and add the line to your ledger, in its part: a step to the plan, a `->` to the graph, a `said` line to done.
 
 You decide. The AI only suggests.
 

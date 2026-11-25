@@ -3,63 +3,40 @@
 // Lines that cannot be read are named as problems, never guessed at. A problem names the line and its kind, never
 // the rest of the line: a key pasted into settings by mistake must not be printed back.
 
-import {
-  readBindingLine,
-  readHouseRuleLine,
-  readSiteLine,
-  readStoreLine,
-  readValueAfter,
-} from "./read-line.ts";
+import { addLine, LINE_KINDS } from "./add-line.ts";
 import { checkSettings } from "./check-settings.ts";
 import type { Settings, SettingsResult } from "./types.ts";
 
 const SPEC_LINE = "spec 1";
 const DEFAULT_WEEK_START = "Monday";
 
-// The lines that may be given once only
+// The kinds of line that may be given once only
 const ONCE_ONLY = ["time zone", "week starts", "keys file"];
 
-// The first words of each kind of line, to name a line that is not understood
-const KINDS = ["time zone", "week starts", "keys file", "site", "store", "binding", "house rule"];
+type NumberedLine = {
+  number: number;
+  text: string;
+};
 
 export function parseSettings(text: string): SettingsResult {
+  const lines = numberedLines(text);
   const settings = emptySettings();
-  const problems: string[] = [];
-  const lines = text.split(/\r?\n/);
 
-  const firstLine = lines[0]?.trim();
-  if (firstLine !== SPEC_LINE) {
-    problems.push(`line 1: expected "${SPEC_LINE}"`);
-  }
+  const specProblems = checkSpecLine(lines);
+  const lineProblems = addEachLine(settings, lines);
+  const repeatProblems = findRepeatedLines(lines);
+  const settingsProblems = checkSettings(settings);
 
-  const given = new Set<string>();
-  for (let index = 1; index < lines.length; index++) {
-    const line = lines[index].trim();
-    if (line === "") {
-      continue;
-    }
-    const kind = addLine(settings, line);
-    if (!kind) {
-      problems.push(notUnderstood(index + 1, line));
-      continue;
-    }
-    if (ONCE_ONLY.includes(kind) && given.has(kind)) {
-      problems.push(`line ${index + 1}: ${kind} is given more than once`);
-    }
-    given.add(kind);
-  }
-
-  problems.push(...checkSettings(settings));
-  return { settings, problems };
+  return {
+    settings,
+    problems: [...specProblems, ...lineProblems, ...repeatProblems, ...settingsProblems],
+  };
 }
 
-// Names the line and its kind only, never the rest of it
-function notUnderstood(lineNumber: number, line: string): string {
-  const kind = KINDS.find((first) => line.startsWith(first));
-  if (kind) {
-    return `line ${lineNumber}: a ${kind} line that is not understood`;
-  }
-  return `line ${lineNumber}: not understood`;
+// Every line with its number in the file, blank lines left out
+function numberedLines(text: string): NumberedLine[] {
+  const lines = text.split(/\r?\n/).map((line, index) => ({ number: index + 1, text: line.trim() }));
+  return lines.filter((line) => line.text !== "");
 }
 
 function emptySettings(): Settings {
@@ -73,49 +50,59 @@ function emptySettings(): Settings {
   };
 }
 
-// Adds one line to the settings. Gives back its kind (undefined when the line is not understood).
-function addLine(settings: Settings, line: string): string | undefined {
-  const timeZone = readValueAfter("time zone:", line);
-  if (timeZone) {
-    settings.timeZone = timeZone;
-    return "time zone";
+// The first line of the file must be "spec 1"
+function checkSpecLine(lines: NumberedLine[]): string[] {
+  const first = lines[0];
+  if (first?.number === 1 && first.text === SPEC_LINE) {
+    return [];
   }
+  return [`line 1: expected "${SPEC_LINE}"`];
+}
 
-  const weekStarts = readValueAfter("week starts:", line);
-  if (weekStarts) {
-    settings.weekStarts = weekStarts;
-    return "week starts";
+// Adds every line after the spec line; names each line that is not understood
+function addEachLine(settings: Settings, lines: NumberedLine[]): string[] {
+  const problems: string[] = [];
+  for (const line of linesAfterSpec(lines)) {
+    const kind = addLine(settings, line.text);
+    if (kind === undefined) {
+      problems.push(notUnderstood(line));
+    }
   }
+  return problems;
+}
 
-  const keysFile = readValueAfter("keys file:", line);
-  if (keysFile) {
-    settings.keysFile = keysFile;
-    return "keys file";
+// Names each once only line given a second time
+function findRepeatedLines(lines: NumberedLine[]): string[] {
+  const problems: string[] = [];
+  const given = new Set<string>();
+  for (const line of linesAfterSpec(lines)) {
+    const kind = kindOf(line.text);
+    if (kind === undefined || !ONCE_ONLY.includes(kind)) {
+      continue;
+    }
+    if (given.has(kind)) {
+      problems.push(`line ${line.number}: ${kind} is given more than once`);
+    }
+    given.add(kind);
   }
+  return problems;
+}
 
-  const site = readSiteLine(line);
-  if (site) {
-    settings.sites.push(site);
-    return "site";
+// Line 1 is the spec line, whatever it holds
+function linesAfterSpec(lines: NumberedLine[]): NumberedLine[] {
+  return lines.filter((line) => line.number > 1);
+}
+
+// The kind of a line, found by adding it to throwaway settings
+function kindOf(text: string): string | undefined {
+  return addLine(emptySettings(), text);
+}
+
+// Names the line and its kind only, never the rest of it
+function notUnderstood(line: NumberedLine): string {
+  const kind = LINE_KINDS.find((each) => line.text.startsWith(each.name));
+  if (kind) {
+    return `line ${line.number}: a ${kind.name} line that is not understood`;
   }
-
-  const store = readStoreLine(line);
-  if (store) {
-    settings.stores.push(store);
-    return "store";
-  }
-
-  const binding = readBindingLine(line);
-  if (binding) {
-    settings.bindings.push(binding);
-    return "binding";
-  }
-
-  const houseRule = readHouseRuleLine(line);
-  if (houseRule) {
-    settings.houseRules.push(houseRule);
-    return "house rule";
-  }
-
-  return undefined;
+  return `line ${line.number}: not understood`;
 }

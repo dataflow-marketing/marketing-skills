@@ -12,7 +12,7 @@ The owner set it up with `/dfm-recipes:client-run`. The goal is a count of an ac
 want stamp cards started 10 a week by 2026-12-31
 ```
 
-The graph says how the café works: opening brings visits, visits become cups served or people turned away, a stamp card offered at the counter starts stamp cards. Three weekly steps: open the café, offer the stamp card, post on Instagram. One ad hoc step: the market stall on 3 December.
+The graph says how the cafe works: opening brings visits, visits become cups served or people turned away, a stamp card offered at the counter starts stamp cards. Three weekly steps: open the cafe, offer the stamp card, post on Instagram. One ad hoc step: the market stall on 3 December.
 
 ## Do (week of 30 November)
 
@@ -22,7 +22,7 @@ The graph says how the café works: opening brings visits, visits become cups se
 
 ## Count
 
-The café's till has no counting skill. `/dfm-recipes:week-run` asks the owner for the numbers and records them as `told`:
+The cafe's till has no counting skill. `/dfm-recipes:week-run` asks the owner for the numbers and records them as `told`:
 
 ```
 2026-11-30 fact count stamp cards started: 4

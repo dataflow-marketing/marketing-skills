@@ -53,7 +53,7 @@ Change: 2026-12-07 + market stall
 Change: how stamp card at the counter: Offer a stamp card with every first coffee and say the tenth is free.
 Change: script comeback email: We have missed you at the coffee shop.
 Change: fact reminders seen: told
-Change: stamp card reminder on Instagram → stamp cards started: ? (unknown)
+Change: stamp card reminder on Instagram -> stamp cards started: ? (unknown)
 Change: 2026-11-30 said on Instagram on 2026-12-01: "Iced coffee is back" https://coffee-shop.example/iced-coffee/ [everyone] summary: "Iced coffee is back from Monday."
 ```
 

@@ -133,4 +133,4 @@ Scripts are written progressively, never all at the start.
 2. **A skill works when** its scripted functions (if it needs any) pass their tests on the coffee shop example and it has done one real job. A skill with no guardrail can work guided from the start.
 3. **The core grows by need.** A module joins `core/` when the first skill that needs it is written.
 4. **Versions say it is early.** Every plugin starts at `0.x`; `1.0` comes when spec 1 is frozen.
-5. **The README shows the state** of each skill (built, next or planned), changed in the same commit as the skill.
+5. **The README shows the state** of each skill (planned, next, built or works), whether it has a script and its kind, changed in the same commit as the skill.

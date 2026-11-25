@@ -1,6 +1,6 @@
 // Node edge: says whether a committed dist file is what its source builds today.
-// It builds the source in memory and compares it with the file on disk,
-// so a dist file that is out of date, edited by hand or missing is caught.
+// It builds the source in memory and compares it with the file on disk.
+// A dist file that is out of date, edited by hand or missing is caught.
 
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
