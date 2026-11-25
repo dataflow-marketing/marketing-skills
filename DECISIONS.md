@@ -82,10 +82,10 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** a short summary written freely; profiles written by hand
 **Why:** an AI keeps suggestions in the business's voice only if it has their real words; a model asked to describe a site will add things the site never says
 
-## 2026-11-25: Small bricks that fit together
+## 2026-11-25: Small pieces that fit together
 **Chose:** many small skills, each with one job, that meet through shared formats
 **Over:** a few large skills built around one way of working
-**Why:** small bricks can be put together for businesses and scenarios nobody planned for
+**Why:** small pieces can be put together for businesses and scenarios nobody planned for
 
 ## 2026-11-25: Names are dfm-area:thing-verb
 **Chose:** one plugin per area with a `dfm-` prefix; skills named thing then verb (`/dfm-ghost:post-draft`)
@@ -190,7 +190,7 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 ## 2026-11-25: How pull requests are accepted
 **Chose:** mattcam reviews every pull request; one is merged when it is one change, follows spec 1 and the naming, scripts its guardrails, is modular and tested on the example business, holds nothing real or private, never publishes, keeps the house style and writes down its why
 **Over:** accepting changes case by case with no stated rules
-**Why:** contributors know before they start what will be merged; every brick added keeps fitting the others
+**Why:** contributors know before they start what will be merged; every piece added keeps fitting the others
 
 ## 2026-11-25: Scripts ready for a Cloudflare Worker, routed with Hono
 **Chose:** work modules written to a Worker's limits (web standard APIs only, no state between calls, no local disk, keys passed in as values); only thin edge modules use Node; Hono, used in a highly functional way, maps work modules to routes in a Worker
@@ -235,7 +235,7 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 ## 2026-11-25: The skills stop at the ledger
 **Chose:** skills keep and use a business's context; how ticks and numbers arrive, the page a person sees, reviewing many businesses and weekly emails belong to wherever the context lives
 **Over:** skills that include a member page, email loops and review tools
-**Why:** those are a product's processes, not the method; leaving them out keeps the bricks usable by any product built on the formats
+**Why:** those are a product's processes, not the method; leaving them out keeps the pieces usable by any product built on the formats
 
 ## 2026-11-25: Two branches: main is what people install, develop is where work happens
 **Chose:** `main` holds only finished, checked work and is the default branch people install from; `develop` takes pull requests and is merged to main when ready
@@ -271,3 +271,8 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** the repo lives at `dataflow-marketing/marketing-skills`; install is `/plugin marketplace add dataflow-marketing/marketing-skills`
 **Over:** `dataflowmarketing/marketing-skills`
 **Why:** the organisation's name now matches the marketplace name and reads as the brand, dataflow marketing; changed before anyone installed or linked to it: nothing breaks; GitHub redirects the old address
+
+## 2026-11-25: Pieces, not bricks
+**Chose:** "pieces" for skills that fit together
+**Over:** "bricks"
+**Why:** read beside "dataflow", "bricks" sounds too close to Databricks

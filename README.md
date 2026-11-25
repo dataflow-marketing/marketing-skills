@@ -2,7 +2,7 @@
 
 dfm (dataflow marketing) keeps a business's marketing context: how its marketing works, what it plans, what happened and how it speaks. Any AI then works from facts, not guesses.
 
-Marketing skills for Claude from [dataflow.marketing](https://dataflow.marketing): small bricks that fit together. With them a business can keep that context, plan its marketing, make content from its own words, publish drafts and count what happened.
+Marketing skills for Claude from [dataflow.marketing](https://dataflow.marketing): small pieces that fit together. With them a business can keep that context, plan its marketing, make content from its own words, publish drafts and count what happened.
 
 ## Why this exists
 
@@ -53,7 +53,7 @@ Each skill can also be used on its own once you know what you need.
 | ledger | how a business's marketing works, what it plans, what happened and a summary |
 | profile | what a business says and how it says it |
 | skill | one job Claude can do, such as `/dfm-ghost:post-draft` |
-| brick | a skill seen as a piece that fits with others |
+| piece | a skill seen as one part that fits with others |
 | recipe | a skill that runs other skills in order |
 | capability | what a platform skill offers, such as counts or drafts; any platform can fill it |
 | connector | how a store keeps an object: a file, Ghost or a REST backend |
