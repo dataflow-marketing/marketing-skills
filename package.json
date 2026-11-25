@@ -1,0 +1,33 @@
+{
+  "name": "marketing-skills",
+  "version": "0.1.0",
+  "private": true,
+  "description": "dfm (dataflow marketing): marketing skills for Claude that keep a business's marketing context. Any AI then works from facts, not guesses.",
+  "keywords": [
+    "claude",
+    "claude-code",
+    "skills",
+    "plugins",
+    "marketing",
+    "dataflow-marketing",
+    "dfm",
+    "cloudflare-workers",
+    "hono"
+  ],
+  "homepage": "https://dataflow.marketing",
+  "bugs": {
+    "url": "https://github.com/dataflowmarketing/marketing-skills/issues",
+    "email": "matt@mattcameron.me"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dataflowmarketing/marketing-skills.git"
+  },
+  "license": "MIT",
+  "author": "mattcam <matt@mattcameron.me>",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@12.11.2"
+}

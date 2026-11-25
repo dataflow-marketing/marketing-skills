@@ -1,0 +1,26 @@
+spec 1
+=== graph ===
+fact followers: told (stated)
+fact comments: told (stated)
+
+check your profiles → followers: ? (unknown)
+new post → followers: ? (unknown)
+new post → comments: ? (unknown)
+post once on social → followers: ? (unknown)
+reply to comments → followers: ? (unknown)
+
+=== plan ===
+start 2026-11-30
+want followers +1 a week
+every week check your profiles
+every week new post
+every week post once on social
+every week reply to comments
+how check your profiles: Check your profiles are up to date, for example your Google Business Profile: opening times, contact details and what you offer.
+how new post: Answer a question a customer asked you this week, in a few lines. That is your new post.
+how post once on social: Use content from your new post.
+how reply to comments: Reply to everyone who comments on your post, within a day. A reply turns someone who read it into a conversation. Count how many comments you had this week.
+
+=== done ===
+started 2026-11-30
+2026-11-30 fact total followers: 120
