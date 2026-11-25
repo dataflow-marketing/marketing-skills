@@ -55,6 +55,7 @@ Each skill can also be used on its own once you know what you need.
 | skill | one job Claude can do, such as `/dfm-ghost:post-draft` |
 | piece | a skill seen as one part that fits with others |
 | recipe | a skill that runs other skills in order |
+| runner | what runs the skills for real people on a schedule: a member page, a scheduled job or a person in Claude Code |
 | capability | what a platform skill offers, such as counts or drafts; any platform can fill it |
 | connector | how a store keeps an object: a file, Ghost or a REST backend |
 | scripted | a ready made function a skill runs where a guardrail is needed |

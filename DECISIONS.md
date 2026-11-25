@@ -276,3 +276,9 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** "pieces" for skills that fit together
 **Over:** "bricks"
 **Why:** read beside "dataflow", "bricks" sounds too close to Databricks
+
+## 2026-11-25: A runner runs the pieces; the formats are the contract
+**Chose:** a runner (a member page, a scheduled job or a person in Claude Code) runs the skills for real people and keeps its own processes; any runner can swap its own code for a skill one piece at a time, because both read and write the same formats
+**Over:** skills that assume one way of being run
+**Why:** the first runner already exists and moves onto the skills piece by piece; the same path is open to anyone else's product
+
