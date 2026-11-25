@@ -246,3 +246,23 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** a private root `package.json` at version 0.1.0 with the repo's name, description, licence, author, links, Node 24 and pnpm; workspace settings come with the first skill's code
 **Over:** no `package.json` until there is code; starting at 1.0.0
 **Why:** the repo's details are known now; 1.0 waits until spec 1 is frozen; `private` keeps it from ever being published to npm by mistake
+
+## 2026-11-25: Branches are named kind/what
+**Chose:** main and develop live on; every other branch is short lived, from develop, named `<kind>/<what>` in lowercase with hyphens; kinds are skill, spec, fix, docs and example
+**Over:** free names; names with a person or a ticket number
+**Why:** the kind says at a glance what a branch changes; the same pattern as the skill names keeps it easy to guess
+
+## 2026-11-25: Commit and pull request titles are plain sentences
+**Chose:** a title is one plain sentence saying what is now true, in sentence case, no full stop, at most 72 characters, naming the skill when there is one; commits are title only; pull requests go to develop, follow a template and are squashed
+**Over:** Conventional Commits codes such as `feat:` and `fix:`; long commit bodies
+**Why:** a title that reads as a sentence tells anyone what changed without a key; the why already lives in DECISIONS.md
+
+## 2026-11-25: Releases are tagged by version
+**Chose:** develop is merged to main when ready; the version goes up and main is tagged `v<version>`; 0.x until spec 1 is frozen
+**Over:** releasing without versions or tags
+**Why:** people installing from main can see what they have and what changed
+
+## 2026-11-25: A code of conduct
+**Chose:** a short code of conduct adapted from the Contributor Covenant 2.0: respectful disagreement about ideas, good-faith questions and owning mistakes are encouraged; harassment, trolling and sharing private information are not; reports go to matt@mattcameron.me
+**Over:** no code of conduct; the full Contributor Covenant text
+**Why:** people can think clearly, disagree respectfully and still feel safe; a short summary is one people read

@@ -4,10 +4,41 @@ Pull requests are welcome. mattcam reviews every one and decides what is merged.
 
 For a question or an idea, [raise an issue](https://github.com/dataflowmarketing/marketing-skills/issues) or email matt@mattcameron.me.
 
+Everyone taking part follows the [code of conduct](CODE_OF_CONDUCT.md).
+
 ## Branches
 
 - **main:** what people install. It only ever holds work that is finished and checked.
 - **develop:** where work happens. Pull requests go to develop; develop is merged to main when a change is ready.
+- **Everything else** is a short lived branch from develop, named `<kind>/<what>`, lowercase with hyphens:
+
+| Kind | For | Example |
+|---|---|---|
+| skill | a new skill or a change to one | `skill/dfm-ghost-post-draft` |
+| spec | a change to a format | `spec/forecast-kept` |
+| fix | something that is wrong | `fix/quotes-check-number-words` |
+| docs | the README, tutorials or guides | `docs/ask-an-ai-tutorial` |
+| example | the coffee shop or the starter plan | `example/coffee-shop-second-month` |
+
+## Commit titles
+
+- **One plain sentence saying what is now true,** in sentence case, with no full stop: `The forecast says when a line is rough`.
+- **Name the skill** when the commit is about one: `dfm-ghost:post-draft reads back the slug`.
+- **Title only, no body.** The why goes in DECISIONS.md or the pull request.
+- **No codes** such as `feat:` or `fix:`, no emojis, at most 72 characters.
+
+## Pull requests
+
+- **To develop,** never to main.
+- **The title** follows the commit title rules.
+- **The description** follows the [template](.github/pull_request_template.md): what changed, why and how it was checked.
+- **Squashed** into one commit with the pull request's title. develop then reads as a list of changes.
+
+## Releases
+
+- **develop is merged to main** when a change is ready for people to install.
+- **The version goes up** in `package.json` and in each changed plugin, then main is tagged `v<version>`: `v0.2.0`.
+- **0.x** until spec 1 is frozen; 1.0.0 when it is.
 
 ## How a pull request is accepted
 

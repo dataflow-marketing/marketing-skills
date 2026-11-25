@@ -8,7 +8,7 @@ Marketing skills for Claude from [dataflow.marketing](https://dataflow.marketing
 
 This is based on real work I'm currently doing at [influencer.tips](https://www.influencer.tips/). It is an opportunity to share the method.
 
-Questions are welcome: email me at matt@mattcameron.me. Feel welcome to raise an [issue](https://github.com/dataflowmarketing/marketing-skills/issues).
+Questions are welcome: email me at matt@mattcameron.me. Feel welcome to raise an [issue](https://github.com/dataflowmarketing/marketing-skills/issues). Everyone taking part follows the [code of conduct](CODE_OF_CONDUCT.md).
 
 **Status: planning done, nothing to install yet.** The shared formats come first: [spec 1](spec/README.md) is a draft. Skills are built on it next.
 
