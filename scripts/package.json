@@ -1,0 +1,12 @@
+{
+  "name": "@dataflow-marketing/repo-scripts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Checks for the repo itself: the writing rules",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json"
+  }
+}

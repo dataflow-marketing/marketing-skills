@@ -29,5 +29,20 @@
   "engines": {
     "node": ">=24"
   },
-  "packageManager": "pnpm@12.11.2"
+  "packageManager": "pnpm@12.11.2",
+  "scripts": {
+    "test": "pnpm -r test",
+    "build": "pnpm -r build",
+    "check": "node scripts/check-writing.ts",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "0.13.5",
+    "@cloudflare/workers-types": "4.20260702.1",
+    "@types/node": "24.19.2",
+    "esbuild": "0.27.3",
+    "typescript": "5.9.3",
+    "vitest": "4.1.12",
+    "wrangler": "4.78.0"
+  }
 }

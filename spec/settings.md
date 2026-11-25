@@ -30,7 +30,7 @@ house rule avoid: em dashes
 
 | Line | Says |
 |---|---|
-| `time zone` | the business's time zone; weeks and days are counted in it |
+| `time zone` | the business's time zone; weeks and days are counted in it; required |
 | `week starts` | the day a week starts (Monday by default) |
 | `site <name>: <platform> <address> key in <NAME>` | a site on a platform and the name of the variable that holds its key |
 | `keys file` | the file the keys are read from |
@@ -39,6 +39,8 @@ house rule avoid: em dashes
 | `house rule <name>: <rule>` | a rule every words skill applies and checks after |
 
 ## Rules
+
+**Anything bad that would break a skill stops it until it is resolved.** A line that cannot be read, a missing time zone, a binding to a store that is not listed: the skill names the problem and does nothing else. It never guesses.
 
 1. **Keys are never in settings.** Settings names the variable; the key is in the keys file, added through a hidden prompt, never pasted into a chat.
 2. **One name per business,** lowercase with hyphens, used for its site, its ledger and its bindings.

@@ -1,0 +1,10 @@
+packages:
+  - packages/*
+  - plugins/*
+  - examples/*
+  - scripts
+
+allowBuilds:
+  esbuild: true
+  workerd: true
+  sharp: false

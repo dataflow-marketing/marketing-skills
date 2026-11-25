@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["@cloudflare/workers-types"]
+  },
+  "include": ["src/**/*.ts", "fixtures/coffee-shop.ts", "example/*/src/*.test.ts"],
+  "exclude": ["src/node/**", "src/build/**", "src/index.test.ts"]
+}

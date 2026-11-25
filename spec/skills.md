@@ -54,7 +54,7 @@ A package outside this set needs a [decision](../DECISIONS.md) of its own.
 
 **pnpm runs everything:** `pnpm install`, `pnpm test` (Vitest) and `pnpm build` (the bundled `dist/` files), in one package or across the [workspace](#the-layout) with `pnpm -r`.
 
-**Bundled: a user installs nothing.** Each skill's script is built into one file in its plugin's `dist/` folder. That file is committed. Someone who installs the plugin needs only Node. A test fails if a `dist/` file is older than its source.
+**Bundled: a user installs nothing.** Each skill's script is built into one file in its plugin's `dist/` folder. That file is committed. Someone who installs the plugin needs only Node. A test fails if a `dist/` file differs from what its source builds.
 
 **Keys never pass through Claude.** A script reads its key from the keys file named in settings. Claude sees what the script did, never the key.
 
@@ -84,7 +84,7 @@ Every script is built from small modules. Each piece can be read, tested and reu
 3. **Work and the outside world are kept apart.** Modules that work something out take values and give values back; they never read a file or the network. Only a few edge modules touch files, the network or the terminal.
 4. **Nothing happens on import.** A module only defines; the main file runs.
 5. **Plain, readable code.** Named steps, no clever one line expressions, a comment only where the why is not obvious.
-6. **Every module has a test** with the coffee shop example, run with `pnpm test` (Vitest).
+6. **Every module has a test** with the coffee shop example, run with `pnpm test` (Vitest). The test sits beside the module, named after it with `.test` added: `preview.ts` and `preview.test.ts`. A module without a test shows at a glance.
 
 ### Every script behaves the same way
 
@@ -94,7 +94,7 @@ Every script is built from small modules. Each piece can be read, tested and reu
 | a reading script | runs and prints; it has no modes because it never writes |
 | output | plain text for a person; `--json` for another script |
 | exit code | 0 done, 1 problems found, 2 refused or failed |
-| the run log | every write appends one line: what, where, before and after, which skill |
+| the run log | every write is logged where the skills run: never committed, kept for reference and never holding a key; where and how is the developer's choice |
 
 ## The layout
 
@@ -112,9 +112,10 @@ marketing-skills/
     skills/post-draft/
       SKILL.md
       src/run.ts             the outline
+      src/run.test.ts        its test, beside it
       src/preview.ts         one job: what would change
+      src/preview.test.ts    its test, beside it
       dist/run.js            built from src, committed; what Claude runs
-    test/
   examples/store-worker/     the starter Hono Worker on D1 that meets the store contract
 ```
 

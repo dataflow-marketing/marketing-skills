@@ -282,3 +282,48 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** skills that assume one way of being run
 **Why:** the first runner already exists and moves onto the skills piece by piece; the same path is open to anyone else's product
 
+## 2026-11-25: Build tools beyond the standard Worker set
+**Chose:** esbuild for bundling (the version wrangler already uses) and @types/node for the Node edge files, both for development only
+**Over:** only the standard Worker packages
+**Why:** bundling needs esbuild; the Node edge files need their types; neither reaches someone who installs a skill
+
+## 2026-11-25: The dist check compares content
+**Chose:** build each script in memory and compare it with the committed dist file
+**Over:** comparing file dates
+**Why:** dates are not reliable after a fresh clone; a content match catches every stale file
+
+## 2026-11-25: The writing check is its own workspace package
+**Chose:** a `scripts/` workspace folder holding the house style check and its tests
+**Over:** a loose script with no tests
+**Why:** the check that guards the house style is tested like everything else
+
+## 2026-11-25: Example settings stay word for word with the spec
+**Chose:** a test that fails if the coffee shop settings used in tests differ from spec/settings.md
+**Over:** separate copies that can drift
+**Why:** the examples and the spec always say the same thing
+
+## 2026-11-25: Logs are the developer's choice
+**Chose:** a write is logged where the skills run, somewhere never committed but kept for reference, never holding a key; where and how is left to the developer or runner
+**Over:** a log format and place fixed in the spec
+**Why:** logging is a developer and operations matter; locally the logs need to exist for reference without ever being committed
+
+## 2026-11-25: Bad settings stop a skill until resolved
+**Chose:** anything in settings that would break a skill (a line that cannot be read, a missing time zone, an unknown store) stops it and names the problem; the time zone is required; weeks start on Monday unless settings say otherwise
+**Over:** skipping a bad line with a warning; defaulting the time zone
+**Why:** a guess could write to the wrong place or count the wrong week; it has to be resolved first
+
+## 2026-11-26: A settings problem names the line and its kind, never the line
+**Chose:** a line that is not understood is named by its number and kind ("line 3: a site line that is not understood"), never echoed
+**Over:** printing the whole line back
+**Why:** the most likely bad line is a key pasted into settings by mistake; keys never pass through Claude
+
+## 2026-11-26: Nothing secret can be committed by accident
+**Chose:** .gitignore holds .env files, .dev.vars files, *.log and run-log.txt
+**Over:** ignoring only node_modules and .wrangler
+**Why:** the repo is public; testing a skill or a Worker here makes keys files and logs that `git add .` would otherwise take
+
+## 2026-11-26: A test sits beside the file it tests
+**Chose:** each test file sits in the same folder as the code it tests, named after it with .test added (parse-settings.ts and parse-settings.test.ts)
+**Over:** a separate test/ folder
+**Why:** a file without a test shows at a glance
+

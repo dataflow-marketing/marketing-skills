@@ -1,0 +1,10 @@
+node_modules/
+.wrangler/
+
+# never committed in a public repo: keys, local Worker secrets and the logs skills write
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+*.log
+run-log.txt
