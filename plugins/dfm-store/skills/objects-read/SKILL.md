@@ -13,7 +13,7 @@ A scripted list. It only reads. See [store](../../spec/store.md).
 node <this skill's folder>/dist/run.js --object <kind> --settings <file>
 ```
 
-For each binding of that kind in settings it reads the object where the binding says: a file or a Ghost member field. It prints the business, where the object is, its version and how many lines it has. One that cannot be read is named with why. It never prints an object's text. An object with no binding is a file in the working folder and is not listed. Add `--json` for data.
+For each binding of that kind in settings it reads the object where the binding says: a file, a Ghost member field or a rest store. It prints the business, where the object is, its version and how many lines it has. One that cannot be read is named with why. It never prints an object's text. An object with no binding is a file in the working folder and is not listed. Add `--json` for data.
 
 | Exit code | Means |
 |---|---|

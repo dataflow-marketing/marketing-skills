@@ -39,7 +39,7 @@ Nothing is written. Say what is there (its lines and version) and that adding wo
 
 - **Only an empty place.** Someone else's object is never overwritten.
 - **Always read back.** A store that kept something else fails loudly.
-- **No write larger than the store holds:** 65,535 bytes for a Ghost member field.
+- **No write larger than the store holds:** 65,535 bytes for a Ghost member field; a rest store says its own at `/limits`.
 - **The key never shows,** and the run log holds versions, never the text.
 - **Ghost has no version check of its own.** The read just before the write narrows the gap to one request; it cannot close it.
 

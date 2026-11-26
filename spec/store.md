@@ -55,9 +55,9 @@ Authorization: Bearer <key>
 
 ## List, add and remove
 
-- **A list** reads every binding of one kind in settings and gives each object's place and version. A file or a Ghost field has no time of its own: a list from them has no `updated`.
+- **A list** reads every binding of one kind in settings and gives each object's place and version. A file or a Ghost field has no time of its own: a list from them has no `updated`. A rest store gives its own.
 - **An add** writes only where the place is empty (version `none`). Anything there already is a change, never an add: the add stops and writes nothing, at step 2 and again at step 3. An empty place has nothing to back up.
-- **A remove** empties the object: a file is deleted; a Ghost field is set to null, every other field kept. It follows every step above; step 4 always copies, as only an object with something in it is removed. Read back, its version is `none`.
+- **A remove** empties the object: a file is deleted; a Ghost field is set to null, every other field kept; a rest store is sent a DELETE with `If-Match`. It follows every step above; step 4 always copies, as only an object with something in it is removed. Read back, its version is `none`.
 
 ## Rules
 

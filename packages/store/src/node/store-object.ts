@@ -10,6 +10,7 @@ import { readField } from "../ghost/read-field.ts";
 import type { Fetch } from "../ghost/member-calls.ts";
 import { writeField } from "../ghost/write-field.ts";
 import { readRest } from "../rest/read-rest.ts";
+import { removeRest } from "../rest/remove-rest.ts";
 import { writeRest } from "../rest/write-rest.ts";
 import { GHOST_FIELD_LIMIT } from "../write/decide-write.ts";
 import { versionOf } from "../version.ts";
@@ -56,13 +57,29 @@ async function readFile(placePath: string): Promise<ObjectRead> {
   return { ok: true, text, version: await versionOf(text), limit: undefined, found: { connector: "file", path } };
 }
 
-// Empties the object: a file is removed; a Ghost field is set to null (spec/store.md, add and remove)
+// Empties the object: a file is removed; a Ghost field is set to null; a rest store is sent a DELETE with
+// If-Match (spec/store.md, add and remove)
 export async function removeObject(place: Place, found: Found, fetch: Fetch = globalThis.fetch): Promise<ObjectWrite> {
   if (found.connector === "file") {
     await removeObjectFile(found.path);
     return { ok: true };
   }
+  if (found.connector === "rest") {
+    return removeRestObject(place as RestPlace, found, fetch);
+  }
   return writeObject(place, found, "", fetch);
+}
+
+async function removeRestObject(place: RestPlace, found: Extract<Found, { connector: "rest" }>, fetch: Fetch): Promise<ObjectWrite> {
+  const removal = { address: place.address, kind: place.kind, id: place.id, key: found.key, readAt: found.version };
+  const removed = await removeRest(removal, fetch);
+  if (removed.ok) {
+    return { ok: true };
+  }
+  if (removed.moved) {
+    return { ok: false, moved: true, problem: `The ${place.kind} ${place.id} changed in the store since it was read. Nothing was removed.` };
+  }
+  return { ok: false, moved: false, problem: removed.problem };
 }
 
 async function readGhostField(place: GhostPlace, fetch: Fetch): Promise<ObjectRead> {

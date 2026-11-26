@@ -1,6 +1,6 @@
 ---
 name: object-remove
-description: Empty one object (a ledger, a profile) wherever settings keep it, with a script: a file is removed, a Ghost member field is set to empty. Only if no one has changed it since it was read, always with a backup first, only on an explicit yes, read back after. Use when someone wants an object gone ("clear the ledger in Ghost", "remove the old profile"). Never to make room for an add: that is dfm-store:object-change.
+description: Empty one object (a ledger, a profile) wherever settings keep it, with a script: a file is removed, a Ghost member field is set to empty, a rest store removes it. Only if no one has changed it since it was read, always with a backup first, only on an explicit yes, read back after. Use when someone wants an object gone ("clear the ledger in Ghost", "remove the old profile"). Never to make room for an add: that is dfm-store:object-change.
 ---
 
 # object-remove
@@ -15,7 +15,7 @@ node <this skill's folder>/dist/run.js --object <kind> --business <name> --setti
 
 1. **Preview** (the default): reads the object and prints every line the remove takes out (`- `) with its version. Nothing is removed. Show the lines in full.
 2. **Ask for an explicit yes** to removing this object, naming it and where it is. A yes to something else (a change, a plan) is not a yes to a remove.
-3. **Go:** the same command with `--go --version <version>`, the version the preview printed. It reads the object again. If it has changed since the preview, it stops and removes nothing. Otherwise it copies the object into the backups folder, removes it (a file is deleted; a Ghost field is set to null, every other field kept), writes a run log line and reads it back.
+3. **Go:** the same command with `--go --version <version>`, the version the preview printed. It reads the object again. If it has changed since the preview, it stops and removes nothing. Otherwise it copies the object into the backups folder, removes it (a file is deleted; a Ghost field is set to null, every other field kept; a rest store is sent a DELETE with the version), writes a run log line and reads it back.
 4. **Read back** later with `--read-back` in place of the mode: 0 when it is empty.
 
 The run log is `run-log.txt` beside the settings file unless `--run-log <file>` names another. Add `--json` for data.

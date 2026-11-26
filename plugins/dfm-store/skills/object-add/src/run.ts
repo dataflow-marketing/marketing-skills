@@ -99,7 +99,7 @@ function askedFrom(values: Record<string, string>): Asked {
 
 // Why the add may not go ahead, at the preview and again just before the write; undefined when it may
 function refusalFor(asked: Asked, shown: Shown, place: Place, current: Current, proposed: string): string | undefined {
-  const decision = decideAdd({ current, proposed, connector: place.connector });
+  const decision = decideAdd({ current, proposed, limit: current.limit });
   if (decision.kind === "already there") {
     return describeAlreadyThere(shown, decision.version, decision.lines);
   }

@@ -3,7 +3,6 @@
 // already stops when the version is not the one seen (here: none).
 
 import { NO_VERSION, decideWrite } from "@dataflow-marketing/store";
-import type { Place } from "@dataflow-marketing/store";
 
 export type AddDecision =
   | { kind: "add" }
@@ -14,7 +13,8 @@ export type AddDecision =
 export type AddCheck = {
   current: { text: string; version: string };
   proposed: string;
-  connector: Place["connector"];
+  // The largest body the store takes, in bytes; undefined for a store with no limit (a file)
+  limit: number | undefined;
 };
 
 export function decideAdd(check: AddCheck): AddDecision {

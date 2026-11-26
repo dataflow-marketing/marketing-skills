@@ -989,6 +989,7 @@ function toHex(bytes) {
 // ../../../../packages/store/src/find-place.ts
 var NAME = /^[a-z0-9-]+$/;
 var FIELD = /^[A-Za-z0-9_-]+$/;
+var LOCAL_ADDRESS = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
 function findPlace(read, object, business) {
   if (read.problems.length > 0) {
     return refused(read.problems.map((problem) => `settings ${problem}`));
@@ -1018,7 +1019,7 @@ function placeIn(store, binding, settings) {
     return ghostField(store, binding, settings);
   }
   if (store.connector === "rest") {
-    return refused([`The store "${store.name}" is a rest store. The rest connector is not built yet.`]);
+    return restObject(store, binding, settings);
   }
   return refused([`The store "${store.name}" has a connector dfm does not know: ${store.connector}`]);
 }
@@ -1060,6 +1061,37 @@ function ghostField(store, binding, settings) {
     ok: true,
     place: { connector: "ghost", site: { ...site, keyName: site.keyName }, keysFile: settings.keysFile, email, field, label }
   };
+}
+function restObject(store, binding, settings) {
+  const address = restAddress(store.where);
+  const addressProblem = restAddressProblem(store.name, address);
+  if (addressProblem) {
+    return refused([addressProblem]);
+  }
+  if (!store.keyName) {
+    return refused([`The store "${store.name}" names no key. Its line ends with the key's variable, such as: key in COFFEE_SHOP_STORE_KEY`]);
+  }
+  if (!settings.keysFile) {
+    return refused(["Settings name no keys file. Add a line such as: keys file: ~/.config/dfm/.env"]);
+  }
+  const id = binding.place.trim();
+  if (!NAME.test(id)) {
+    return refused([`The place of the ${binding.object} of ${binding.business} in a rest store is the object's id, lowercase with hyphens, such as: ${binding.business}`]);
+  }
+  const label = `rest ${address} ${binding.object} ${id}`;
+  return {
+    ok: true,
+    place: { connector: "rest", address, keyName: store.keyName, keysFile: settings.keysFile, kind: binding.object, id, label }
+  };
+}
+function restAddress(where) {
+  return where.trim().replace(/\/+$/, "");
+}
+function restAddressProblem(storeName, address) {
+  if (address.startsWith("https://") || LOCAL_ADDRESS.test(address)) {
+    return void 0;
+  }
+  return `The address of the store "${storeName}" is not https:// (or http://localhost for a Worker on this computer): ${address}`;
 }
 function refused(problems) {
   return { ok: false, problems };
@@ -1148,6 +1180,121 @@ async function writeField(change, fetch) {
   }
   return { ok: true, saved: fieldText(member, change.field) };
 }
+
+// ../../../../packages/store/src/rest/answer-problem.ts
+var MEANINGS = {
+  400: "refused the request as malformed (400). Check the object's kind and id: the id is the business's name.",
+  401: "refused the key (401). Check the key named in settings is the store's key.",
+  403: "refused the key (403). Check the key named in settings is the store's key.",
+  413: "refused the body as larger than it takes (413).",
+  428: "asked for the version the change was read at (428)."
+};
+function answerProblem(address, doing, status) {
+  const meaning = MEANINGS[status] ?? `answered ${status}.`;
+  return `The store at ${address} ${meaning} It was asked to ${doing}.`;
+}
+
+// ../../../../packages/store/src/rest/rest-calls.ts
+var LIMITS_PATH = "/limits";
+function objectsUrl(address, kind) {
+  return `${address}/objects/${encodeURIComponent(kind)}`;
+}
+function objectUrl(address, kind, id) {
+  return `${objectsUrl(address, kind)}/${encodeURIComponent(id)}`;
+}
+function limitsUrl(address) {
+  return `${address}${LIMITS_PATH}`;
+}
+function headersFor2(key, sending = false, ifMatch) {
+  const headers = { Authorization: `Bearer ${key}`, Accept: "application/json" };
+  if (sending) {
+    headers["Content-Type"] = "application/json";
+  }
+  if (ifMatch !== void 0) {
+    headers["If-Match"] = ifMatch;
+  }
+  return headers;
+}
+
+// ../../../../packages/store/src/rest/read-rest.ts
+async function readRest(lookup, fetch) {
+  const object = await readOne(lookup, fetch);
+  if (!object.ok) {
+    return object;
+  }
+  const limit = await readLimit(lookup, fetch);
+  if (!limit.ok) {
+    return limit;
+  }
+  return { ok: true, text: object.text, version: object.version, limit: limit.bytes };
+}
+async function readOne(lookup, fetch) {
+  const doing = `read the ${lookup.kind} ${lookup.id}`;
+  const response = await fetch(objectUrl(lookup.address, lookup.kind, lookup.id), { method: "GET", headers: headersFor2(lookup.key) });
+  if (response.status === 404) {
+    return { ok: true, text: "", version: NO_VERSION };
+  }
+  if (!response.ok) {
+    return { ok: false, problem: answerProblem(lookup.address, doing, response.status) };
+  }
+  const body = await response.json();
+  if (typeof body.version !== "string" || body.version === "" || typeof body.body !== "string") {
+    return { ok: false, problem: `The store at ${lookup.address} answered without a version and a body. It was asked to ${doing}.` };
+  }
+  return { ok: true, text: body.body, version: body.version };
+}
+async function readLimit(lookup, fetch) {
+  const doing = "give its limit";
+  const response = await fetch(limitsUrl(lookup.address), { method: "GET", headers: headersFor2(lookup.key) });
+  if (!response.ok) {
+    return { ok: false, problem: answerProblem(lookup.address, doing, response.status) };
+  }
+  const body = await response.json();
+  if (typeof body.bytes !== "number" || !Number.isInteger(body.bytes) || body.bytes <= 0) {
+    return { ok: false, problem: `The store at ${lookup.address} gave no limit in bytes. It was asked to ${doing}.` };
+  }
+  return { ok: true, bytes: body.bytes };
+}
+
+// ../../../../packages/store/src/rest/write-rest.ts
+async function writeRest(change, fetch) {
+  if (change.readAt === NO_VERSION) {
+    return add(change, fetch);
+  }
+  return changeAt(change, fetch);
+}
+async function add(change, fetch) {
+  const response = await fetch(objectsUrl(change.address, change.kind), {
+    method: "POST",
+    headers: headersFor2(change.key, true),
+    body: JSON.stringify({ id: change.id, body: change.text })
+  });
+  return answered(change, `add the ${change.kind} ${change.id}`, response, [409]);
+}
+async function changeAt(change, fetch) {
+  const response = await fetch(objectUrl(change.address, change.kind, change.id), {
+    method: "PUT",
+    headers: headersFor2(change.key, true, change.readAt),
+    body: JSON.stringify({ body: change.text })
+  });
+  return answered(change, `change the ${change.kind} ${change.id}`, response, [404, 409]);
+}
+async function answered(change, doing, response, movedWhen) {
+  if (movedWhen.includes(response.status)) {
+    return { ok: false, moved: true };
+  }
+  if (!response.ok) {
+    return { ok: false, moved: false, problem: answerProblem(change.address, doing, response.status) };
+  }
+  const body = await response.json();
+  if (typeof body.version !== "string" || body.version === "") {
+    return { ok: false, moved: false, problem: `The store at ${change.address} answered without a new version. It was asked to ${doing}.` };
+  }
+  return { ok: true, version: body.version };
+}
+
+// ../../../../packages/store/src/write/decide-write.ts
+var GHOST_FIELD_LIMIT = 65535;
 
 // ../../../../packages/store/src/write/line-changes.ts
 function lineChanges(before, after) {
@@ -1275,31 +1422,66 @@ async function writeBackup(folder, name, text) {
   throw new Error(`Too many backups named ${name} in ${folder}.`);
 }
 
+// ../../../../packages/store/src/rest/remove-rest.ts
+async function removeRest(removal, fetch) {
+  const response = await fetch(objectUrl(removal.address, removal.kind, removal.id), {
+    method: "DELETE",
+    headers: headersFor2(removal.key, false, removal.readAt)
+  });
+  if (response.status === 404 || response.status === 409) {
+    return { ok: false, moved: true };
+  }
+  if (!response.ok) {
+    return { ok: false, moved: false, problem: answerProblem(removal.address, `remove the ${removal.kind} ${removal.id}`, response.status) };
+  }
+  return { ok: true };
+}
+
 // ../../../../packages/store/src/node/store-object.ts
 async function readObject(place, fetch = globalThis.fetch) {
   if (place.connector === "file") {
-    const path = objectPath(place.path);
-    const text = await readObjectFile(path) ?? "";
-    return { ok: true, text, version: await versionOf(text), found: { connector: "file", path } };
+    return readFile4(place.path);
   }
-  return readGhostField(place, fetch);
+  if (place.connector === "ghost") {
+    return readGhostField(place, fetch);
+  }
+  return readRestObject(place, fetch);
 }
 async function writeObject(place, found, text, fetch = globalThis.fetch) {
   if (found.connector === "file") {
     await writeObjectFile(found.path, text);
     return { ok: true };
   }
-  const ghost = place;
-  const change = { address: ghost.site.address, memberId: found.memberId, field: ghost.field, text, token: found.token };
-  const written = await writeField(change, fetch);
-  return written.ok ? { ok: true } : written;
+  if (found.connector === "ghost") {
+    return writeGhostField(place, found, text, fetch);
+  }
+  return writeRestObject(place, found, text, fetch);
+}
+async function readFile4(placePath) {
+  const path = objectPath(placePath);
+  const text = await readObjectFile(path) ?? "";
+  return { ok: true, text, version: await versionOf(text), limit: void 0, found: { connector: "file", path } };
 }
 async function removeObject(place, found, fetch = globalThis.fetch) {
   if (found.connector === "file") {
     await removeObjectFile(found.path);
     return { ok: true };
   }
+  if (found.connector === "rest") {
+    return removeRestObject(place, found, fetch);
+  }
   return writeObject(place, found, "", fetch);
+}
+async function removeRestObject(place, found, fetch) {
+  const removal = { address: place.address, kind: place.kind, id: place.id, key: found.key, readAt: found.version };
+  const removed = await removeRest(removal, fetch);
+  if (removed.ok) {
+    return { ok: true };
+  }
+  if (removed.moved) {
+    return { ok: false, moved: true, problem: `The ${place.kind} ${place.id} changed in the store since it was read. Nothing was removed.` };
+  }
+  return { ok: false, moved: false, problem: removed.problem };
 }
 async function readGhostField(place, fetch) {
   const token = await tokenFor(place);
@@ -1312,17 +1494,58 @@ async function readGhostField(place, fetch) {
     return read;
   }
   const found = { connector: "ghost", memberId: read.memberId, token: token.token };
-  return { ok: true, text: read.text, version: await versionOf(read.text), found };
+  return { ok: true, text: read.text, version: await versionOf(read.text), limit: GHOST_FIELD_LIMIT, found };
+}
+async function writeGhostField(place, found, text, fetch) {
+  const change = { address: place.site.address, memberId: found.memberId, field: place.field, text, token: found.token };
+  const written = await writeField(change, fetch);
+  return written.ok ? { ok: true } : { ok: false, moved: false, problem: written.problem };
+}
+async function readRestObject(place, fetch) {
+  const key = await keyFor(place.keysFile, place.keyName);
+  if (!key.ok) {
+    return key;
+  }
+  const read = await readRest({ address: place.address, kind: place.kind, id: place.id, key: key.key }, fetch);
+  if (!read.ok) {
+    return read;
+  }
+  const found = { connector: "rest", key: key.key, version: read.version };
+  return { ok: true, text: read.text, version: read.version, limit: read.limit, found };
+}
+async function writeRestObject(place, found, text, fetch) {
+  const change = { address: place.address, kind: place.kind, id: place.id, key: found.key, readAt: found.version, text };
+  const written = await writeRest(change, fetch);
+  if (written.ok) {
+    return { ok: true };
+  }
+  if (written.moved) {
+    return { ok: false, moved: true, problem: `The ${place.kind} ${place.id} changed in the store since it was read. Nothing was written.` };
+  }
+  return { ok: false, moved: false, problem: written.problem };
 }
 async function tokenFor(place) {
+  const key = await keyFor(place.keysFile, place.site.keyName);
+  if (!key.ok) {
+    return key;
+  }
   try {
-    const key = await readKey(place.keysFile, place.site.keyName);
-    return { ok: true, token: await adminToken(key) };
+    return { ok: true, token: await adminToken(key.key) };
   } catch (error) {
-    if (error instanceof Error && (error.name === "MissingKeyError" || error.name === "MalformedAdminKeyError")) {
+    if (error instanceof Error && error.name === "MalformedAdminKeyError") {
       return { ok: false, problem: error.message };
     }
     return { ok: false, problem: `Cannot read ${place.site.keyName} from the keys file ${place.keysFile}.` };
+  }
+}
+async function keyFor(keysFile, keyName) {
+  try {
+    return { ok: true, key: await readKey(keysFile, keyName) };
+  } catch (error) {
+    if (error instanceof Error && error.name === "MissingKeyError") {
+      return { ok: false, problem: error.message };
+    }
+    return { ok: false, problem: `Cannot read ${keyName} from the keys file ${keysFile}.` };
   }
 }
 

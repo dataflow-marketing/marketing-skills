@@ -789,3 +789,9 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** https only
 **Why:** a Worker run on your own computer has no certificate; nothing leaves the machine
 **Source:** stated (agreed), inferred (the reason as worded)
+
+## 2026-11-26: The rest connector covers list, add and remove too
+**Chose:** object-add posts to a rest store when the object was read as missing; object-remove sends a DELETE with `If-Match`, a 404 or 409 being "moved"; each write's size check uses the store's own limit
+**Over:** leaving the three newer skills to files and Ghost only
+**Why:** the two branches were built side by side; one connector that works for every skill keeps the skills free of store kinds
+**Source:** inferred
