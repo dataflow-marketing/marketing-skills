@@ -5671,8 +5671,15 @@ ${profileBody(input.profileText)}
 ${freshLedger(input.ledgerText, input.today)}`);
   return parts.join("");
 }
+var FIRST_HEADING = "=== read this first ===";
 function filledIn(input) {
-  return INSTRUCTIONS.replaceAll("{who}", input.who).replaceAll("{send to}", input.sendTo);
+  const template = input.instructions ?? INSTRUCTIONS;
+  const filled = template.replaceAll("{who}", input.who).replaceAll("{send to}", input.sendTo);
+  const headed = filled.startsWith(FIRST_HEADING) ? filled : `${FIRST_HEADING}
+${filled}`;
+  return headed.endsWith("\n\n") ? headed : `${headed.replace(/\n*$/, "")}
+
+`;
 }
 function profileBody(profileText) {
   const lines = profileText.replace(/\s+$/, "").split("\n");
@@ -5684,8 +5691,8 @@ function freshLedger(ledgerText, today) {
 }
 
 // src/read-args.ts
-var USAGE = "node dist/run.js --ledger <file> --settings <file> --who <name> --send-to <address> [--profile <file>] [--out <file>] [--json]";
-var VALUE_FLAGS = ["--ledger", "--settings", "--who", "--send-to", "--profile", "--out"];
+var USAGE = "node dist/run.js --ledger <file> --settings <file> --who <name> --send-to <address> [--profile <file>] [--instructions <file>] [--out <file>] [--json]";
+var VALUE_FLAGS = ["--ledger", "--settings", "--who", "--send-to", "--profile", "--instructions", "--out"];
 function readArgs(args) {
   const values = {};
   for (let index = 0; index < args.length; index += 1) {
@@ -5708,6 +5715,9 @@ function readArgs(args) {
   const read = { ledger, settings, who, sendTo };
   if (values["--profile"]) {
     read.profile = values["--profile"];
+  }
+  if (values["--instructions"]) {
+    read.instructions = values["--instructions"];
   }
   if (values["--out"]) {
     read.out = values["--out"];
@@ -5738,7 +5748,11 @@ async function main(args) {
   if (asked.args.profile !== void 0 && profileText === void 0) {
     return failed(`Cannot read the profile: ${asked.args.profile}`);
   }
-  const copy = makeCopy({ who: asked.args.who, sendTo: asked.args.sendTo, ledgerText, profileText, today: nowIn(timeZone).today });
+  const instructions = asked.args.instructions === void 0 ? void 0 : await readText(asked.args.instructions);
+  if (asked.args.instructions !== void 0 && instructions === void 0) {
+    return failed(`Cannot read the instructions: ${asked.args.instructions}`);
+  }
+  const copy = makeCopy({ instructions, who: asked.args.who, sendTo: asked.args.sendTo, ledgerText, profileText, today: nowIn(timeZone).today });
   if (asked.args.out === void 0) {
     printOutput({ text: copy, data: { copy } }, output);
     return EXIT_DONE;

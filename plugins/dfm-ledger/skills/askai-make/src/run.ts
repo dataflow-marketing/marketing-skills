@@ -1,7 +1,9 @@
 // askai-make: the copy of a business's plan (and profile) for any AI chat, with its instructions inside
 // (spec/ask-ai.md). Reads only: it prints the copy (with --out it writes a new file, never over one).
 //
-// node dist/run.js --ledger <file> --settings <file> --who <name> --send-to <address> [--profile <file>] [--out <file>] [--json]
+// node dist/run.js --ledger <file> --settings <file> --who <name> --send-to <address> [--profile <file>]
+//   [--instructions <file>] [--out <file>] [--json]
+// The default instructions are spec/ask-ai-instructions.txt; --instructions swaps in a template of the person's own.
 // Exit code: 0 done, 2 refused or failed.
 
 import { EXIT_DONE, EXIT_REFUSED_OR_FAILED, nowIn, outputMode, parseSettings } from "@dataflow-marketing/core";
@@ -33,7 +35,12 @@ async function main(args: string[]): Promise<number> {
     return failed(`Cannot read the profile: ${asked.args.profile}`);
   }
 
-  const copy = makeCopy({ who: asked.args.who, sendTo: asked.args.sendTo, ledgerText, profileText, today: nowIn(timeZone).today });
+  const instructions = asked.args.instructions === undefined ? undefined : await readText(asked.args.instructions);
+  if (asked.args.instructions !== undefined && instructions === undefined) {
+    return failed(`Cannot read the instructions: ${asked.args.instructions}`);
+  }
+
+  const copy = makeCopy({ instructions, who: asked.args.who, sendTo: asked.args.sendTo, ledgerText, profileText, today: nowIn(timeZone).today });
   if (asked.args.out === undefined) {
     printOutput({ text: copy, data: { copy } }, output);
     return EXIT_DONE;

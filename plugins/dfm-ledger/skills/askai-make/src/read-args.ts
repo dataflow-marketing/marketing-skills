@@ -1,15 +1,25 @@
 // Reads the command line: the ledger, the settings (for today in the business's time zone), who the plan belongs
 // to, where the AI's response is sent and, when there is one, the profile; --out names a new file for the copy.
-// --ledger <file> --settings <file> --who <name> --send-to <address> [--profile <file>] [--out <file>] [--json]
+// --ledger <file> --settings <file> --who <name> --send-to <address> [--profile <file>] [--instructions <file>]
+// [--out <file>] [--json]
+// --instructions names a template of the person's own in place of the default instructions.
 
-export type CopyArgs = { ledger: string; settings: string; who: string; sendTo: string; profile?: string; out?: string };
+export type CopyArgs = {
+  ledger: string;
+  settings: string;
+  who: string;
+  sendTo: string;
+  profile?: string;
+  instructions?: string;
+  out?: string;
+};
 
 export type ArgsResult = { ok: true; args: CopyArgs } | { ok: false; problem: string };
 
 export const USAGE =
-  "node dist/run.js --ledger <file> --settings <file> --who <name> --send-to <address> [--profile <file>] [--out <file>] [--json]";
+  "node dist/run.js --ledger <file> --settings <file> --who <name> --send-to <address> [--profile <file>] [--instructions <file>] [--out <file>] [--json]";
 
-const VALUE_FLAGS = ["--ledger", "--settings", "--who", "--send-to", "--profile", "--out"];
+const VALUE_FLAGS = ["--ledger", "--settings", "--who", "--send-to", "--profile", "--instructions", "--out"];
 
 export function readArgs(args: readonly string[]): ArgsResult {
   const values: Record<string, string> = {};
@@ -33,6 +43,9 @@ export function readArgs(args: readonly string[]): ArgsResult {
   const read: CopyArgs = { ledger, settings, who, sendTo };
   if (values["--profile"]) {
     read.profile = values["--profile"];
+  }
+  if (values["--instructions"]) {
+    read.instructions = values["--instructions"];
   }
   if (values["--out"]) {
     read.out = values["--out"];

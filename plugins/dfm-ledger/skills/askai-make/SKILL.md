@@ -12,13 +12,18 @@ A scripted copy ([ask an AI](../../../../spec/ask-ai.md)). The script puts toget
 1. **Who the plan belongs to,** as the AI should name them, such as "the coffee shop" or their own name.
 2. **Where the AI's response is sent:** their email address (or where they will paste it back).
 3. **Whether to include their profile** (`profile.txt`, made by `dfm-content:profile-make`), when there is one.
+4. **Which instructions:** the default (the dfm instructions, tried with real businesses) or a template of their own.
+
+## The instructions are a template
+
+The default instructions are [ask-ai-instructions.txt](../../../../spec/ask-ai-instructions.txt). Any text file can take their place with `--instructions <file>`: a business's own way of asking, another language, a different job for the AI. Two blanks are filled in wherever they appear: `{who}` and `{send to}`. The profile and the plan always follow it. A template that changes how the response comes back should still end in `Change:` lines if the plan is to take them.
 
 ## Run
 
 From the working folder:
 
 ```
-node <this skill's folder>/dist/run.js --ledger ledger.txt --settings settings.txt --who "<who>" --send-to "<address>" [--profile profile.txt] --out ask-ai-copy.txt
+node <this skill's folder>/dist/run.js --ledger ledger.txt --settings settings.txt --who "<who>" --send-to "<address>" [--profile profile.txt] [--instructions <template>] --out ask-ai-copy.txt
 ```
 
 Without `--out` it prints the copy. With `--out` it writes a new file, never over one. The ledger must have no lines that cannot be read: run `dfm-ledger:plan-check` first.

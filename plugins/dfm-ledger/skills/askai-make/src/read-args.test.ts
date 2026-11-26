@@ -14,4 +14,9 @@ describe("readArgs", () => {
   it("needs who the plan belongs to and where the response is sent", () => {
     expect(readArgs(["--ledger", "ledger.txt", "--settings", "s.txt"]).ok).toBe(false);
   });
+
+  it("reads a template of the person's own", () => {
+    const read = readArgs(["--ledger", "l.txt", "--settings", "s.txt", "--who", "Sam", "--send-to", "sam@example.test", "--instructions", "mine.txt"]);
+    expect(read.ok && read.args.instructions).toBe("mine.txt");
+  });
 });

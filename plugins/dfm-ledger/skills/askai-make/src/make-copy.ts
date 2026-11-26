@@ -1,5 +1,5 @@
-// The copy for any AI chat (spec/ask-ai.md): the instructions (which begin "=== read this first ===") with who and
-// where to send filled in, then the
+// The copy for any AI chat (spec/ask-ai.md): the instructions (the default; a template of the person's own) with
+// who and where to send filled in, then the
 // business's website (its profile), then its plan (the ledger, with a summary written fresh at copy time).
 //
 //   === read this first ===
@@ -14,6 +14,8 @@ import { writeSummary } from "@dataflow-marketing/ledger/summary";
 import { INSTRUCTIONS } from "./instructions.ts";
 
 export type CopyInput = {
+  // the instructions as a template, with the blanks {who} and {send to}; the default is spec/ask-ai-instructions.txt
+  instructions?: string;
   who: string;
   sendTo: string;
   ledgerText: string;
@@ -30,8 +32,14 @@ export function makeCopy(input: CopyInput): string {
   return parts.join("");
 }
 
+const FIRST_HEADING = "=== read this first ===";
+
+// the template with its blanks filled in, under the copy's first heading (added when the template has none)
 function filledIn(input: CopyInput): string {
-  return INSTRUCTIONS.replaceAll("{who}", input.who).replaceAll("{send to}", input.sendTo);
+  const template = input.instructions ?? INSTRUCTIONS;
+  const filled = template.replaceAll("{who}", input.who).replaceAll("{send to}", input.sendTo);
+  const headed = filled.startsWith(FIRST_HEADING) ? filled : `${FIRST_HEADING}\n${filled}`;
+  return headed.endsWith("\n\n") ? headed : `${headed.replace(/\n*$/, "")}\n\n`;
 }
 
 // the profile under one heading: its own spec line and heading are left out

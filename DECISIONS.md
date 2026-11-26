@@ -567,3 +567,8 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** week-run runs plan-check, counts-record (told numbers) and summary-make, then offers askai-make; client-run gains plan-make as its third step and ends by naming week-run, askai-make and (for Ghost) recording-run
 **Over:** waiting for platform readers and followups-check before week-run
 **Why:** told numbers work for every business now; the readers join week-run as their plugins are built
+
+## 2026-11-26: The Ask an AI instructions are a template; ours are the default
+**Chose:** askai-make takes a template of the person's own (--instructions <file>) in place of the default instructions (spec/ask-ai-instructions.txt), filling the same blanks, {who} and {send to}, wherever they appear; the profile and the plan always follow
+**Over:** one fixed set of instructions
+**Why:** a business may want its own way of asking, another language or another job for the AI; the default stays the one tried with real businesses

@@ -24,4 +24,15 @@ describe("makeCopy on the coffee shop", () => {
     expect(copy).not.toContain("=== their website ===");
     expect(copy).toContain("This is the marketing plan of Sam");
   });
+
+  it("uses a template of the person's own in place of the default, with its blanks filled", () => {
+    const copy = makeCopy({
+      instructions: "Help {who} plan next week. Send the result to {send to}.",
+      who: "Sam",
+      sendTo: "sam@example.test",
+      ledgerText: "spec 1\n=== done ===\nstarted 2026-11-16\n",
+      today: "2026-11-18",
+    });
+    expect(copy.startsWith("=== read this first ===\nHelp Sam plan next week. Send the result to sam@example.test.\n\n=== their plan ===\n")).toBe(true);
+  });
 });

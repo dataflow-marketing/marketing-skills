@@ -43,6 +43,8 @@ They tell the AI how to read the ledger and how to behave. They always say:
 
 **Filled in at copy time:** who the plan belongs to and where to send the response. Nothing else in the instructions is personal.
 
+**A template, with a default.** These instructions are the default. A business can use its own in their place: any text, with the same two blanks (`{who}`, `{send to}`) filled in wherever they appear. The profile and the plan always follow.
+
 ## Change lines
 
 Each `Change:` line is an ordinary [ledger](ledger.md) line with `Change:` in front:
