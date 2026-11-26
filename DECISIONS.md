@@ -677,3 +677,9 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** a local Ghost (Western District Digital's at 6.71); the Violin World local copy, which holds real members
 **Why:** the agreed test site was vibe2value.com; it was found to lack member fields when checked read only
 **Source:** stated (the upgrade), inferred (the reason as worded)
+
+## 2026-11-26: The ghost connector is proved on influencer.tips, for vibe2value (reverses the upgrade)
+**Chose:** vibe2value.com is the business under test; its objects are kept in its member record on influencer.tips, the Ghost that already has member custom fields
+**Over:** upgrading vibe2value.com's Ghost and keeping the test member there
+**Why:** that is how the method keeps every business: as a member of influencer.tips; vibe2value.com needs no upgrade
+**Source:** stated (where the data goes), inferred (the reason as worded)

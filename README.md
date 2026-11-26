@@ -184,11 +184,11 @@ The examples have no version: they are read, never installed.
 
 | Skill | Does | Kind | Script | State |
 |---|---|---|---|---|
-| store-add | adds a store and a binding to settings: a folder of files or Ghost member fields (a REST backend later) | code | yes | built |
-| store-check | each binding can be read: the store answers, its key works, the member and the field are there | code | yes | built |
+| store-add | adds a store and a binding to settings: a folder of files or Ghost member fields (a REST backend later) | code | yes | works |
+| store-check | each binding can be read: the store answers, its key works, the member and the field are there | code | yes | works |
 | objects-read | lists the objects of a kind | code | no | planned |
-| object-read | one object with its version | code | yes | built |
-| object-change | changes an object only if no one else has since, a backup first, read back | code | yes | built |
+| object-read | one object with its version | code | yes | works |
+| object-change | changes an object only if no one else has since, a backup first, read back | code | yes | works |
 | object-add | adds an object | code | no | planned |
 | object-remove | removes an object, a backup first | code | no | planned |
 
