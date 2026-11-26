@@ -107,4 +107,12 @@ describe("site-add dist/run.js", () => {
     expect(ran.code).toBe(0);
     expect(await readFile(settings, "utf8")).toBe(`${SETTINGS_START}${COFFEE_SHOP_SITE_LINE}\n`);
   });
+
+  it("takes out a public line left beside the same Ghost line, then reads back one line for the site", async () => {
+    await writeFile(settings, `${SETTINGS_START}site coffee-shop: public ${COFFEE_SHOP_ADDRESS}\n${COFFEE_SHOP_SITE_LINE}\n`);
+    const ran = await runScript(SCRIPT, siteArgs("--go"), { cwd: folder });
+    expect(ran.code).toBe(0);
+    expect(ran.stdout).toContain("took out of");
+    expect(await readFile(settings, "utf8")).toBe(`${SETTINGS_START}${COFFEE_SHOP_SITE_LINE}\n`);
+  });
 });

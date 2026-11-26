@@ -13,7 +13,7 @@ Ask each one in the question dialog. Where there is a usual answer, offer it as 
 
 1. **The site's name:** lowercase with hyphens, the one used for the business everywhere, such as `coffee-shop`.
 2. **Its address:** where Ghost runs, starting `https://`, such as `https://coffee-shop.example`.
-3. **The name of the variable that will hold its key,** such as `COFFEE_SHOP_GHOST_ADMIN_KEY`. Never ask for the key.
+3. **The name of the variable that will hold its key.** Suggest one made from the site's name: capitals, hyphens as underscores, then `_GHOST_ADMIN_KEY`, such as `COFFEE_SHOP_GHOST_ADMIN_KEY` for `coffee-shop`. Never ask for the key.
 4. **The settings file:** the person's one settings file, kept outside any repo they share. Suggest `settings.txt` in the working folder: it is plain text, never Markdown.
 5. **Only when there is no settings file yet: its time zone,** such as `Australia/Melbourne`. Weeks and days are counted in it. Pass it as `--time-zone`; the script refuses to start a settings file without one.
 6. **Only when settings name no keys file yet: where the keys file is,** the file the site's key goes in. Suggest `~/.config/dfm/.env`, outside the working folder so the key never travels with the work. Pass it as `--keys-file`; the script refuses without one.
@@ -37,7 +37,7 @@ The run log is `run-log.txt` beside the settings file unless `--run-log <file>` 
 |---|---|
 | 0 | done; or the site was already there |
 | 1 | read back found the line missing |
-| 2 | refused or failed: the address is not https://, the name or variable is not in the right form, settings already hold a different Ghost site with this name, the settings file has problems to fix first; or there is no settings file and no `--time-zone` |
+| 2 | refused or failed: the address is not https://, the name or variable is not in the right form, settings already hold a different Ghost site with this name (or two public lines with it), the settings file has problems to fix first; or there is no settings file and no `--time-zone` |
 
 ## The key
 
@@ -59,9 +59,13 @@ They copy the key from Ghost Admin: Settings, Integrations, a custom integration
 
 A site added before with `dfm-site:site-add` is a public site: `site <name>: public <address>`. Run this skill with the same name and it turns that site into a Ghost site: the preview shows the line it replaces and the Ghost line in its place. Settings never name one site twice.
 
+The name and address come from the public line: ask only for the key's variable and, when settings name no keys file, the keys file, each in the dialog with its suggestion.
+
+If settings already have the same Ghost line beside the public one, the preview shows the public line taken out. Two public lines with that name are refused, as is a different Ghost line with it: the person takes out the wrong one by hand.
+
 ## When it refuses
 
-Show what it printed. A different site already in settings is changed by the person by hand: site-add only adds.
+Show what it printed. A different site already in settings is changed by the person by hand: site-add only adds a site or turns a public one into a Ghost site.
 
 ## Asking
 

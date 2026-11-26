@@ -45,7 +45,7 @@ export function findMentions(lines: readonly string[]): Mention[] {
     }
     line = blankOut(line, numbers);
 
-    for (const name of findNames(line)) {
+    for (const name of findNames(line, original)) {
       mentions.push({ kind: "name", written: name.written, key: plain(name.written), textLine });
     }
   });

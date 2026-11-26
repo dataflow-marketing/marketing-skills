@@ -87,3 +87,27 @@ describe("planAdd for settings already there", () => {
     expect(plan.kind === "replace" && plan.lines).toEqual([COFFEE_SHOP_SITE_LINE, "keys file: ~/.config/dfm/.env"]);
   });
 });
+
+describe("planAdd for a site already named twice", () => {
+  it("takes the public line out when the same Ghost line is already there, leaving one line", () => {
+    const settings = `${SETTINGS}site coffee-shop: public https://coffee-shop.example\n${COFFEE_SHOP_SITE_LINE}\n`;
+    const plan = planAdd(settings, COFFEE_SHOP_SITE);
+    expect(plan.kind === "replace" && plan.text).toBe(`${SETTINGS}${COFFEE_SHOP_SITE_LINE}\n`);
+  });
+
+  it("refuses when a different Ghost line of the same name is there too", () => {
+    const settings = `${SETTINGS}site coffee-shop: public https://coffee-shop.example\nsite coffee-shop: ghost https://old.coffee-shop.example key in OLD_KEY\n`;
+    expect(planAdd(settings, COFFEE_SHOP_SITE).kind).toBe("refused");
+  });
+
+  it("replaces a public line that names a key too", () => {
+    const settings = `${SETTINGS}site coffee-shop: public https://coffee-shop.example key in OLD_KEY\n`;
+    const plan = planAdd(settings, COFFEE_SHOP_SITE);
+    expect(plan.kind === "replace" && plan.text).toBe(`${SETTINGS}${COFFEE_SHOP_SITE_LINE}\n`);
+  });
+
+  it("refuses two public lines of the same name rather than guess which to replace", () => {
+    const settings = `${SETTINGS}site coffee-shop: public https://coffee-shop.example\nsite coffee-shop: public https://www.coffee-shop.example\n`;
+    expect(planAdd(settings, COFFEE_SHOP_SITE).kind).toBe("refused");
+  });
+});

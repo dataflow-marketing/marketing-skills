@@ -253,11 +253,11 @@ var OPENING_MARKS = /[\s(["'\u201C\u2018]+$/;
 var ONLY_A_LIST_MARKER = /^[\s\-*+>#]*$/;
 var ENDS_A_SENTENCE = /[.!?:]$/;
 var OPENS_A_QUOTE = /["\u201C]$/;
-function findNames(line) {
+function findNames(line, asWritten = line) {
   const found = [];
   for (const match of line.matchAll(CAPITALISED_WORD)) {
     const start = match.index ?? 0;
-    if (startsASentence(line.slice(0, start))) {
+    if (startsASentence(asWritten.slice(0, start))) {
       continue;
     }
     found.push({ start, end: start + match[0].length, written: match[0] });
@@ -484,7 +484,7 @@ function findMentions(lines) {
       mentions.push({ kind: "number", written: number.written, key: number.key, textLine });
     }
     line = blankOut(line, numbers);
-    for (const name of findNames(line)) {
+    for (const name of findNames(line, original)) {
       mentions.push({ kind: "name", written: name.written, key: plain(name.written), textLine });
     }
   });

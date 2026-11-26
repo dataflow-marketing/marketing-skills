@@ -4,7 +4,9 @@
 // Settings that already have problems are refused until they are fixed: bad settings stop a skill.
 // A site already there with the same line is left alone.
 // A public site of the same name becomes this Ghost site: its line is replaced, never left beside a second one.
+// When the same Ghost line is already there beside it (settings from before this rule), the public line is taken out.
 // A Ghost site of the same name with a different line is refused: changing a site is not adding one.
+// Two public lines of the same name are refused: which one to replace is the person's choice.
 
 import { parseSettings } from "@dataflow-marketing/core";
 import type { Settings, Site } from "@dataflow-marketing/core";
@@ -67,10 +69,6 @@ function planExistingFile(settingsText: string, site: Site, given: Given): AddPl
   }
 
   const line = siteLine(site);
-  const publicSite = settings.sites.find((known) => known.business === site.business && known.platform === PUBLIC);
-  if (publicSite) {
-    return planReplacePublic(settingsText, publicSite, line, missingKeysFileLine(settings, given));
-  }
   const sameName = settings.sites.find((known) => known.business === site.business && known.platform === site.platform);
   if (sameName && siteLine(sameName) !== line) {
     return refused(
@@ -82,30 +80,45 @@ function planExistingFile(settingsText: string, site: Site, given: Given): AddPl
   if (keysFileLine === ASK_KEYS_FILE) {
     return refused(ASK_KEYS_FILE);
   }
+
+  const publicLines = publicLinesOf(settingsText, site.business);
+  if (publicLines.length > 1) {
+    return refused(
+      `Settings have ${publicLines.length} public lines called ${site.business}: ${publicLines.join(" | ")}. Take out the wrong one by hand first.`,
+    );
+  }
+  if (publicLines.length === 1) {
+    const newLines = [sameName ? undefined : line, keysFileLine];
+    return planReplacePublic(settingsText, publicLines[0], present(newLines));
+  }
+
   if (sameName && keysFileLine === undefined) {
     return { kind: "already there", line };
   }
 
-  const lines = [keysFileLine, sameName ? undefined : line].filter((each): each is string => each !== undefined);
+  const lines = present([keysFileLine, sameName ? undefined : line]);
   return { kind: "add", lines, append: appendAfter(settingsText, lines), newFile: false };
 }
 
-// The public site's line swapped for the Ghost line, with the keys file line after it when settings need one
-function planReplacePublic(settingsText: string, publicSite: Site, line: string, keysFileLine: string | undefined): AddPlan {
-  if (keysFileLine === ASK_KEYS_FILE) {
-    return refused(ASK_KEYS_FILE);
-  }
-  const replaces = publicLine(publicSite);
-  const lines = [line, keysFileLine].filter((each): each is string => each !== undefined);
-  const text = settingsText
+// The public line swapped for the new lines: the Ghost line, a keys file line or both. No new lines takes it out.
+function planReplacePublic(settingsText: string, replaces: string, lines: string[]): AddPlan {
+  const kept = settingsText
     .split("\n")
-    .map((each) => (each.trim() === replaces ? lines.join("\n") : each))
-    .join("\n");
-  return { kind: "replace", replaces, lines, text };
+    .flatMap((each) => (each.trim() === replaces ? lines : [each]));
+  return { kind: "replace", replaces, lines, text: kept.join("\n") };
 }
 
-function publicLine(site: Site): string {
-  return `site ${site.business}: ${PUBLIC} ${site.address}`;
+// The site's public lines as they are written in the file: the one replaced is the one there
+function publicLinesOf(settingsText: string, business: string): string[] {
+  const start = `site ${business}: ${PUBLIC} `;
+  return settingsText
+    .split("\n")
+    .map((each) => each.trim())
+    .filter((each) => each.startsWith(start));
+}
+
+function present(lines: (string | undefined)[]): string[] {
+  return lines.filter((each): each is string => each !== undefined);
 }
 
 // The keys file line settings still need: undefined when they have one, ASK_KEYS_FILE when none was given

@@ -31,4 +31,10 @@ describe("findNames", () => {
   it("still finds a page's name inside a sentence", () => {
     expect(names("The four pages are About and Policies.")).toEqual(["About", "Policies"]);
   });
+
+  it("reads where a sentence starts from the line as written, before a quote was blanked out", () => {
+    const asWritten = 'It says "Free on Fridays." Its cake is from Sam.';
+    const quoteBlanked = `It says ${" ".repeat('"Free on Fridays."'.length)} Its cake is from Sam.`;
+    expect(findNames(quoteBlanked, asWritten).map((name) => name.written)).toEqual(["Sam"]);
+  });
 });

@@ -22,4 +22,15 @@ describe("findMentions", () => {
       { kind: "claim", written: "a quote mark with no pair on line 2 of the text", key: "a quote mark with no pair on line 2 of the text", textLine: 2 },
     ]);
   });
+
+  it("skips a capital that starts a sentence after a quote that ended one (finding 19)", () => {
+    const line = 'It says "The tenth coffee is on us." Its cake comes from next door. Ask for "the usual!" They know Sam.';
+    const names = findMentions([line]).filter((mention) => mention.kind === "name");
+    expect(names.map((mention) => mention.written)).toEqual(["Sam"]);
+  });
+
+  it("still finds a name after a quote that did not end a sentence", () => {
+    const names = findMentions(['The site speaks as "we" Monday to Friday.']).filter((mention) => mention.kind === "name");
+    expect(names.map((mention) => mention.written)).toEqual(["Monday", "Friday"]);
+  });
 });

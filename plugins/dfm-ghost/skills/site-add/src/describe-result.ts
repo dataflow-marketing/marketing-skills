@@ -17,11 +17,7 @@ export function describePlan(plan: AddPlan, settingsPath: string): ScriptResult 
   }
   if (plan.kind === "replace") {
     lines.push("preview: nothing written");
-    lines.push(`would replace in ${settingsPath}:`);
-    lines.push(plan.replaces);
-    lines.push("with:");
-    lines.push(...plan.lines);
-    lines.push("(the public site becomes a Ghost site: dfm can put drafts on it)");
+    lines.push(...replaceLines(plan, settingsPath, "would "));
   }
   if (plan.kind === "already there") {
     lines.push(`already in ${settingsPath}: nothing to add`);
@@ -40,6 +36,35 @@ export function describeAdded(added: readonly string[], settingsPath: string, pr
   lines.push(...added);
   lines.push(...readBackLines(problems));
   return { text: lines.join("\n"), data: { settings: settingsPath, lines: added, wrote: true, problems } };
+}
+
+export function describeReplaced(
+  plan: Extract<AddPlan, { kind: "replace" }>,
+  settingsPath: string,
+  problems: readonly string[],
+): ScriptResult {
+  const lines = [...replaceLines(plan, settingsPath, ""), ...readBackLines(problems)];
+  return {
+    text: lines.join("\n"),
+    data: { settings: settingsPath, replaced: plan.replaces, lines: plan.lines, wrote: true, problems },
+  };
+}
+
+// "would replace" in a preview, "replaced" after the write. With no new lines the public line is only taken out:
+// the Ghost line was already there beside it.
+function replaceLines(plan: Extract<AddPlan, { kind: "replace" }>, settingsPath: string, would: string): string[] {
+  if (plan.lines.length === 0) {
+    const verb = would ? "would take out of" : "took out of";
+    return [`${verb} ${settingsPath}:`, plan.replaces, "(the Ghost line for this site is already there: one line for the site)"];
+  }
+  const verb = would ? "would replace in" : "replaced in";
+  return [
+    `${verb} ${settingsPath}:`,
+    plan.replaces,
+    "with:",
+    ...plan.lines,
+    "(the public site becomes a Ghost site: dfm can put drafts on it)",
+  ];
 }
 
 export function describeReadBack(line: string, settingsPath: string, problems: readonly string[]): ScriptResult {

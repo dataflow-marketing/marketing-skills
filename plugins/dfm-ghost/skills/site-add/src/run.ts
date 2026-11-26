@@ -18,7 +18,7 @@ import type { OutputMode, Site } from "@dataflow-marketing/core";
 import { appendRunLine, printOutput, runLogPath } from "@dataflow-marketing/core/node";
 import { checkReadBack } from "./check-read-back.ts";
 import { checkSite } from "./check-site.ts";
-import { describeAdded, describePlan, describeReadBack } from "./describe-result.ts";
+import { describeAdded, describePlan, describeReadBack, describeReplaced } from "./describe-result.ts";
 import { appendSettingsText, readSettingsText, writeSettingsText } from "./node/settings-file.ts";
 import { planAdd } from "./plan-add.ts";
 import type { AddPlan } from "./plan-add.ts";
@@ -75,7 +75,7 @@ async function addSite(asked: SiteAddArgs, site: Site, output: OutputMode, go: b
   });
 
   const problems = checkReadBack(await readSettingsText(asked.settings), site);
-  printOutput(describeAdded(plan.lines, asked.settings, problems), output);
+  printOutput(describeWritten(plan, asked.settings, problems), output);
   if (problems.length > 0) {
     return EXIT_REFUSED_OR_FAILED;
   }
@@ -89,6 +89,13 @@ async function writeTheChange(settingsPath: string, plan: Extract<AddPlan, { kin
     return;
   }
   await appendSettingsText(settingsPath, plan.append);
+}
+
+function describeWritten(plan: Extract<AddPlan, { kind: "add" | "replace" }>, settingsPath: string, problems: string[]) {
+  if (plan.kind === "replace") {
+    return describeReplaced(plan, settingsPath, problems);
+  }
+  return describeAdded(plan.lines, settingsPath, problems);
 }
 
 // A preview, a refusal or a site already there is said now; a write is said after its read back.

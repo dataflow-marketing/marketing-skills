@@ -683,3 +683,27 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** upgrading vibe2value.com's Ghost and keeping the test member there
 **Why:** that is how the method keeps every business: as a member of influencer.tips; vibe2value.com needs no upgrade
 **Source:** stated (where the data goes), inferred (the reason as worded)
+
+## 2026-11-26: A public line beside its Ghost line is taken out
+**Chose:** dfm-ghost:site-add takes out a public line when the same Ghost line is already there; it refuses two public lines of one name or a public line beside a different Ghost line
+**Over:** swapping the public line for a second copy of the Ghost line; picking one of two public lines
+**Why:** settings never name one site twice (finding 18); which of two lines is wrong is your call, not the script's
+**Source:** inferred
+
+## 2026-11-26: A sentence start is read from the line as written
+**Chose:** quotes-check decides whether a capital starts a sentence from the line before quotes were blanked out
+**Over:** a list of words never counted as names ("Its", "The", "For")
+**Why:** in the trial 3 profile every one of those words followed a quote that ended a sentence; a word list would also hide a real name that is spelt like one
+**Source:** inferred
+
+## 2026-11-26: site-add suggests the key's variable from the site's name
+**Chose:** the key's variable is offered as a suggestion made from the site's name (COFFEE_SHOP_GHOST_ADMIN_KEY for coffee-shop); a public site turning into Ghost asks only for what it lacks
+**Over:** an example only, which left the session to pick a name and say "unless you object"
+**Why:** finding 21: a usual answer is offered in the dialog, never chosen for you
+**Source:** inferred
+
+## 2026-11-26: quotes-check keeps checking one-word quotes
+**Chose:** one-word quotes such as "we" or "you" stay checked
+**Over:** skipping common words through a word list
+**Why:** they are found in the source, so they are extra report lines, not problems; a word list would need choosing
+**Source:** stated (agreed), inferred (the reason as worded)

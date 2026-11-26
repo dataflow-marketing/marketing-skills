@@ -3,6 +3,8 @@
 // a word is skipped at the start of a line, a list item or a bracket
 // and after a full stop, question mark, exclamation mark or colon.
 // A capital that starts a quote is skipped too: the quote is checked whole, word for word.
+// Where a sentence starts is read from the line as written: a quote blanked out by an earlier finder
+// can still end a sentence ('"This site keeps them." Its tagline' starts one at "Its").
 
 import type { Span } from "./span.ts";
 
@@ -16,12 +18,13 @@ const ONLY_A_LIST_MARKER = /^[\s\-*+>#]*$/;
 const ENDS_A_SENTENCE = /[.!?:]$/;
 const OPENS_A_QUOTE = /["\u201C]$/;
 
-export function findNames(line: string): NameMention[] {
+// line is what is left to look in; asWritten is the same line before anything was blanked out, of the same length.
+export function findNames(line: string, asWritten: string = line): NameMention[] {
   const found: NameMention[] = [];
 
   for (const match of line.matchAll(CAPITALISED_WORD)) {
     const start = match.index ?? 0;
-    if (startsASentence(line.slice(0, start))) {
+    if (startsASentence(asWritten.slice(0, start))) {
       continue;
     }
     found.push({ start, end: start + match[0].length, written: match[0] });

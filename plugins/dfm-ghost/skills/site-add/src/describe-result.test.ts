@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { describeAdded, describePlan } from "./describe-result.ts";
+import { describeAdded, describePlan, describeReplaced } from "./describe-result.ts";
 import { planAdd } from "./plan-add.ts";
 import { COFFEE_SHOP_SITE, COFFEE_SHOP_SITE_LINE } from "../../../fixtures/coffee-shop.ts";
 
@@ -19,5 +19,11 @@ describe("describe", () => {
     const plan = { kind: "replace" as const, replaces: "site coffee-shop: public https://coffee-shop.example", lines: [COFFEE_SHOP_SITE_LINE], text: "" };
     const text = describePlan(plan, "settings.txt").text;
     expect(text).toContain("would replace in settings.txt:\nsite coffee-shop: public https://coffee-shop.example\nwith:");
+  });
+
+  it("says a public line is only taken out when the Ghost line is already there", () => {
+    const plan = { kind: "replace" as const, replaces: "site coffee-shop: public https://coffee-shop.example", lines: [], text: "" };
+    expect(describePlan(plan, "settings.txt").text).toContain("would take out of settings.txt:");
+    expect(describeReplaced(plan, "settings.txt", []).text).toContain("took out of settings.txt:");
   });
 });

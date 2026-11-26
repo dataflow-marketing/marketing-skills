@@ -461,11 +461,7 @@ function describePlan(plan, settingsPath) {
   }
   if (plan.kind === "replace") {
     lines.push("preview: nothing written");
-    lines.push(`would replace in ${settingsPath}:`);
-    lines.push(plan.replaces);
-    lines.push("with:");
-    lines.push(...plan.lines);
-    lines.push("(the public site becomes a Ghost site: dfm can put drafts on it)");
+    lines.push(...replaceLines(plan, settingsPath, "would "));
   }
   if (plan.kind === "already there") {
     lines.push(`already in ${settingsPath}: nothing to add`);
@@ -482,6 +478,27 @@ function describeAdded(added, settingsPath, problems) {
   lines.push(...added);
   lines.push(...readBackLines(problems));
   return { text: lines.join("\n"), data: { settings: settingsPath, lines: added, wrote: true, problems } };
+}
+function describeReplaced(plan, settingsPath, problems) {
+  const lines = [...replaceLines(plan, settingsPath, ""), ...readBackLines(problems)];
+  return {
+    text: lines.join("\n"),
+    data: { settings: settingsPath, replaced: plan.replaces, lines: plan.lines, wrote: true, problems }
+  };
+}
+function replaceLines(plan, settingsPath, would) {
+  if (plan.lines.length === 0) {
+    const verb2 = would ? "would take out of" : "took out of";
+    return [`${verb2} ${settingsPath}:`, plan.replaces, "(the Ghost line for this site is already there: one line for the site)"];
+  }
+  const verb = would ? "would replace in" : "replaced in";
+  return [
+    `${verb} ${settingsPath}:`,
+    plan.replaces,
+    "with:",
+    ...plan.lines,
+    "(the public site becomes a Ghost site: dfm can put drafts on it)"
+  ];
 }
 function describeReadBack(line, settingsPath, problems) {
   const lines = [];
@@ -553,10 +570,6 @@ function planExistingFile(settingsText, site, given) {
     return refused(`Fix the settings file first: ${problems.join("; ")}`);
   }
   const line = siteLine(site);
-  const publicSite = settings.sites.find((known) => known.business === site.business && known.platform === PUBLIC);
-  if (publicSite) {
-    return planReplacePublic(settingsText, publicSite, line, missingKeysFileLine(settings, given));
-  }
   const sameName = settings.sites.find((known) => known.business === site.business && known.platform === site.platform);
   if (sameName && siteLine(sameName) !== line) {
     return refused(
@@ -567,23 +580,32 @@ function planExistingFile(settingsText, site, given) {
   if (keysFileLine === ASK_KEYS_FILE) {
     return refused(ASK_KEYS_FILE);
   }
+  const publicLines = publicLinesOf(settingsText, site.business);
+  if (publicLines.length > 1) {
+    return refused(
+      `Settings have ${publicLines.length} public lines called ${site.business}: ${publicLines.join(" | ")}. Take out the wrong one by hand first.`
+    );
+  }
+  if (publicLines.length === 1) {
+    const newLines = [sameName ? void 0 : line, keysFileLine];
+    return planReplacePublic(settingsText, publicLines[0], present(newLines));
+  }
   if (sameName && keysFileLine === void 0) {
     return { kind: "already there", line };
   }
-  const lines = [keysFileLine, sameName ? void 0 : line].filter((each) => each !== void 0);
+  const lines = present([keysFileLine, sameName ? void 0 : line]);
   return { kind: "add", lines, append: appendAfter(settingsText, lines), newFile: false };
 }
-function planReplacePublic(settingsText, publicSite, line, keysFileLine) {
-  if (keysFileLine === ASK_KEYS_FILE) {
-    return refused(ASK_KEYS_FILE);
-  }
-  const replaces = publicLine(publicSite);
-  const lines = [line, keysFileLine].filter((each) => each !== void 0);
-  const text = settingsText.split("\n").map((each) => each.trim() === replaces ? lines.join("\n") : each).join("\n");
-  return { kind: "replace", replaces, lines, text };
+function planReplacePublic(settingsText, replaces, lines) {
+  const kept = settingsText.split("\n").flatMap((each) => each.trim() === replaces ? lines : [each]);
+  return { kind: "replace", replaces, lines, text: kept.join("\n") };
 }
-function publicLine(site) {
-  return `site ${site.business}: ${PUBLIC} ${site.address}`;
+function publicLinesOf(settingsText, business) {
+  const start = `site ${business}: ${PUBLIC} `;
+  return settingsText.split("\n").map((each) => each.trim()).filter((each) => each.startsWith(start));
+}
+function present(lines) {
+  return lines.filter((each) => each !== void 0);
 }
 function missingKeysFileLine(settings, given) {
   if (settings.keysFile) {
@@ -692,7 +714,7 @@ async function addSite2(asked, site, output, go) {
     after: plan.lines.join(" | ")
   });
   const problems = checkReadBack(await readSettingsText(asked.settings), site);
-  printOutput(describeAdded(plan.lines, asked.settings, problems), output);
+  printOutput(describeWritten(plan, asked.settings, problems), output);
   if (problems.length > 0) {
     return EXIT_REFUSED_OR_FAILED;
   }
@@ -704,6 +726,12 @@ async function writeTheChange(settingsPath, plan) {
     return;
   }
   await appendSettingsText(settingsPath, plan.append);
+}
+function describeWritten(plan, settingsPath, problems) {
+  if (plan.kind === "replace") {
+    return describeReplaced(plan, settingsPath, problems);
+  }
+  return describeAdded(plan.lines, settingsPath, problems);
 }
 function printOutputIfNotWriting(plan, asked, output, go) {
   const writing = go && (plan.kind === "add" || plan.kind === "replace");
