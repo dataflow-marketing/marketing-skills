@@ -406,3 +406,44 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** post-draft's read back keeps needing --words, --site and --settings with --id; the skill texts now say so
 **Over:** a read back with --id alone
 **Why:** the words file says which title and slug to expect; in the second real run the text said --id was enough and the read back refused
+
+## 2026-11-26: client-run starts small: site-add, profile-make, quotes-check
+**Chose:** the first client-run sets up a site and makes a checked profile; the plan (plan-make), the llms check and storing in Ghost (fields-change) join it as those skills are built
+**Over:** waiting to build client-run whole with the ledger core
+**Why:** both real runs showed the front door was missing; one new skill gives a newcomer a real first job now
+
+## 2026-11-26: profile-make reads only the home page and /llms-full.txt; without it, it asks
+**Chose:** profile-make reads the site's home page and /llms-full.txt, as spec/profile.md says; when /llms-full.txt is not there it stops and says how to turn it on
+**Over:** reading pages another way (a sitemap, a platform's API) or text pasted in
+**Why:** the spec stays as it is; a content skill never reaches into a platform; a skill asks for what it needs
+
+## 2026-11-26: The profile is a file in the working folder for now
+**Chose:** profile-make writes profile.txt in the working folder; storing it in a Ghost member field comes with fields-change
+**Over:** building fields-change now to store it in Ghost straight away
+**Why:** it matches the first loop (files in the working folder, Ghost only for drafts) and keeps the first client-run small
+
+## 2026-11-26: profile-make falls back to the sitemap
+**Chose:** when a site has no /llms-full.txt, profile-make asks, then reads the pages listed in the site's sitemap (up to a limit) the same way it reads the home page
+**Over:** stopping until /llms-full.txt is turned on
+**Why:** many sites cannot serve /llms-full.txt but almost every site has a sitemap; it still reads only the site's own public pages, never a platform's API
+**Supersedes:** "profile-make reads only the home page and /llms-full.txt; without it, it asks"
+
+## 2026-11-26: Setting up a site starts by asking its platform
+**Chose:** client-run asks which platform the site is on and runs that platform's site-add; Ghost is the only platform with a plugin today, others (WordPress first) are added by demand
+**Over:** a front door that assumes Ghost
+**Why:** most businesses' sites are not on Ghost; the method never depends on the platform
+
+## 2026-11-26: A generic website that dfm reads and never writes to
+**Chose:** a platform for any public website, with no key and no draft skill: dfm reads it (profile-make, link checks) and never posts to it
+**Over:** leaving sites on other platforms out until each has its own plugin
+**Why:** any business can get a profile and checks from its site today; posting waits for its platform's plugin
+
+## 2026-11-26: The generic website platform is called public
+**Chose:** the platform word `public` in settings (`site coffee-shop: public https://coffee-shop.example`, no key) and the plugin dfm-site, whose site-add adds such a site
+**Over:** `website` (reads doubled after `site`) and `web`
+**Why:** it says what dfm can do with it: read what anyone can read on the public site
+
+## 2026-11-26: Watching a site's content and voice goes on the plan
+**Chose:** plan profile-compare (what changed between two profiles of a site) and watch-run (profile-make on any public site, then profile-compare, run on a schedule by a runner)
+**Over:** profiling a site once only
+**Why:** a public site needs no key: any business's site can be followed over time: a competitor, a peer, a client before they are one. It reads politely and profiles businesses, never private people

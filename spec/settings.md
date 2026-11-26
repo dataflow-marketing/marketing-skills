@@ -33,6 +33,7 @@ house rule avoid: em dashes
 | `time zone` | the business's time zone; weeks and days are counted in it; required |
 | `week starts` | the day a week starts (Monday by default) |
 | `site <name>: <platform> <address> key in <NAME>` | a site on a platform and the name of the variable that holds its key |
+| `site <name>: public <address>` | a public website dfm only reads (a profile, link checks), on any platform: no key, never written to |
 | `keys file` | the file the keys are read from |
 | `store <name>: <connector> <where>` | a [store](store.md) and its connector: file, ghost or rest |
 | `binding <object> <business>: <store> <place>` | which store holds which object for which business |

@@ -31,7 +31,7 @@ Questions are welcome: email me at matt@mattcameron.me. Feel welcome to raise an
 
 Start with a recipe. A recipe runs the skills a job needs in order and stops for a yes at each step:
 
-- `/dfm-recipes:client-run` sets up a business: its site, its profile and a first plan
+- `/dfm-recipes:client-run` sets up a business: its site and its profile (a first plan comes later)
 - `/dfm-recipes:week-run` brings in the week's counts and writes the summary
 - `/dfm-recipes:recording-run` turns a recording into a draft post
 
@@ -127,11 +127,12 @@ The examples have no version: they are read, never installed.
 |---|---|---|---|---|
 | quotes-check | checks every quote, name and number in a text against its source | code | yes | works |
 | post-make | turns their own words (a transcript, notes, a reply) into a post, never invented | model | none | works |
-| profile-make | makes a business's profile from its site | model | none | planned |
+| profile-make | makes a business's profile from its home page and /llms-full.txt (or the pages its sitemap lists); a script reads and counts the site | model | yes | built |
 | share-make | words to share a post or clip on a channel | model | none | planned |
 | message-make | a direct message or 1:1 email from their words | model | none | planned |
 | ideas-make | what to make next and why, from what people asked | model | none | planned |
 | schedule-make | a run of weeks, each with its post and share | model | none | planned |
+| profile-compare | what changed between two profiles of a site: new themes, new offers, a shift in voice | model | none | planned |
 
 ### dfm-ghost: Ghost sites (0.1.0)
 
@@ -205,10 +206,11 @@ The examples have no version: they are read, never installed.
 | link-make | a working payment link for an offer | code | no | planned |
 | links-check | payment links on a site that do not take a payment | code | no | planned |
 
-### dfm-site: any website (not started)
+### dfm-site: any public website, read and never written to (0.1.0)
 
 | Skill | Does | Kind | Script | State |
 |---|---|---|---|---|
+| site-add | adds a public website on any platform to settings, by its address only: no key | code | yes | built |
 | llms-check | whether a site's `/llms.txt` is on and what it holds | code | no | planned |
 | links-check | links on a site that do not work for a visitor | code | no | planned |
 
@@ -224,13 +226,14 @@ The examples have no version: they are read, never installed.
 |---|---|---|
 | recording-run | a transcript (by hand until transcript-make is built), post-make, quotes-check, post-draft | works |
 | week-run | the week's counts from each platform, counts-record, summary-make, followups-check | planned |
-| client-run | site-add, llms-check, profile-make, quotes-check, plan-make, fields-change | planned |
+| client-run | asks the platform, then its site-add (Ghost; any other platform as a public website), then profile-make with its check; plan-make and storing in Ghost join later | built |
 | clips-run | transcript-make, clips-make, video-encode, share-make, pack-make | planned |
 | calendar-run | ideas-make or schedule-make, then plan-change | planned |
 | reply-run | inbox-read, then plan-change and counts-record on a yes | planned |
 | report-run | summary-make, rates-record, report-make | planned |
 | review-run | whatif-make, picture-make | planned |
 | health-run | llms-check, links-check, stripe links-check, profile-make | planned |
+| watch-run | profile-make on any public site (a competitor, a peer, a client before they are one), then profile-compare with its last profile; run on a schedule, such as monthly, by a runner. Reads politely (the site's robots.txt, a few pages at a time) and profiles businesses, never private people | planned |
 
 ## Install
 
@@ -241,9 +244,10 @@ The skills' scripts need **Node 24 or later** on your PATH. With nvm, Node may o
 /plugin install dfm-recipes@dataflow-marketing
 /plugin install dfm-content@dataflow-marketing
 /plugin install dfm-ghost@dataflow-marketing
+/plugin install dfm-site@dataflow-marketing
 ```
 
-Then start with a recipe: say "I recorded a post" or run `/dfm-recipes:recording-run`. Settings and keys are asked for as they are needed.
+Then start with a recipe: say "set up my business" or run `/dfm-recipes:client-run`. Settings and keys are asked for as they are needed.
 
 ## Why things are the way they are
 

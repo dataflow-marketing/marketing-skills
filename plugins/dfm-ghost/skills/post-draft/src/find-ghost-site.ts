@@ -4,7 +4,7 @@
 import type { SettingsResult, Site } from "@dataflow-marketing/core";
 
 export type GhostSite = {
-  site: Site;
+  site: Site & { keyName: string };
   keysFile: string;
 };
 
@@ -19,6 +19,9 @@ export function findGhostSite(read: SettingsResult, name: string): GhostSiteResu
   if (!site) {
     return { ok: false, problems: [`Settings have no Ghost site called ${name}. Add it with dfm-ghost:site-add.`] };
   }
+  if (!site.keyName) {
+    return { ok: false, problems: [`The Ghost site ${name} names no key in settings. Add it again with dfm-ghost:site-add.`] };
+  }
   if (!site.address.startsWith("https://")) {
     return { ok: false, problems: [`The address for ${name} is not https://: ${site.address}`] };
   }
@@ -26,5 +29,5 @@ export function findGhostSite(read: SettingsResult, name: string): GhostSiteResu
     return { ok: false, problems: ["Settings name no keys file. Add a line such as: keys file: ~/.config/dfm/.env"] };
   }
 
-  return { ok: true, found: { site, keysFile: read.settings.keysFile } };
+  return { ok: true, found: { site: { ...site, keyName: site.keyName }, keysFile: read.settings.keysFile } };
 }

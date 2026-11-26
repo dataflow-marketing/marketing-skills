@@ -7,9 +7,10 @@ What a business's website says and how it says it, summarised from the site's ow
 ## In
 
 - **The home page,** as text.
-- **The site's `/llms-full.txt`:** every page and post as plain text. Many site builders can serve it (Ghost has a setting for it).
+- **The site's `/llms-full.txt`:** every page and post as plain text. Some site builders can serve it (Ghost has a setting for it).
+- **Or, when there is no `/llms-full.txt` and the person says yes: the pages its `/sitemap.xml` lists,** up to 50, each read as text the same way as the home page. The counted part then says `(in the sitemap)`.
 
-Nothing else. No search, no other sites, no guessing from the business's name.
+Nothing else. No search, no other sites, no platform's API, no guessing from the business's name.
 
 ## The shape
 

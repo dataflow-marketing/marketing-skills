@@ -1,7 +1,7 @@
 {
   "name": "dfm-content",
   "version": "0.1.0",
-  "description": "dataflow marketing: content from a person's own words, checked. post-make polishes a transcript or notes into a words file and invents nothing; quotes-check proves that every quote, name, number and money amount in a text can be found in its source. New to dfm: start with dfm-recipes:recording-run.",
+  "description": "dataflow marketing: content from a person's own words, checked. profile-make makes a checked profile of a site; post-make polishes a transcript or notes into a words file and invents nothing; quotes-check proves that every quote, name, number and money amount in a text can be found in its source. New to dfm: start with dfm-recipes:client-run.",
   "author": {
     "name": "mattcam"
   },

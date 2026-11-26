@@ -12,8 +12,16 @@ describe("readSiteLine", () => {
     });
   });
 
-  it("refuses a site with no key name", () => {
-    expect(readSiteLine("site coffee-shop: ghost https://coffee-shop.example")).toBeUndefined();
+  it("reads a public site, which has no key", () => {
+    expect(readSiteLine("site coffee-shop: public https://coffee-shop.example")).toEqual({
+      business: "coffee-shop",
+      platform: "public",
+      address: "https://coffee-shop.example",
+    });
+  });
+
+  it("refuses a site line with no address", () => {
+    expect(readSiteLine("site coffee-shop: ghost")).toBeUndefined();
   });
 });
 

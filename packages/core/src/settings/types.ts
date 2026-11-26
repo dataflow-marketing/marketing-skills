@@ -4,7 +4,7 @@ export type Site = {
   business: string;
   platform: string;
   address: string;
-  keyName: string;
+  keyName?: string;
 };
 
 export type Store = {

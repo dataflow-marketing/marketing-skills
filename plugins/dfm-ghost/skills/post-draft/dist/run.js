@@ -1,7 +1,7 @@
 // Built by pnpm build from its src folder. Do not edit: change the source and build again.
 
 // ../../../../packages/core/src/settings/read-line.ts
-var SITE_LINE = /^site ([a-z0-9-]+): (\S+) (\S+) key in (\S+)$/;
+var SITE_LINE = /^site ([a-z0-9-]+): (\S+) (\S+)(?: key in (\S+))?$/;
 var STORE_LINE = /^store ([a-z0-9-]+): (\S+) (.+?)(?: key in (\S+))?$/;
 var BINDING_LINE = /^binding (\S+) ([a-z0-9-]+): (\S+) (.+)$/;
 var HOUSE_RULE_LINE = /^house rule (.+?): (.+)$/;
@@ -10,12 +10,15 @@ function readSiteLine(line) {
   if (!match) {
     return void 0;
   }
-  return {
+  const site = {
     business: match[1],
     platform: match[2],
-    address: match[3],
-    keyName: match[4]
+    address: match[3]
   };
+  if (match[4]) {
+    site.keyName = match[4];
+  }
+  return site;
 }
 function readStoreLine(line) {
   const match = STORE_LINE.exec(line);
@@ -1111,13 +1114,16 @@ function findGhostSite(read, name) {
   if (!site) {
     return { ok: false, problems: [`Settings have no Ghost site called ${name}. Add it with dfm-ghost:site-add.`] };
   }
+  if (!site.keyName) {
+    return { ok: false, problems: [`The Ghost site ${name} names no key in settings. Add it again with dfm-ghost:site-add.`] };
+  }
   if (!site.address.startsWith("https://")) {
     return { ok: false, problems: [`The address for ${name} is not https://: ${site.address}`] };
   }
   if (!read.settings.keysFile) {
     return { ok: false, problems: ["Settings name no keys file. Add a line such as: keys file: ~/.config/dfm/.env"] };
   }
-  return { ok: true, found: { site, keysFile: read.settings.keysFile } };
+  return { ok: true, found: { site: { ...site, keyName: site.keyName }, keysFile: read.settings.keysFile } };
 }
 
 // src/node/read-inputs.ts

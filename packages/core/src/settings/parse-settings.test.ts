@@ -70,7 +70,7 @@ describe("parseSettings on lines it cannot read", () => {
   });
 
   it("names a line it does not understand by its kind and keeps the rest", () => {
-    const text = "spec 1\ntime zone: Australia/Melbourne\nweek starts: Sunday\nsite coffee-shop: ghost https://coffee-shop.example\n";
+    const text = "spec 1\ntime zone: Australia/Melbourne\nweek starts: Sunday\nsite coffee-shop: ghost\n";
     const { settings, problems } = parseSettings(text);
     expect(settings.weekStarts).toBe("Sunday");
     expect(settings.sites).toEqual([]);

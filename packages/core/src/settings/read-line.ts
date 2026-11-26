@@ -6,7 +6,9 @@ import type { Binding, HouseRule, Site, Store } from "./types.ts";
 
 // site <business>: <platform> <address> key in <NAME>
 // site coffee-shop: ghost https://coffee-shop.example key in COFFEE_SHOP_GHOST_ADMIN_KEY
-const SITE_LINE = /^site ([a-z0-9-]+): (\S+) (\S+) key in (\S+)$/;
+// a public website dfm only reads has no key:
+// site coffee-shop: public https://coffee-shop.example
+const SITE_LINE = /^site ([a-z0-9-]+): (\S+) (\S+)(?: key in (\S+))?$/;
 
 // store <name>: <connector> <where> [key in <NAME>]
 // store api: rest https://api.coffee-shop.example key in COFFEE_SHOP_API_KEY
@@ -25,12 +27,15 @@ export function readSiteLine(line: string): Site | undefined {
   if (!match) {
     return undefined;
   }
-  return {
+  const site: Site = {
     business: match[1],
     platform: match[2],
     address: match[3],
-    keyName: match[4],
   };
+  if (match[4]) {
+    site.keyName = match[4];
+  }
+  return site;
 }
 
 export function readStoreLine(line: string): Store | undefined {

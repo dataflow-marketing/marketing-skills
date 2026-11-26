@@ -11,7 +11,7 @@
     {
       "name": "dfm-content",
       "source": "./plugins/dfm-content",
-      "description": "Words from the person's own: post-make makes a post from their words; quotes-check proves every quote, name, number and amount is in its source."
+      "description": "Words from the person's own: profile-make makes a checked profile of a site; post-make makes a post from their words; quotes-check proves every quote, name, number and amount is in its source."
     },
     {
       "name": "dfm-ghost",
@@ -19,9 +19,14 @@
       "description": "Ghost sites: site-add names a site and its key's variable in settings; post-draft puts a checked post on Ghost as a draft and reads it back."
     },
     {
+      "name": "dfm-site",
+      "source": "./plugins/dfm-site",
+      "description": "Any public website, on any platform: site-add names it in settings with no key; dfm reads it and never writes to it."
+    },
+    {
       "name": "dfm-recipes",
       "source": "./plugins/dfm-recipes",
-      "description": "Recipes that run skills in order: recording-run turns a recording into a draft post. Start here if you are new to dfm."
+      "description": "Recipes that run skills in order: client-run sets up a business (start here if you are new to dfm); recording-run turns a recording into a draft post."
     }
   ]
 }

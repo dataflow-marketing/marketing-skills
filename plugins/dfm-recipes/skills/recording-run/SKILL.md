@@ -1,13 +1,13 @@
 ---
 name: recording-run
-description: Turn a person's recording into a checked draft post on their Ghost site, running the dfm skills in order with a yes between each. Use when someone has recorded what a post should say ("I recorded this week's post", "make a draft from my recording"). Also where someone new to dfm starts.
+description: Turn a person's recording into a checked draft post on their Ghost site, running the dfm skills in order with a yes between each. Use when someone has recorded what a post should say ("I recorded this week's post", "make a draft from my recording").
 ---
 
 # recording-run
 
 A recipe. It does no work of its own: it runs the skills below in order. After each step, show what it did and **wait for a yes** before the next. A no stops the run where it is; nothing later runs.
 
-It needs `dfm-content` and `dfm-ghost` installed. Work in one working folder for the whole run: the recording's transcript, the words file and the check report all live there.
+It needs `dfm-content` and `dfm-ghost` installed: drafts go to a Ghost site, the only platform with a draft skill so far. A public site (`dfm-site`) cannot take drafts. Work in one working folder for the whole run: the recording's transcript, the words file and the check report all live there.
 
 ## The steps
 

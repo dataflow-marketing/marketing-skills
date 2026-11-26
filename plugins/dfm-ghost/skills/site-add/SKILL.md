@@ -1,6 +1,6 @@
 ---
 name: site-add
-description: Add a Ghost site to dfm settings, naming its address and the variable that holds its Admin API key, never the key itself. Use when a Ghost site is not in settings yet ("add the coffee shop's Ghost site", "set up Ghost for this business") or when dfm-ghost:post-draft says a site is missing. A setup step; after it, dfm-recipes:recording-run turns a recording into a draft on the site.
+description: Add a Ghost site to dfm settings, naming its address and the variable that holds its Admin API key, never the key itself. Use when a Ghost site is not in settings yet ("add the coffee shop's Ghost site", "set up Ghost for this business") or when dfm-ghost:post-draft says a site is missing. A setup step, the first of dfm-recipes:client-run.
 ---
 
 # site-add
@@ -65,4 +65,4 @@ Show what it printed. A different site already in settings is changed by the per
 
 ## Next
 
-A setup step. With the site and its key in place, the next is usually `dfm-recipes:recording-run`: a recording to a draft post on this site. Say so and ask whether to start it.
+A setup step. In `dfm-recipes:client-run`, go back to the recipe: its next step is `dfm-content:profile-make`. On its own, the next is usually `dfm-recipes:recording-run`: a recording to a draft post on this site. Say so and ask whether to start it.

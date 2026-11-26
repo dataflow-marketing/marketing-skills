@@ -1,0 +1,16 @@
+{
+  "name": "@dataflow-marketing/dfm-site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "dataflow marketing: any public website, read and never written to. site-add names a public site in settings.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "build": "node build.ts",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.work.json"
+  },
+  "devDependencies": {
+    "@dataflow-marketing/core": "workspace:*"
+  }
+}
