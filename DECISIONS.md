@@ -401,3 +401,8 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** site-add asks for the keys file (--keys-file) when settings name none and adds its line; its read back fails settings with no keys file; its key steps make the keys file readable only by the person (chmod 600)
 **Over:** leaving the keys file line to be added by hand
 **Why:** in the first real run post-draft refused for a missing keys file line; the keys file was also readable by other users
+
+## 2026-11-26: A read back names the same words file
+**Chose:** post-draft's read back keeps needing --words, --site and --settings with --id; the skill texts now say so
+**Over:** a read back with --id alone
+**Why:** the words file says which title and slug to expect; in the second real run the text said --id was enough and the read back refused

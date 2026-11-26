@@ -20,7 +20,7 @@ It needs `dfm-content` and `dfm-ghost` installed. Work in one working folder for
 4. **`dfm-ghost:post-draft`,** in three runs:
    1. `--preview`: show exactly what would be sent. **Yes?**
    2. `--go`: create the draft. It reads it back and prints the post's id and a link.
-   3. `--read-back --id <post id>`: confirm the post on Ghost is still a draft with the title and slug sent.
+   3. `--read-back --id <post id>` with the same `--words`, `--site` and `--settings` (no report): confirm the post on Ghost is still a draft with the title and slug sent.
 
 ## A person publishes
 

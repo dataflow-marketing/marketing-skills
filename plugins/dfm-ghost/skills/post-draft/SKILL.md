@@ -26,7 +26,11 @@ node <this skill's folder>/dist/run.js --words <file> --report <file> --site <na
 1. **Preview** (the default): shows exactly what would be sent (the address, the headers and the body) and sends nothing. The key is not read for a preview. Show it in full.
 2. **Ask for a yes.**
 3. **Go:** the same command with `--go`. It creates the post, writes a run log line, reads the post back and prints its id and a link to open it in Ghost.
-4. **Read back** later with `--read-back --id <post id>`. The report is not needed to read back.
+4. **Read back** later with the same `--words`, `--site` and `--settings` and `--read-back --id <post id>` in place of the mode. The words file says which title and slug to expect; the report is not needed to read back:
+
+   ```
+   node <this skill's folder>/dist/run.js --words <file> --site <name> --settings <file> --read-back --id <post id>
+   ```
 
 The run log is `run-log.txt` beside the settings file unless `--run-log <file>` names another. Add `--json` for data.
 
