@@ -10,7 +10,7 @@ time zone: Australia/Melbourne
 week starts: Monday
 
 site coffee-shop: ghost https://coffee-shop.example key in COFFEE_SHOP_GHOST_ADMIN_KEY
-site coffee-shop: cloudflare coffee-shop.example key in CLOUDFLARE_API_TOKEN
+site coffee-shop: cloudflare coffee-shop.example account 0123456789abcdef0123456789abcdef key in CLOUDFLARE_API_TOKEN
 keys file: ~/.config/dfm/.env
 backups: ~/.config/dfm/backups
 
@@ -25,6 +25,8 @@ binding people coffee-shop: notes people/coffee-shop.txt
 house rule spelling: Australian English
 house rule message length: three sentences at most
 house rule avoid: em dashes
+
+own email: owner@coffee-shop.example
 ```
 
 ## Lines
@@ -34,8 +36,10 @@ house rule avoid: em dashes
 | `time zone` | the business's time zone; weeks and days are counted in it; required |
 | `week starts` | the day a week starts (Monday by default) |
 | `site <name>: <platform> <address> key in <NAME>` | a site on a platform and the name of the variable that holds its key |
+| `site <name>: cloudflare <host> account <id> key in <NAME>` | a site whose visits Cloudflare Web Analytics counts: its host, the account id (not a secret: a read-only token cannot look it up) and the name of the variable that holds a token with Account Analytics Read |
 | `site <name>: public <address>` | a public website dfm only reads (a profile, link checks), on any platform: no key, never written to |
 | `keys file` | the file the keys are read from |
+| `own email: <address>` | one of the person's own addresses, one a line: never counted as a new member or as audience |
 | `store <name>: <connector> <where> [key in <NAME>]` | a [store](store.md) and its connector: file, ghost or rest; a rest store names the variable that holds its key |
 | `binding <object> <business>: <store> <place>` | which store holds which object for which business; for a ghost store the place is a member's email and a custom field; for a rest store it is the object's id, the business's name |
 | `backups` | the folder a store copies an object into before each write (`backups/` beside the settings file by default) |

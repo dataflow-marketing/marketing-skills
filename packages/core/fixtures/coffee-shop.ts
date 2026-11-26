@@ -6,7 +6,7 @@ time zone: Australia/Melbourne
 week starts: Monday
 
 site coffee-shop: ghost https://coffee-shop.example key in COFFEE_SHOP_GHOST_ADMIN_KEY
-site coffee-shop: cloudflare coffee-shop.example key in CLOUDFLARE_API_TOKEN
+site coffee-shop: cloudflare coffee-shop.example account 0123456789abcdef0123456789abcdef key in CLOUDFLARE_API_TOKEN
 keys file: ~/.config/dfm/.env
 backups: ~/.config/dfm/backups
 
@@ -21,6 +21,8 @@ binding people coffee-shop: notes people/coffee-shop.txt
 house rule spelling: Australian English
 house rule message length: three sentences at most
 house rule avoid: em dashes
+
+own email: owner@coffee-shop.example
 `;
 
 // A made up keys file for the coffee shop. None of these is a real key.

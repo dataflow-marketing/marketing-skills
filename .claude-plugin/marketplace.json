@@ -16,7 +16,7 @@
     {
       "name": "dfm-ghost",
       "source": "./plugins/dfm-ghost",
-      "description": "Ghost sites: site-add names a site and its key's variable in settings; post-draft puts a checked post on Ghost as a draft and reads it back."
+      "description": "Ghost sites: site-add names a site and its key's variable in settings; post-draft puts a checked post on Ghost as a draft and reads it back; numbers-read reads a week's new members and email numbers (sent, opens, clicks)."
     },
     {
       "name": "dfm-site",
@@ -37,6 +37,11 @@
       "name": "dfm-store",
       "source": "./plugins/dfm-store",
       "description": "Where a business's objects are kept: store-add names a store and a binding in settings; store-check proves each can be read; objects-read lists every object of a kind; object-read reads an object with its version; object-add puts one into an empty place; object-change changes it only if no one else has since, with a backup first and a read back after; object-remove empties it, with a backup first. Files and Ghost member fields."
+    },
+    {
+      "name": "dfm-cloudflare",
+      "source": "./plugins/dfm-cloudflare",
+      "description": "Site numbers from Cloudflare Web Analytics, read only: visits-read reads a week's visits, views and visits from another site for every fact whose source is cloudflare; dfm-ledger:counts-record records them."
     }
   ]
 }

@@ -20,6 +20,17 @@ describe("readSiteLine", () => {
     });
   });
 
+  it("reads a Cloudflare site with its account and the name of its key", () => {
+    const line = "site coffee-shop: cloudflare coffee-shop.example account 0123456789abcdef0123456789abcdef key in CLOUDFLARE_API_TOKEN";
+    expect(readSiteLine(line)).toEqual({
+      business: "coffee-shop",
+      platform: "cloudflare",
+      address: "coffee-shop.example",
+      account: "0123456789abcdef0123456789abcdef",
+      keyName: "CLOUDFLARE_API_TOKEN",
+    });
+  });
+
   it("refuses a site line with no address", () => {
     expect(readSiteLine("site coffee-shop: ghost")).toBeUndefined();
   });

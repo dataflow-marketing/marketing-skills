@@ -1,0 +1,12 @@
+{
+  "name": "dfm-cloudflare",
+  "version": "0.1.0",
+  "description": "dataflow marketing: site numbers from Cloudflare Web Analytics, read only. visits-read reads a week's visits, views and visits from outside for every fact whose source is cloudflare. New to dfm: start with dfm-recipes:client-run.",
+  "author": {
+    "name": "mattcam"
+  },
+  "homepage": "https://dataflow.marketing",
+  "repository": "https://github.com/dataflow-marketing/marketing-skills",
+  "license": "MIT",
+  "keywords": ["dataflow-marketing", "dfm", "cloudflare", "web analytics", "visits", "read"]
+}

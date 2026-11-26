@@ -29,6 +29,7 @@ describe("parseSettings on the coffee shop", () => {
         business: "coffee-shop",
         platform: "cloudflare",
         address: "coffee-shop.example",
+        account: "0123456789abcdef0123456789abcdef",
         keyName: "CLOUDFLARE_API_TOKEN",
       },
     ]);

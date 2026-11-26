@@ -4,5 +4,5 @@
     "types": ["@cloudflare/workers-types"]
   },
   "include": ["skills/*/src/**/*.ts", "fixtures/**/*.ts"],
-  "exclude": ["skills/*/src/node/**", "skills/*/src/run.ts", "**/*.node.test.ts", "fixtures/fake-ghost-preload.ts", "fixtures/run-script.ts"]
+  "exclude": ["skills/*/src/node/**", "skills/*/src/run.ts", "**/*.node.test.ts", "fixtures/fake-ghost-preload.ts", "fixtures/fake-ghost-numbers-preload.ts", "fixtures/run-script.ts"]
 }

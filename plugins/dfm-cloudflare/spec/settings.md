@@ -1,0 +1,55 @@
+# Settings (spec 1, draft)
+
+Everything personal lives here, never in a skill: a user's sites, where their keys are kept, their stores, which object lives where, their time zone and their house rules. Each user has one settings file, kept outside any repo they share.
+
+## The shape
+
+```
+spec 1
+time zone: Australia/Melbourne
+week starts: Monday
+
+site coffee-shop: ghost https://coffee-shop.example key in COFFEE_SHOP_GHOST_ADMIN_KEY
+site coffee-shop: cloudflare coffee-shop.example account 0123456789abcdef0123456789abcdef key in CLOUDFLARE_API_TOKEN
+keys file: ~/.config/dfm/.env
+backups: ~/.config/dfm/backups
+
+store notes: file ~/dfm/ledgers
+store members: ghost coffee-shop
+store api: rest https://api.coffee-shop.example key in COFFEE_SHOP_API_KEY
+
+binding ledger coffee-shop: members owner@coffee-shop.example next
+binding profile coffee-shop: members owner@coffee-shop.example context
+binding people coffee-shop: notes people/coffee-shop.txt
+
+house rule spelling: Australian English
+house rule message length: three sentences at most
+house rule avoid: em dashes
+
+own email: owner@coffee-shop.example
+```
+
+## Lines
+
+| Line | Says |
+|---|---|
+| `time zone` | the business's time zone; weeks and days are counted in it; required |
+| `week starts` | the day a week starts (Monday by default) |
+| `site <name>: <platform> <address> key in <NAME>` | a site on a platform and the name of the variable that holds its key |
+| `site <name>: cloudflare <host> account <id> key in <NAME>` | a site whose visits Cloudflare Web Analytics counts: its host, the account id (not a secret: a read-only token cannot look it up) and the name of the variable that holds a token with Account Analytics Read |
+| `site <name>: public <address>` | a public website dfm only reads (a profile, link checks), on any platform: no key, never written to |
+| `keys file` | the file the keys are read from |
+| `own email: <address>` | one of the person's own addresses, one a line: never counted as a new member or as audience |
+| `store <name>: <connector> <where> [key in <NAME>]` | a [store](store.md) and its connector: file, ghost or rest; a rest store names the variable that holds its key |
+| `binding <object> <business>: <store> <place>` | which store holds which object for which business; for a ghost store the place is a member's email and a custom field; for a rest store it is the object's id, the business's name |
+| `backups` | the folder a store copies an object into before each write (`backups/` beside the settings file by default) |
+| `house rule <name>: <rule>` | a rule every words skill applies and checks after |
+
+## Rules
+
+**Anything bad that would break a skill stops it until it is resolved.** A line that cannot be read, a missing time zone, a binding to a store that is not listed: the skill names the problem and does nothing else. It never guesses.
+
+1. **Keys are never in settings.** Settings names the variable; the key is in the keys file, added through a hidden prompt, never pasted into a chat.
+2. **One name per business,** lowercase with hyphens, used for its site, its ledger and its bindings.
+3. **Moving an object to another store changes its binding line only.**
+4. **An object with no binding is a file in the working folder,** as the first loop and the ledger core keep them.

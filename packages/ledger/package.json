@@ -11,6 +11,7 @@
     "./forecast": "./src/forecast.ts",
     "./carry": "./src/carry.ts",
     "./dates": "./src/dates.ts",
+    "./week-range": "./src/week-range.ts",
     "./week-steps": "./src/week-steps.ts",
     "./numbers": "./src/numbers.ts",
     "./summary": "./src/summary/write-summary.ts",

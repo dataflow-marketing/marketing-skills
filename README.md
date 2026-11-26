@@ -142,7 +142,7 @@ The examples have no version: they are read, never installed.
 |---|---|---|---|---|
 | site-add | adds a site to settings; the key goes in through a hidden prompt | code | yes | works |
 | post-draft | puts a words file on Ghost as a draft and reads its status back | code | yes | works |
-| numbers-read | a week's members, paid plans, emails, opens and clicks | code | no | planned |
+| numbers-read | a week's new members and the emails sent, their opens and clicks; read only (paid plans later) | code | yes | built |
 | fields-read | a member's custom fields | code | no | planned |
 | fields-change | changes one custom field for one member, read back | code | no | planned |
 | field-add | adds a custom field definition | code | no | planned |
@@ -192,11 +192,12 @@ The examples have no version: they are read, never installed.
 | object-add | adds an object only where the place is empty, read back | code | yes | built |
 | object-remove | empties an object only if no one else has changed it since, a backup first, read back | code | yes | built |
 
-### dfm-cloudflare: site numbers from Cloudflare (not started)
+### dfm-cloudflare: site numbers from Cloudflare (started)
 
 | Skill | Does | Kind | Script | State |
 |---|---|---|---|---|
-| visits-read | a site's visits and views for a week | code | no | planned |
+| visits-read | a week's visits, views and visits from another site, for every fact whose source is cloudflare; read only | code | yes | built |
+| site-add | names a Cloudflare site, its account and its key's variable in settings | code | no | planned |
 | pages-read | the most read pages | code | no | planned |
 | referrers-read | where visitors came from | code | no | planned |
 | token-check | which sites a token can see | code | no | planned |
@@ -252,7 +253,7 @@ In Claude Code, add the marketplace:
 Then install every plugin at once from a terminal, in the folder you work in. `--scope local` keeps them to that folder; leave it out to have them in every session:
 
 ```
-for p in dfm-recipes dfm-content dfm-ghost dfm-site dfm-ledger; do claude plugin install "$p@dataflow-marketing" --scope local; done
+for p in dfm-recipes dfm-content dfm-ghost dfm-site dfm-ledger dfm-cloudflare; do claude plugin install "$p@dataflow-marketing" --scope local; done
 ```
 
 Inside Claude Code, put `!` in front of that line to run it there. Or install one at a time with `/plugin install dfm-recipes@dataflow-marketing`.

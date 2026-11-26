@@ -1,7 +1,7 @@
 // Built by pnpm build from its src folder. Do not edit: change the source and build again.
 
 // ../../../../packages/core/src/settings/read-line.ts
-var SITE_LINE = /^site ([a-z0-9-]+): (\S+) (\S+)(?: key in (\S+))?$/;
+var SITE_LINE = /^site ([a-z0-9-]+): (\S+) (\S+)(?: account (\S+))?(?: key in (\S+))?$/;
 var STORE_LINE = /^store ([a-z0-9-]+): (\S+) (.+?)(?: key in (\S+))?$/;
 var BINDING_LINE = /^binding (\S+) ([a-z0-9-]+): (\S+) (.+)$/;
 var HOUSE_RULE_LINE = /^house rule (.+?): (.+)$/;
@@ -16,7 +16,10 @@ function readSiteLine(line) {
     address: match[3]
   };
   if (match[4]) {
-    site.keyName = match[4];
+    site.account = match[4];
+  }
+  if (match[5]) {
+    site.keyName = match[5];
   }
   return site;
 }
@@ -77,7 +80,8 @@ var LINE_KINDS = [
   { name: "site", addTo: addSite },
   { name: "store", addTo: addStore },
   { name: "binding", addTo: addBinding },
-  { name: "house rule", addTo: addHouseRule }
+  { name: "house rule", addTo: addHouseRule },
+  { name: "own email", addTo: addOwnEmail }
 ];
 function addLine(settings, line) {
   for (const kind of LINE_KINDS) {
@@ -151,6 +155,14 @@ function addHouseRule(settings, line) {
   settings.houseRules.push(houseRule);
   return true;
 }
+function addOwnEmail(settings, line) {
+  const email = readValueAfter("own email:", line);
+  if (email === void 0 || !/^\S+@\S+$/.test(email)) {
+    return false;
+  }
+  settings.ownEmails.push(email.toLowerCase());
+  return true;
+}
 
 // ../../../../packages/core/src/settings/check-settings.ts
 var DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -222,7 +234,8 @@ function emptySettings() {
     sites: [],
     stores: [],
     bindings: [],
-    houseRules: []
+    houseRules: [],
+    ownEmails: []
   };
 }
 function checkSpecLine(lines) {

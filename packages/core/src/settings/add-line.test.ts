@@ -3,7 +3,7 @@ import { addLine } from "./add-line.ts";
 import type { Settings } from "./types.ts";
 
 function emptySettings(): Settings {
-  return { spec: "spec 1", weekStarts: "Monday", sites: [], stores: [], bindings: [], houseRules: [] };
+  return { spec: "spec 1", weekStarts: "Monday", sites: [], stores: [], bindings: [], houseRules: [], ownEmails: [] };
 }
 
 describe("addLine", () => {
@@ -23,5 +23,18 @@ describe("addLine", () => {
     const settings = emptySettings();
     expect(addLine(settings, "site coffee-shop: ghost")).toBeUndefined();
     expect(settings).toEqual(emptySettings());
+  });
+});
+
+describe("own email lines", () => {
+  it("adds each own email, in lower case", () => {
+    const settings = emptySettings();
+    expect(addLine(settings, "own email: Owner@Coffee-Shop.example")).toBe("own email");
+    expect(addLine(settings, "own email: hello@coffee-shop.example")).toBe("own email");
+    expect(settings.ownEmails).toEqual(["owner@coffee-shop.example", "hello@coffee-shop.example"]);
+  });
+
+  it("refuses an own email line with no address", () => {
+    expect(addLine(emptySettings(), "own email: nobody")).toBeUndefined();
   });
 });

@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["@cloudflare/workers-types"]
+  },
+  "include": ["skills/*/src/**/*.ts", "fixtures/**/*.ts"],
+  "exclude": ["skills/*/src/node/**", "skills/*/src/run.ts", "**/*.node.test.ts", "fixtures/run-script.ts", "fixtures/fake-cloudflare-preload.ts"]
+}

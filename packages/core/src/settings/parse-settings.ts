@@ -47,6 +47,7 @@ function emptySettings(): Settings {
     stores: [],
     bindings: [],
     houseRules: [],
+    ownEmails: [],
   };
 }
 

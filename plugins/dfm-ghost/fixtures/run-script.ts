@@ -7,6 +7,7 @@ import { promisify } from "node:util";
 
 const run = promisify(execFile);
 const PRELOAD = new URL("./fake-ghost-preload.ts", import.meta.url).href;
+const NUMBERS_PRELOAD = new URL("./fake-ghost-numbers-preload.ts", import.meta.url).href;
 
 export type Ran = { code: number; stdout: string; stderr: string };
 
@@ -14,6 +15,8 @@ export type RunOptions = {
   cwd: string;
   fakeGhostFolder?: string;
   answerAs?: string;
+  // numbers-read: the fake Ghost members and posts for a week's numbers, kept in this folder
+  fakeNumbersFolder?: string;
 };
 
 export async function runScript(script: string, args: string[], options: RunOptions): Promise<Ran> {
@@ -23,6 +26,10 @@ export async function runScript(script: string, args: string[], options: RunOpti
     nodeArgs.unshift("--import", PRELOAD);
     env.FAKE_GHOST_FOLDER = options.fakeGhostFolder;
     env.FAKE_GHOST_ANSWER_AS = options.answerAs;
+  }
+  if (options.fakeNumbersFolder) {
+    nodeArgs.unshift("--import", NUMBERS_PRELOAD);
+    env.FAKE_NUMBERS_FOLDER = options.fakeNumbersFolder;
   }
 
   try {

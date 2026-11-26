@@ -4,6 +4,8 @@ export type Site = {
   business: string;
   platform: string;
   address: string;
+  // a Cloudflare site's account id
+  account?: string;
   keyName?: string;
 };
 
@@ -36,6 +38,8 @@ export type Settings = {
   stores: Store[];
   bindings: Binding[];
   houseRules: HouseRule[];
+  // the person's own addresses: never counted as new members or as audience
+  ownEmails: string[];
 };
 
 export type SettingsResult = {

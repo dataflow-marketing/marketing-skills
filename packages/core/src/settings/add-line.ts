@@ -24,6 +24,7 @@ export const LINE_KINDS: LineKind[] = [
   { name: "store", addTo: addStore },
   { name: "binding", addTo: addBinding },
   { name: "house rule", addTo: addHouseRule },
+  { name: "own email", addTo: addOwnEmail },
 ];
 
 // Gives back the kind of line that was added (undefined when no kind fits the line)
@@ -107,5 +108,15 @@ function addHouseRule(settings: Settings, line: string): boolean {
     return false;
   }
   settings.houseRules.push(houseRule);
+  return true;
+}
+
+// own email: owner@coffee-shop.example (one address a line; never counted as a new member or as audience)
+function addOwnEmail(settings: Settings, line: string): boolean {
+  const email = readValueAfter("own email:", line);
+  if (email === undefined || !/^\S+@\S+$/.test(email)) {
+    return false;
+  }
+  settings.ownEmails.push(email.toLowerCase());
   return true;
 }

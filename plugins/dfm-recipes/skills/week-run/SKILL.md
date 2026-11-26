@@ -13,7 +13,10 @@ It needs `dfm-ledger` installed and a ledger (`ledger.txt`, made by `dfm-ledger:
 
 1. **`dfm-ledger:plan-check`.** The ledger must pass before anything is added. If it names problems, stop and show them. **Yes?**
 
-2. **`dfm-ledger:counts-record`.** Ask the person, one question at a time, for the week's count of each fact the graph declares, a total for any fact counted that way and which of the week's steps are done. A number they do not know is left out: unknown is not zero. Preview, then write on a yes. **Yes?**
+2. **The week's numbers, then `dfm-ledger:counts-record`.**
+   - **Read first.** For facts whose source is `cloudflare`, run `dfm-cloudflare:visits-read`; for facts whose source is `ghost`, run `dfm-ghost:numbers-read`; each only when its plugin is installed. Show the numbers read. One yes takes them all; the person may change any of them.
+   - **Then ask the person,** one question at a time, only for the rest: the week's count of each other fact the graph declares, a total for any fact counted that way and which of the week's steps are done. A number they do not know is left out: unknown is not zero.
+   - Preview every count together with `counts-record`, then write on a yes. **Yes?**
 
 3. **`dfm-ledger:summary-make`.** Preview the new summary, then write it on a yes. Show it in full. **Yes?**
 
@@ -21,7 +24,7 @@ It needs `dfm-ledger` installed and a ledger (`ledger.txt`, made by `dfm-ledger:
 
 ## Counts from platforms
 
-Reading counts from a platform (site visits, emails sent) needs that platform's plugin. Until one is installed, every number is told by the person.
+Reading counts from a platform needs that platform's plugin: `dfm-cloudflare` reads site visits, views and visits from another site; `dfm-ghost` reads new members and the week's email numbers. A fact whose platform has no plugin installed is told by the person. When a reading fails (a missing settings line or key), show what it said. Offer to set it up or ask the person for those numbers instead.
 
 ## When a step fails
 

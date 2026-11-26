@@ -807,3 +807,51 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** rewording an older commit title and force pushing develop
 **Why:** a force push gives six public commits new ids while the old commit and older file versions stay reachable; the files people read now carry no names
 **Source:** stated (no force push), inferred (the reasons)
+
+## 2026-11-27: dfm-cloudflare:visits-read comes before the other skills
+**Chose:** build dfm-cloudflare:visits-read now, before the smoke test of plan-change and the rest of today's skills
+**Over:** week-run asking the person for every site number until later
+**Why:** the trial's week-run asked for three numbers Cloudflare already holds; "Don't know" was the only honest answer
+**Source:** stated (build it first), inferred (the reason, from the trial)
+
+## 2026-11-27: The Cloudflare account id is in the site line
+**Chose:** `site <name>: cloudflare <host> account <id> key in <NAME>`: the account id in settings, only the token in the keys file
+**Over:** the account id beside the token in the keys file
+**Why:** the id is not a secret and one line then says everything about the site; a read-only token cannot look up its own account (Cloudflare answered "not authorized" when asked for every account)
+**Source:** stated (the place), inferred (why)
+
+## 2026-11-27: visits-read cuts the week in the business's time zone
+**Chose:** ask Cloudflare by date and time, from the week's first day at 00:00 in the settings time zone
+**Over:** whole UTC days, as Cloudflare keeps them
+**Why:** the ledger's weeks are in the business's time zone; with UTC days a Monday morning visit in a time zone ahead of UTC lands in the week before
+**Source:** stated (the choice), inferred (why)
+
+## 2026-11-27: week-run reads the Cloudflare facts, then asks for the rest
+**Chose:** in step 2, read every fact whose source is cloudflare, show the numbers, one yes records them, then ask the person only for the rest
+**Over:** visits-read as a step of its own with its own yes
+**Why:** one step for the week's numbers keeps the run short; the person still sees every number before it is written
+**Source:** stated
+
+## 2026-11-27: numbers-read starts with new members and email numbers
+**Chose:** dfm-ghost:numbers-read reads, for a week, new members and, for the emails sent that week, sent, opens and clicks; read only, counts-record writes on a yes, as visits-read
+**Over:** also paid plans started and the week's published posts in the first version
+**Why:** email opens are the number most needed; the rest can come later as measures
+**Source:** stated
+
+## 2026-11-27: The person's own addresses are an own email line in settings
+**Chose:** `own email: <address>`, one a line in settings, left out of new members
+**Over:** a list of addresses written into the runner's code
+**Why:** they are personal: settings hold everything personal
+**Source:** inferred
+
+## 2026-11-27: A Ghost measure numbers-read does not know is named, not refused
+**Chose:** such a fact is printed as `not read` for the person to tell; the run goes on
+**Over:** refusing the whole reading
+**Why:** ledgers made before numbers-read name measures it does not read yet; one of them should not stop the email numbers coming in
+**Source:** inferred
+
+## 2026-11-27: The week's edges are shared from the ledger package
+**Chose:** week-range in packages/ledger, used by visits-read and numbers-read
+**Over:** a copy in each plugin
+**Why:** every platform's numbers must use the same week, in the business's time zone
+**Source:** inferred

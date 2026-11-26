@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { bindingsOfKind } from "./bindings-of-kind.ts";
 
 function settingsWith(bindings: Settings["bindings"]): Settings {
-  return { spec: "1", weekStarts: "monday", sites: [], stores: [], bindings, houseRules: [] };
+  return { spec: "1", weekStarts: "monday", sites: [], stores: [], bindings, houseRules: [], ownEmails: [] };
 }
 
 const LEDGER_BAKERY = { object: "ledger", business: "bakery", store: "files", place: "bakery.txt" };
