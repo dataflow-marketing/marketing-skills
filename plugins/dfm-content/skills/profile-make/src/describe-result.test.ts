@@ -6,6 +6,7 @@ describe("describeResult", () => {
     const text = describeResult({
       homeFile: "site/home.txt",
       pagesFile: "site/llms-full.txt",
+      countedFile: "site/counted.txt",
       countedIn: "/llms-full.txt",
       counts: { pages: 1, posts: 2, wordsPerPost: { average: 15, fewest: 10, most: 20 } },
     }).text;
@@ -17,6 +18,7 @@ describe("describeResult", () => {
     const text = describeResult({
       homeFile: "site/home.txt",
       pagesFile: "site/pages.txt",
+      countedFile: "site/counted.txt",
       countedIn: "the sitemap",
       counts: { pages: 40, posts: 10 },
       listed: 80,

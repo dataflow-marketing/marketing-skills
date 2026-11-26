@@ -9,6 +9,7 @@
 import { EXIT_DONE, EXIT_REFUSED_OR_FAILED, outputMode } from "@dataflow-marketing/core";
 import { printOutput } from "@dataflow-marketing/core/node";
 import { countSite } from "./count-site.ts";
+import { countedSection } from "./counted-section.ts";
 import type { CountedIn } from "./counted-section.ts";
 import { describeResult } from "./describe-result.ts";
 import { fetchText } from "./fetch-text.ts";
@@ -45,12 +46,17 @@ async function main(args: string[]): Promise<number> {
     return failed(home.problem);
   }
 
-  const written = await writeSiteFiles(asked.args.folder, pageText(home.text), pages.read.text, pages.read.fileName);
+  const counts = countSite(pages.read.items);
+  const written = await writeSiteFiles(asked.args.folder, {
+    home: pageText(home.text),
+    pages: pages.read.text,
+    pagesName: pages.read.fileName,
+    counted: countedSection(counts, pages.read.countedIn),
+  });
   if (!written.ok) {
     return failed(written.problem);
   }
 
-  const counts = countSite(pages.read.items);
   printOutput(describeResult({ ...written.files, countedIn: pages.read.countedIn, counts, listed: pages.read.listed }), output);
   return EXIT_DONE;
 }

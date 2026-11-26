@@ -14,4 +14,10 @@ describe("describe", () => {
     expect(text).toContain(COFFEE_SHOP_SITE_LINE);
     expect(text).toContain("read back: the site is there");
   });
+
+  it("shows the public line a Ghost site replaces", () => {
+    const plan = { kind: "replace" as const, replaces: "site coffee-shop: public https://coffee-shop.example", lines: [COFFEE_SHOP_SITE_LINE], text: "" };
+    const text = describePlan(plan, "settings.txt").text;
+    expect(text).toContain("would replace in settings.txt:\nsite coffee-shop: public https://coffee-shop.example\nwith:");
+  });
 });

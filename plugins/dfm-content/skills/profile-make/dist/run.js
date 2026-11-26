@@ -60,6 +60,7 @@ function describeResult(read) {
   if (read.listed !== void 0 && read.listed > read.counts.pages + read.counts.posts) {
     lines.push(`the sitemap lists ${read.listed} pages: the first ${read.counts.pages + read.counts.posts} were read`);
   }
+  lines.push(`kept the counts in ${read.countedFile}, for the profile's check`);
   lines.push("", "for the profile, word for word:", countedSection(read.counts, read.countedIn));
   return { text: lines.join("\n"), data: read };
 }
@@ -97,16 +98,22 @@ function noLlmsFull(llmsFullUrl, problem) {
 // src/node/write-site-files.ts
 import { access, mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-async function writeSiteFiles(folder, home, pages, pagesName) {
-  const files = { homeFile: join(folder, "home.txt"), pagesFile: join(folder, pagesName) };
-  for (const file of [files.homeFile, files.pagesFile]) {
+async function writeSiteFiles(folder, texts) {
+  const files = {
+    homeFile: join(folder, "home.txt"),
+    pagesFile: join(folder, texts.pagesName),
+    countedFile: join(folder, "counted.txt")
+  };
+  for (const file of [files.homeFile, files.pagesFile, files.countedFile]) {
     if (await exists(file)) {
       return { ok: false, problem: `${file} is already there. Delete it or name another folder with --folder.` };
     }
   }
   await mkdir(folder, { recursive: true });
-  await writeFile(files.homeFile, home);
-  await writeFile(files.pagesFile, pages);
+  await writeFile(files.homeFile, texts.home);
+  await writeFile(files.pagesFile, texts.pages);
+  await writeFile(files.countedFile, `${texts.counted}
+`);
   return { ok: true, files };
 }
 async function exists(file) {
@@ -358,11 +365,16 @@ async function main(args) {
   if (!home.ok) {
     return failed(home.problem);
   }
-  const written = await writeSiteFiles(asked.args.folder, pageText(home.text), pages.read.text, pages.read.fileName);
+  const counts = countSite(pages.read.items);
+  const written = await writeSiteFiles(asked.args.folder, {
+    home: pageText(home.text),
+    pages: pages.read.text,
+    pagesName: pages.read.fileName,
+    counted: countedSection(counts, pages.read.countedIn)
+  });
   if (!written.ok) {
     return failed(written.problem);
   }
-  const counts = countSite(pages.read.items);
   printOutput(describeResult({ ...written.files, countedIn: pages.read.countedIn, counts, listed: pages.read.listed }), output);
   return EXIT_DONE;
 }

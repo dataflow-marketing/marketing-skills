@@ -8,6 +8,7 @@ import { countedSection } from "./counted-section.ts";
 export type ReadSite = {
   homeFile: string;
   pagesFile: string;
+  countedFile: string;
   countedIn: CountedIn;
   counts: SiteCounts;
   listed?: number;
@@ -18,6 +19,7 @@ export function describeResult(read: ReadSite): ScriptResult {
   if (read.listed !== undefined && read.listed > read.counts.pages + read.counts.posts) {
     lines.push(`the sitemap lists ${read.listed} pages: the first ${read.counts.pages + read.counts.posts} were read`);
   }
+  lines.push(`kept the counts in ${read.countedFile}, for the profile's check`);
   lines.push("", "for the profile, word for word:", countedSection(read.counts, read.countedIn));
   return { text: lines.join("\n"), data: read };
 }

@@ -53,6 +53,10 @@ mkdir -p ~/.config/dfm && touch ~/.config/dfm/.env && chmod 600 ~/.config/dfm/.e
 
 They copy the key from Ghost Admin: Settings, Integrations, a custom integration, Admin API key. If the person pastes a key into the chat, tell them to make a new one in Ghost and delete that integration's old key.
 
+## A public site becoming a Ghost site
+
+A site added before with `dfm-site:site-add` is a public site: `site <name>: public <address>`. Run this skill with the same name and it turns that site into a Ghost site: the preview shows the line it replaces and the Ghost line in its place. Settings never name one site twice.
+
 ## When it refuses
 
 Show what it printed. A different site already in settings is changed by the person by hand: site-add only adds.

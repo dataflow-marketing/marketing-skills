@@ -447,3 +447,23 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** plan profile-compare (what changed between two profiles of a site) and watch-run (profile-make on any public site, then profile-compare, run on a schedule by a runner)
 **Over:** profiling a site once only
 **Why:** a public site needs no key: any business's site can be followed over time: a competitor, a peer, a client before they are one. It reads politely and profiles businesses, never private people
+
+## 2026-11-26: client-run offers any website first, Ghost second
+**Chose:** the platform question lists any website (a public site, read only) first as the start for every site; Ghost second, for a site that should also take drafts
+**Over:** Ghost listed first
+**Why:** most sites are not on Ghost; the generic way in comes first and a platform plugin adds to it
+
+## 2026-11-26: The any website choice names no platforms
+**Chose:** client-run describes the first choice only as "any website", never listing site builders or platforms beside it
+**Over:** suggesting kinds of site (such as Squarespace or WordPress) for it
+**Why:** it is for every site, whatever it is built on
+
+## 2026-11-26: profile-make writes its counts as a file the check reads
+**Chose:** profile-make's script writes the counted part to site/counted.txt beside the pages it read; the profile is checked against it as well as the site
+**Over:** leaving the counted numbers to fail the check; each run inventing its own way round
+**Why:** the counts are made by code and are not written on the site; in a real run the check failed on them and the session improvised this file
+
+## 2026-11-26: dfm-ghost:site-add turns a public site into a Ghost site
+**Chose:** when settings already hold a public site of the same name, dfm-ghost:site-add replaces that line with the Ghost line (the preview shows the line it replaces; the read back checks the site is named once)
+**Over:** adding a second line for the same site
+**Why:** every site starts as a public site; adding drafts later must not leave settings saying two things about one site

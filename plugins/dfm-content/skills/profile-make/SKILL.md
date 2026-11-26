@@ -15,7 +15,7 @@ Ask for the site's address if it is not already known (settings name it for a si
 node <this skill's folder>/dist/run.js --address <https://...>
 ```
 
-It reads the home page and the site's `/llms-full.txt`, every page and post as plain text. It keeps them as `site/home.txt` and `site/llms-full.txt` and prints the counted part of the profile. It never writes over files from an earlier read: it names them; the person decides whether to delete them or use `--folder` for a new one.
+It reads the home page and the site's `/llms-full.txt`, every page and post as plain text. It keeps them as `site/home.txt` and `site/llms-full.txt`, keeps the counted part of the profile as `site/counted.txt` and prints it. It never writes over files from an earlier read: it names them; the person decides whether to delete them or use `--folder` for a new one.
 
 | Exit code | Means |
 |---|---|
@@ -55,10 +55,10 @@ how they write:
 ## 3. Check it
 
 ```
-node <quotes-check folder>/dist/run.js --text profile.txt --against site/llms-full.txt --against site/home.txt > profile.check.txt
+node <quotes-check folder>/dist/run.js --text profile.txt --against site/llms-full.txt --against site/home.txt --against site/counted.txt > profile.check.txt
 ```
 
-With pages from the sitemap, check against `site/pages.txt` in place of `site/llms-full.txt`. Remove what was not found, never reword it. Run the check again until it says `result: passed`. Show the profile and the passing report. The person reads every word: the check cannot catch a claim with no quote, name or number in it.
+The counts are not on the site: `site/counted.txt` is how the check finds them. With pages from the sitemap, check against `site/pages.txt` in place of `site/llms-full.txt`. Remove what was not found, never reword it. Run the check again until it says `result: passed`. Show the profile and the passing report. The person reads every word: the check cannot catch a claim with no quote, name or number in it.
 
 ## Asking
 

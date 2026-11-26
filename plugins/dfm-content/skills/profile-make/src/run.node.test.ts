@@ -48,6 +48,7 @@ describe("profile-make dist/run.js", () => {
     expect(ran.stdout).toContain("pages: 1, posts: 2 (in /llms-full.txt)");
     expect(await readFile(join(folder, "site", "home.txt"), "utf8")).toContain("Good coffee on your way to work.");
     expect(await readFile(join(folder, "site", "llms-full.txt"), "utf8")).toContain("### Stamp card");
+    expect(await readFile(join(folder, "site", "counted.txt"), "utf8")).toContain("pages: 1, posts: 2 (in /llms-full.txt)");
   });
 
   it("stops and offers the sitemap when the site has no /llms-full.txt", async () => {

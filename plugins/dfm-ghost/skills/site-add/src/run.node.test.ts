@@ -100,4 +100,11 @@ describe("site-add dist/run.js", () => {
     const ran = await runScript(SCRIPT, siteArgs("--preview", "--go"), { cwd: folder });
     expect(ran.code).toBe(2);
   });
+
+  it("turns a public site into the Ghost site on --go, with one line for the site", async () => {
+    await writeFile(settings, `${SETTINGS_START}site coffee-shop: public ${COFFEE_SHOP_ADDRESS}\n`);
+    const ran = await runScript(SCRIPT, siteArgs("--go"), { cwd: folder });
+    expect(ran.code).toBe(0);
+    expect(await readFile(settings, "utf8")).toBe(`${SETTINGS_START}${COFFEE_SHOP_SITE_LINE}\n`);
+  });
 });

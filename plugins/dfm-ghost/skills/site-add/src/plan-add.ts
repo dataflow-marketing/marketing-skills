@@ -3,6 +3,7 @@
 // Settings must name a keys file: post-draft reads the site's key from it. When they do not, its path must be given.
 // Settings that already have problems are refused until they are fixed: bad settings stop a skill.
 // A site already there with the same line is left alone.
+// A public site of the same name becomes this Ghost site: its line is replaced, never left beside a second one.
 // A Ghost site of the same name with a different line is refused: changing a site is not adding one.
 
 import { parseSettings } from "@dataflow-marketing/core";
@@ -11,6 +12,7 @@ import { siteLine } from "./site-line.ts";
 
 export type AddPlan =
   | { kind: "add"; lines: string[]; append: string; newFile: boolean }
+  | { kind: "replace"; replaces: string; lines: string[]; text: string }
   | { kind: "already there"; line: string }
   | { kind: "refused"; problem: string };
 
@@ -21,6 +23,7 @@ export type Given = {
 };
 
 const SPEC_LINE = "spec 1";
+const PUBLIC = "public";
 
 const ASK_TIME_ZONE =
   "There is no settings file yet. Starting one needs its time zone: add --time-zone, such as --time-zone Australia/Melbourne.";
@@ -64,6 +67,10 @@ function planExistingFile(settingsText: string, site: Site, given: Given): AddPl
   }
 
   const line = siteLine(site);
+  const publicSite = settings.sites.find((known) => known.business === site.business && known.platform === PUBLIC);
+  if (publicSite) {
+    return planReplacePublic(settingsText, publicSite, line, missingKeysFileLine(settings, given));
+  }
   const sameName = settings.sites.find((known) => known.business === site.business && known.platform === site.platform);
   if (sameName && siteLine(sameName) !== line) {
     return refused(
@@ -81,6 +88,24 @@ function planExistingFile(settingsText: string, site: Site, given: Given): AddPl
 
   const lines = [keysFileLine, sameName ? undefined : line].filter((each): each is string => each !== undefined);
   return { kind: "add", lines, append: appendAfter(settingsText, lines), newFile: false };
+}
+
+// The public site's line swapped for the Ghost line, with the keys file line after it when settings need one
+function planReplacePublic(settingsText: string, publicSite: Site, line: string, keysFileLine: string | undefined): AddPlan {
+  if (keysFileLine === ASK_KEYS_FILE) {
+    return refused(ASK_KEYS_FILE);
+  }
+  const replaces = publicLine(publicSite);
+  const lines = [line, keysFileLine].filter((each): each is string => each !== undefined);
+  const text = settingsText
+    .split("\n")
+    .map((each) => (each.trim() === replaces ? lines.join("\n") : each))
+    .join("\n");
+  return { kind: "replace", replaces, lines, text };
+}
+
+function publicLine(site: Site): string {
+  return `site ${site.business}: ${PUBLIC} ${site.address}`;
 }
 
 // The keys file line settings still need: undefined when they have one, ASK_KEYS_FILE when none was given

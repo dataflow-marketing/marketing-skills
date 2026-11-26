@@ -69,4 +69,21 @@ describe("planAdd for settings already there", () => {
   it("refuses a file that is not settings", () => {
     expect(planAdd("shopping list\n", COFFEE_SHOP_SITE).kind).toBe("refused");
   });
+
+  it("turns a public site of the same name into the Ghost site, replacing its line", () => {
+    const settings = `${SETTINGS}site coffee-shop: public https://coffee-shop.example\nhouse rule spelling: Australian English\n`;
+    const plan = planAdd(settings, COFFEE_SHOP_SITE);
+    expect(plan).toEqual({
+      kind: "replace",
+      replaces: "site coffee-shop: public https://coffee-shop.example",
+      lines: [COFFEE_SHOP_SITE_LINE],
+      text: `${SETTINGS}${COFFEE_SHOP_SITE_LINE}\nhouse rule spelling: Australian English\n`,
+    });
+  });
+
+  it("adds the keys file line with it when settings name none", () => {
+    const settings = "spec 1\ntime zone: Australia/Melbourne\nsite coffee-shop: public https://coffee-shop.example\n";
+    const plan = planAdd(settings, COFFEE_SHOP_SITE, { keysFile: "~/.config/dfm/.env" });
+    expect(plan.kind === "replace" && plan.lines).toEqual([COFFEE_SHOP_SITE_LINE, "keys file: ~/.config/dfm/.env"]);
+  });
 });

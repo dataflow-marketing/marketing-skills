@@ -386,6 +386,10 @@ function checkReadBack(settingsText, site) {
   if (!there) {
     found.push(`The settings file does not have the line: ${expected}`);
   }
+  const named = settings.sites.filter((known) => known.business === site.business);
+  if (named.length > 1) {
+    found.push(`Settings name the site ${site.business} more than once.`);
+  }
   if (!settings.keysFile) {
     found.push("The settings file names no keys file.");
   }
@@ -446,6 +450,14 @@ function describePlan(plan, settingsPath) {
       lines.push("(the file is new: it would start with spec 1 and its time zone)");
     }
   }
+  if (plan.kind === "replace") {
+    lines.push("preview: nothing written");
+    lines.push(`would replace in ${settingsPath}:`);
+    lines.push(plan.replaces);
+    lines.push("with:");
+    lines.push(...plan.lines);
+    lines.push("(the public site becomes a Ghost site: dfm can put drafts on it)");
+  }
   if (plan.kind === "already there") {
     lines.push(`already in ${settingsPath}: nothing to add`);
     lines.push(plan.line);
@@ -477,7 +489,7 @@ function readBackLines(problems) {
 }
 
 // src/node/settings-file.ts
-import { appendFile as appendFile2, readFile } from "node:fs/promises";
+import { appendFile as appendFile2, readFile, writeFile } from "node:fs/promises";
 async function readSettingsText(settingsPath) {
   try {
     return await readFile(expandHome(settingsPath), "utf8");
@@ -488,9 +500,13 @@ async function readSettingsText(settingsPath) {
 async function appendSettingsText(settingsPath, text) {
   await appendFile2(expandHome(settingsPath), text, "utf8");
 }
+async function writeSettingsText(settingsPath, text) {
+  await writeFile(expandHome(settingsPath), text, "utf8");
+}
 
 // src/plan-add.ts
 var SPEC_LINE2 = "spec 1";
+var PUBLIC = "public";
 var ASK_TIME_ZONE = "There is no settings file yet. Starting one needs its time zone: add --time-zone, such as --time-zone Australia/Melbourne.";
 var ASK_KEYS_FILE = "Settings name no keys file yet: the file the site's key goes in. Add --keys-file, such as --keys-file ~/.config/dfm/.env.";
 function planAdd(settingsText, site, given = {}) {
@@ -528,6 +544,10 @@ function planExistingFile(settingsText, site, given) {
     return refused(`Fix the settings file first: ${problems.join("; ")}`);
   }
   const line = siteLine(site);
+  const publicSite = settings.sites.find((known) => known.business === site.business && known.platform === PUBLIC);
+  if (publicSite) {
+    return planReplacePublic(settingsText, publicSite, line, missingKeysFileLine(settings, given));
+  }
   const sameName = settings.sites.find((known) => known.business === site.business && known.platform === site.platform);
   if (sameName && siteLine(sameName) !== line) {
     return refused(
@@ -543,6 +563,18 @@ function planExistingFile(settingsText, site, given) {
   }
   const lines = [keysFileLine, sameName ? void 0 : line].filter((each) => each !== void 0);
   return { kind: "add", lines, append: appendAfter(settingsText, lines), newFile: false };
+}
+function planReplacePublic(settingsText, publicSite, line, keysFileLine) {
+  if (keysFileLine === ASK_KEYS_FILE) {
+    return refused(ASK_KEYS_FILE);
+  }
+  const replaces = publicLine(publicSite);
+  const lines = [line, keysFileLine].filter((each) => each !== void 0);
+  const text = settingsText.split("\n").map((each) => each.trim() === replaces ? lines.join("\n") : each).join("\n");
+  return { kind: "replace", replaces, lines, text };
+}
+function publicLine(site) {
+  return `site ${site.business}: ${PUBLIC} ${site.address}`;
 }
 function missingKeysFileLine(settings, given) {
   if (settings.keysFile) {
@@ -641,13 +673,13 @@ async function addSite2(asked, site, output, go) {
   if (plan.kind === "already there" || !go) {
     return EXIT_DONE;
   }
-  await appendSettingsText(asked.settings, plan.append);
+  await writeTheChange(asked.settings, plan);
   await appendRunLine(runLogPath(asked.settings, asked.runLog), {
     when: /* @__PURE__ */ new Date(),
     skill: SKILL,
-    what: "site added",
+    what: plan.kind === "replace" ? "public site made a Ghost site" : "site added",
     where: `settings ${asked.settings}`,
-    before: "",
+    before: plan.kind === "replace" ? plan.replaces : "",
     after: plan.lines.join(" | ")
   });
   const problems = checkReadBack(await readSettingsText(asked.settings), site);
@@ -657,8 +689,15 @@ async function addSite2(asked, site, output, go) {
   }
   return EXIT_DONE;
 }
+async function writeTheChange(settingsPath, plan) {
+  if (plan.kind === "replace") {
+    await writeSettingsText(settingsPath, plan.text);
+    return;
+  }
+  await appendSettingsText(settingsPath, plan.append);
+}
 function printOutputIfNotWriting(plan, asked, output, go) {
-  const writing = go && plan.kind === "add";
+  const writing = go && (plan.kind === "add" || plan.kind === "replace");
   if (!writing) {
     printOutput(describePlan(plan, asked.settings), output);
   }

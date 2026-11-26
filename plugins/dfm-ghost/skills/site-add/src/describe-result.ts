@@ -15,6 +15,14 @@ export function describePlan(plan: AddPlan, settingsPath: string): ScriptResult 
       lines.push("(the file is new: it would start with spec 1 and its time zone)");
     }
   }
+  if (plan.kind === "replace") {
+    lines.push("preview: nothing written");
+    lines.push(`would replace in ${settingsPath}:`);
+    lines.push(plan.replaces);
+    lines.push("with:");
+    lines.push(...plan.lines);
+    lines.push("(the public site becomes a Ghost site: dfm can put drafts on it)");
+  }
   if (plan.kind === "already there") {
     lines.push(`already in ${settingsPath}: nothing to add`);
     lines.push(plan.line);

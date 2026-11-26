@@ -18,6 +18,10 @@ export function checkReadBack(settingsText: string | undefined, site: Site): str
   if (!there) {
     found.push(`The settings file does not have the line: ${expected}`);
   }
+  const named = settings.sites.filter((known) => known.business === site.business);
+  if (named.length > 1) {
+    found.push(`Settings name the site ${site.business} more than once.`);
+  }
   if (!settings.keysFile) {
     found.push("The settings file names no keys file.");
   }

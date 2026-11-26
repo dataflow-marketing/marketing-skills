@@ -17,4 +17,9 @@ describe("checkReadBack", () => {
     const settings = `spec 1\ntime zone: Australia/Melbourne\n${COFFEE_SHOP_SITE_LINE}\n`;
     expect(checkReadBack(settings, COFFEE_SHOP_SITE)).toEqual(["The settings file names no keys file."]);
   });
+
+  it("finds a site named twice", () => {
+    const settings = `spec 1\ntime zone: Australia/Melbourne\nkeys file: ~/.config/dfm/.env\nsite coffee-shop: public https://coffee-shop.example\n${COFFEE_SHOP_SITE_LINE}\n`;
+    expect(checkReadBack(settings, COFFEE_SHOP_SITE)).toEqual(["Settings name the site coffee-shop more than once."]);
+  });
 });

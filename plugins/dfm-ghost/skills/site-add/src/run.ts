@@ -19,7 +19,7 @@ import { appendRunLine, printOutput, runLogPath } from "@dataflow-marketing/core
 import { checkReadBack } from "./check-read-back.ts";
 import { checkSite } from "./check-site.ts";
 import { describeAdded, describePlan, describeReadBack } from "./describe-result.ts";
-import { appendSettingsText, readSettingsText } from "./node/settings-file.ts";
+import { appendSettingsText, readSettingsText, writeSettingsText } from "./node/settings-file.ts";
 import { planAdd } from "./plan-add.ts";
 import type { AddPlan } from "./plan-add.ts";
 import { readArgs } from "./read-args.ts";
@@ -64,13 +64,13 @@ async function addSite(asked: SiteAddArgs, site: Site, output: OutputMode, go: b
     return EXIT_DONE;
   }
 
-  await appendSettingsText(asked.settings, plan.append);
+  await writeTheChange(asked.settings, plan);
   await appendRunLine(runLogPath(asked.settings, asked.runLog), {
     when: new Date(),
     skill: SKILL,
-    what: "site added",
+    what: plan.kind === "replace" ? "public site made a Ghost site" : "site added",
     where: `settings ${asked.settings}`,
-    before: "",
+    before: plan.kind === "replace" ? plan.replaces : "",
     after: plan.lines.join(" | "),
   });
 
@@ -82,9 +82,18 @@ async function addSite(asked: SiteAddArgs, site: Site, output: OutputMode, go: b
   return EXIT_DONE;
 }
 
+// An added line is appended; a replaced line rewrites the file with that one line swapped
+async function writeTheChange(settingsPath: string, plan: Extract<AddPlan, { kind: "add" | "replace" }>): Promise<void> {
+  if (plan.kind === "replace") {
+    await writeSettingsText(settingsPath, plan.text);
+    return;
+  }
+  await appendSettingsText(settingsPath, plan.append);
+}
+
 // A preview, a refusal or a site already there is said now; a write is said after its read back.
 function printOutputIfNotWriting(plan: AddPlan, asked: SiteAddArgs, output: OutputMode, go: boolean): void {
-  const writing = go && plan.kind === "add";
+  const writing = go && (plan.kind === "add" || plan.kind === "replace");
   if (!writing) {
     printOutput(describePlan(plan, asked.settings), output);
   }
