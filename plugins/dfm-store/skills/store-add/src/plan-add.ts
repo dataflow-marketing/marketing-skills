@@ -1,16 +1,17 @@
 // Works out what adding a store, a binding or both would change in settings, before anything is written.
 // Settings must be there and read with no problems: a site skill starts them. A line already there is left alone;
 // a different line of the same name is refused: changing a store or moving an object is not adding one.
-// The rest connector is refused until it is built.
+// A rest store names the variable in the keys file that holds its key, never the key.
 
 import { parseSettings } from "@dataflow-marketing/core";
 import type { Settings } from "@dataflow-marketing/core";
-import { findPlace } from "@dataflow-marketing/store";
+import { findPlace, restAddress, restAddressProblem } from "@dataflow-marketing/store";
 
 export type StoreRequest = {
   store: string;
   connector?: string;
   where?: string;
+  keyName?: string;
   binding?: { object: string; business: string; place: string };
 };
 
@@ -20,7 +21,8 @@ export type AddPlan =
   | { kind: "refused"; problem: string };
 
 const NAME = /^[a-z0-9-]+$/;
-const BUILT = ["file", "ghost"];
+const CONNECTORS = ["file", "ghost", "rest"];
+const KEY_NAME = /^[A-Z][A-Z0-9_]*$/;
 
 export function planAdd(settingsText: string | undefined, request: StoreRequest): AddPlan {
   if (settingsText === undefined) {
@@ -66,23 +68,47 @@ function storeLineFor(settings: Settings, request: StoreRequest): LineResult {
     return listed ? { ok: true } : { ok: false, problem: `There is no store called ${request.store}. Add it with --connector and --where.` };
   }
   if (!request.where) {
-    return { ok: false, problem: "A store needs --where: a folder for a file store, a Ghost site's name for a Ghost store." };
+    return { ok: false, problem: "A store needs --where: a folder for a file store, a Ghost site's name for a Ghost store, an address for a rest store." };
   }
-  if (request.connector === "rest") {
-    return { ok: false, problem: "The rest connector is not built yet. Use file or ghost." };
+  if (!CONNECTORS.includes(request.connector)) {
+    return { ok: false, problem: `dfm does not know the connector ${request.connector}. Use file, ghost or rest.` };
   }
-  if (!BUILT.includes(request.connector)) {
-    return { ok: false, problem: `dfm does not know the connector ${request.connector}. Use file or ghost.` };
-  }
-  if (request.connector === "ghost" && !settings.sites.some((site) => site.business === request.where && site.platform === "ghost")) {
-    return { ok: false, problem: `Settings have no Ghost site called ${request.where}. Add it with dfm-ghost:site-add first.` };
+  const problem = connectorProblem(settings, request);
+  if (problem) {
+    return { ok: false, problem };
   }
 
-  const line = `store ${request.store}: ${request.connector} ${request.where}`;
-  if (listed && `store ${listed.name}: ${listed.connector} ${listed.where}` !== line) {
+  const line = storeLine(request);
+  if (listed && storeLine({ store: listed.name, connector: listed.connector, where: listed.where, keyName: listed.keyName }) !== line) {
     return { ok: false, problem: `Settings already have a different store called ${request.store}. Change it by hand if it is wrong.` };
   }
   return { ok: true, line };
+}
+
+// What each connector needs before its store line can be written
+function connectorProblem(settings: Settings, request: StoreRequest): string | undefined {
+  const where = request.where ?? "";
+  if (request.connector === "ghost" && !settings.sites.some((site) => site.business === where && site.platform === "ghost")) {
+    return `Settings have no Ghost site called ${where}. Add it with dfm-ghost:site-add first.`;
+  }
+  if (request.connector !== "rest" && request.keyName !== undefined) {
+    return "--key-name is for a rest store only: a Ghost store uses its site's key.";
+  }
+  if (request.connector !== "rest") {
+    return undefined;
+  }
+  if (request.keyName === undefined || !KEY_NAME.test(request.keyName)) {
+    return "A rest store needs --key-name: the variable in the keys file that holds its key, in capitals, such as COFFEE_SHOP_STORE_KEY.";
+  }
+  if (!settings.keysFile) {
+    return "Settings name no keys file. Add a line such as: keys file: ~/.config/dfm/.env";
+  }
+  return restAddressProblem(request.store, restAddress(where));
+}
+
+function storeLine(request: StoreRequest): string {
+  const line = `store ${request.store}: ${request.connector} ${request.connector === "rest" ? restAddress(request.where ?? "") : request.where}`;
+  return request.keyName ? `${line} key in ${request.keyName}` : line;
 }
 
 function bindingLineFor(settings: Settings, request: StoreRequest): LineResult {

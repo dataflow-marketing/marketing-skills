@@ -39,9 +39,10 @@ The script prints the change as it would be from the object as it is now. Someon
 
 - **A backup before every change,** in the backups folder (`backups:` in settings; by default `backups/` beside the settings file). Backups are never cleared by a skill.
 - **Always read back.** A store that kept something else fails loudly and names the backup.
-- **No write larger than the store holds:** 65,535 bytes for a Ghost member field.
+- **No write larger than the store holds:** 65,535 bytes for a Ghost member field; what a rest store declares at `/limits`.
 - **The key never shows,** and the run log holds versions, never the text.
 - **Ghost has no version check of its own.** The read just before the write narrows the gap to one request; it cannot close it.
+- **A rest store closes the gap.** The write carries the version in `If-Match`; a store that has moved answers `409`, nothing is written and the script shows the object as it is now, as above. The version shown is the store's own.
 
 ## Asking
 

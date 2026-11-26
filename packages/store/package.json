@@ -2,7 +2,7 @@
   "name": "@dataflow-marketing/store",
   "version": "0.1.0",
   "private": true,
-  "description": "dfm-store: the pieces of the store. The version, where an object lives, the Ghost member calls and the write decisions",
+  "description": "dfm-store: the pieces of the store. The version, where an object lives, the Ghost member calls, the rest calls and the write decisions",
   "license": "MIT",
   "type": "module",
   "exports": {

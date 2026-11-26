@@ -381,6 +381,7 @@ function runLogPath(settingsPath, given) {
 // ../../../../packages/store/src/find-place.ts
 var NAME = /^[a-z0-9-]+$/;
 var FIELD = /^[A-Za-z0-9_-]+$/;
+var LOCAL_ADDRESS = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
 function findPlace(read, object, business) {
   if (read.problems.length > 0) {
     return refused(read.problems.map((problem) => `settings ${problem}`));
@@ -410,7 +411,7 @@ function placeIn(store, binding, settings) {
     return ghostField(store, binding, settings);
   }
   if (store.connector === "rest") {
-    return refused([`The store "${store.name}" is a rest store. The rest connector is not built yet.`]);
+    return restObject(store, binding, settings);
   }
   return refused([`The store "${store.name}" has a connector dfm does not know: ${store.connector}`]);
 }
@@ -452,6 +453,37 @@ function ghostField(store, binding, settings) {
     ok: true,
     place: { connector: "ghost", site: { ...site, keyName: site.keyName }, keysFile: settings.keysFile, email, field, label }
   };
+}
+function restObject(store, binding, settings) {
+  const address = restAddress(store.where);
+  const addressProblem = restAddressProblem(store.name, address);
+  if (addressProblem) {
+    return refused([addressProblem]);
+  }
+  if (!store.keyName) {
+    return refused([`The store "${store.name}" names no key. Its line ends with the key's variable, such as: key in COFFEE_SHOP_STORE_KEY`]);
+  }
+  if (!settings.keysFile) {
+    return refused(["Settings name no keys file. Add a line such as: keys file: ~/.config/dfm/.env"]);
+  }
+  const id = binding.place.trim();
+  if (!NAME.test(id)) {
+    return refused([`The place of the ${binding.object} of ${binding.business} in a rest store is the object's id, lowercase with hyphens, such as: ${binding.business}`]);
+  }
+  const label = `rest ${address} ${binding.object} ${id}`;
+  return {
+    ok: true,
+    place: { connector: "rest", address, keyName: store.keyName, keysFile: settings.keysFile, kind: binding.object, id, label }
+  };
+}
+function restAddress(where) {
+  return where.trim().replace(/\/+$/, "");
+}
+function restAddressProblem(storeName, address) {
+  if (address.startsWith("https://") || LOCAL_ADDRESS.test(address)) {
+    return void 0;
+  }
+  return `The address of the store "${storeName}" is not https:// (or http://localhost for a Worker on this computer): ${address}`;
 }
 function refused(problems) {
   return { ok: false, problems };
@@ -532,7 +564,8 @@ async function appendSettingsText(settingsPath, text) {
 
 // src/plan-add.ts
 var NAME2 = /^[a-z0-9-]+$/;
-var BUILT = ["file", "ghost"];
+var CONNECTORS = ["file", "ghost", "rest"];
+var KEY_NAME = /^[A-Z][A-Z0-9_]*$/;
 function planAdd(settingsText, request) {
   if (settingsText === void 0) {
     return refused2("There is no settings file yet. Start one by adding a site: dfm-ghost:site-add or dfm-site:site-add.");
@@ -550,15 +583,15 @@ function planAdd(settingsText, request) {
   if (request.connector === void 0 && request.binding === void 0) {
     return refused2("Name a store to add (--connector and --where), a binding (--object, --business and --place) or both.");
   }
-  const storeLine = storeLineFor(settings, request);
-  if (!storeLine.ok) {
-    return refused2(storeLine.problem);
+  const storeLine2 = storeLineFor(settings, request);
+  if (!storeLine2.ok) {
+    return refused2(storeLine2.problem);
   }
   const bindingLine = bindingLineFor(settings, request);
   if (!bindingLine.ok) {
     return refused2(bindingLine.problem);
   }
-  const wanted = [storeLine.line, bindingLine.line].filter((line) => line !== void 0);
+  const wanted = [storeLine2.line, bindingLine.line].filter((line) => line !== void 0);
   const lines = wanted.filter((line) => !hasLine(settingsText, line));
   if (lines.length === 0) {
     return { kind: "already there", lines: wanted };
@@ -571,22 +604,43 @@ function storeLineFor(settings, request) {
     return listed ? { ok: true } : { ok: false, problem: `There is no store called ${request.store}. Add it with --connector and --where.` };
   }
   if (!request.where) {
-    return { ok: false, problem: "A store needs --where: a folder for a file store, a Ghost site's name for a Ghost store." };
+    return { ok: false, problem: "A store needs --where: a folder for a file store, a Ghost site's name for a Ghost store, an address for a rest store." };
   }
-  if (request.connector === "rest") {
-    return { ok: false, problem: "The rest connector is not built yet. Use file or ghost." };
+  if (!CONNECTORS.includes(request.connector)) {
+    return { ok: false, problem: `dfm does not know the connector ${request.connector}. Use file, ghost or rest.` };
   }
-  if (!BUILT.includes(request.connector)) {
-    return { ok: false, problem: `dfm does not know the connector ${request.connector}. Use file or ghost.` };
+  const problem = connectorProblem(settings, request);
+  if (problem) {
+    return { ok: false, problem };
   }
-  if (request.connector === "ghost" && !settings.sites.some((site) => site.business === request.where && site.platform === "ghost")) {
-    return { ok: false, problem: `Settings have no Ghost site called ${request.where}. Add it with dfm-ghost:site-add first.` };
-  }
-  const line = `store ${request.store}: ${request.connector} ${request.where}`;
-  if (listed && `store ${listed.name}: ${listed.connector} ${listed.where}` !== line) {
+  const line = storeLine(request);
+  if (listed && storeLine({ store: listed.name, connector: listed.connector, where: listed.where, keyName: listed.keyName }) !== line) {
     return { ok: false, problem: `Settings already have a different store called ${request.store}. Change it by hand if it is wrong.` };
   }
   return { ok: true, line };
+}
+function connectorProblem(settings, request) {
+  const where = request.where ?? "";
+  if (request.connector === "ghost" && !settings.sites.some((site) => site.business === where && site.platform === "ghost")) {
+    return `Settings have no Ghost site called ${where}. Add it with dfm-ghost:site-add first.`;
+  }
+  if (request.connector !== "rest" && request.keyName !== void 0) {
+    return "--key-name is for a rest store only: a Ghost store uses its site's key.";
+  }
+  if (request.connector !== "rest") {
+    return void 0;
+  }
+  if (request.keyName === void 0 || !KEY_NAME.test(request.keyName)) {
+    return "A rest store needs --key-name: the variable in the keys file that holds its key, in capitals, such as COFFEE_SHOP_STORE_KEY.";
+  }
+  if (!settings.keysFile) {
+    return "Settings name no keys file. Add a line such as: keys file: ~/.config/dfm/.env";
+  }
+  return restAddressProblem(request.store, restAddress(where));
+}
+function storeLine(request) {
+  const line = `store ${request.store}: ${request.connector} ${request.connector === "rest" ? restAddress(request.where ?? "") : request.where}`;
+  return request.keyName ? `${line} key in ${request.keyName}` : line;
 }
 function bindingLineFor(settings, request) {
   const binding = request.binding;
@@ -636,8 +690,11 @@ function readRequest(values) {
   if (values["--connector"] !== void 0) {
     request.connector = values["--connector"];
     request.where = values["--where"];
-  } else if (values["--where"] !== void 0) {
-    return { ok: false, problem: "--where goes with --connector." };
+    if (values["--key-name"] !== void 0) {
+      request.keyName = values["--key-name"];
+    }
+  } else if (values["--where"] !== void 0 || values["--key-name"] !== void 0) {
+    return { ok: false, problem: "--where and --key-name go with --connector." };
   }
   const bindingFlags = [values["--object"], values["--business"], values["--place"]];
   const given = bindingFlags.filter((value) => value !== void 0).length;
@@ -651,9 +708,9 @@ function readRequest(values) {
 
 // src/run.ts
 var SKILL = "dfm-store:store-add";
-var USAGE = 'node dist/run.js --store <name> --settings <file> [--connector file|ghost --where <folder or site>] [--object <kind> --business <name> --place "<place>"] [--preview | --go | --read-back] [--run-log <file>] [--json]';
+var USAGE = 'node dist/run.js --store <name> --settings <file> [--connector file|ghost|rest --where <folder, site or address> [--key-name <NAME>]] [--object <kind> --business <name> --place "<place>"] [--preview | --go | --read-back] [--run-log <file>] [--json]';
 var FLAGS = {
-  valueFlags: ["--store", "--settings", "--connector", "--where", "--object", "--business", "--place", "--run-log"],
+  valueFlags: ["--store", "--settings", "--connector", "--where", "--key-name", "--object", "--business", "--place", "--run-log"],
   required: ["--store", "--settings"],
   usage: USAGE
 };

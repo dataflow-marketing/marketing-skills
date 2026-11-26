@@ -1,0 +1,22 @@
+{
+  "name": "@dataflow-marketing/store-worker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The starter store: a Hono Worker on D1 that meets the store REST contract in spec/store.md. An example, not a skill",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json",
+    "dev": "wrangler d1 migrations apply store --local && wrangler dev"
+  },
+  "dependencies": {
+    "@hono/valibot-validator": "0.6.2",
+    "drizzle-orm": "0.45.4",
+    "hono": "4.13.19",
+    "valibot": "1.5.0"
+  },
+  "devDependencies": {
+    "@dataflow-marketing/store": "workspace:*"
+  }
+}

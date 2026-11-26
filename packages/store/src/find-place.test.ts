@@ -52,10 +52,44 @@ describe("findPlace", () => {
     });
   });
 
-  it("refuses the rest connector, not built yet", () => {
+  it("finds an object in a rest store: its address, its key's variable and the object's id", () => {
     expect(placeOf(SETTINGS, "forecast")).toEqual({
+      ok: true,
+      place: {
+        connector: "rest",
+        address: "https://api.coffee-shop.example",
+        keyName: "COFFEE_SHOP_API_KEY",
+        keysFile: "~/.config/dfm/.env",
+        kind: "forecast",
+        id: "coffee-shop",
+        label: "rest https://api.coffee-shop.example forecast coffee-shop",
+      },
+    });
+  });
+
+  it("takes a Worker run on this computer over http", () => {
+    const local = SETTINGS.replace("rest https://api.coffee-shop.example", "rest http://localhost:8787/");
+    expect(placeOf(local, "forecast")).toMatchObject({ ok: true, place: { address: "http://localhost:8787" } });
+  });
+
+  it("refuses a rest store that is not https", () => {
+    const plain = SETTINGS.replace("rest https://api.coffee-shop.example", "rest http://api.coffee-shop.example");
+    expect(placeOf(plain, "forecast")).toEqual({
       ok: false,
-      problems: ['The store "api" is a rest store. The rest connector is not built yet.'],
+      problems: ['The address of the store "api" is not https:// (or http://localhost for a Worker on this computer): http://api.coffee-shop.example'],
+    });
+  });
+
+  it("refuses a rest store that names no key", () => {
+    const keyless = SETTINGS.replace(" key in COFFEE_SHOP_API_KEY", "");
+    expect(placeOf(keyless, "forecast").ok).toBe(false);
+  });
+
+  it("refuses a rest place that is not an id", () => {
+    const wrong = SETTINGS.replace("api coffee-shop", "api owner@coffee-shop.example next");
+    expect(placeOf(wrong, "forecast")).toEqual({
+      ok: false,
+      problems: ["The place of the forecast of coffee-shop in a rest store is the object's id, lowercase with hyphens, such as: coffee-shop"],
     });
   });
 

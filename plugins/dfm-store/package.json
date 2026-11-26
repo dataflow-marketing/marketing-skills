@@ -2,7 +2,7 @@
   "name": "@dataflow-marketing/dfm-store",
   "version": "0.1.0",
   "private": true,
-  "description": "dataflow marketing: store skills. store-add, store-check, objects-read, object-read, object-add, object-change and object-remove keep an object in a file or a Ghost member field.",
+  "description": "dataflow marketing: store skills. store-add, store-check, objects-read, object-read, object-add, object-change and object-remove keep an object in a file, a Ghost member field or a REST backend.",
   "license": "MIT",
   "type": "module",
   "scripts": {

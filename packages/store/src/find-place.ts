@@ -16,12 +16,24 @@ export type GhostPlace = {
   label: string;
 };
 
-export type Place = FilePlace | GhostPlace;
+export type RestPlace = {
+  connector: "rest";
+  address: string;
+  keyName: string;
+  keysFile: string;
+  kind: string;
+  id: string;
+  label: string;
+};
+
+export type Place = FilePlace | GhostPlace | RestPlace;
 
 export type PlaceResult = { ok: true; place: Place } | { ok: false; problems: string[] };
 
 const NAME = /^[a-z0-9-]+$/;
 const FIELD = /^[A-Za-z0-9_-]+$/;
+
+const LOCAL_ADDRESS = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
 
 export function findPlace(read: SettingsResult, object: string, business: string): PlaceResult {
   if (read.problems.length > 0) {
@@ -56,7 +68,7 @@ function placeIn(store: Store, binding: Binding, settings: Settings): PlaceResul
     return ghostField(store, binding, settings);
   }
   if (store.connector === "rest") {
-    return refused([`The store "${store.name}" is a rest store. The rest connector is not built yet.`]);
+    return restObject(store, binding, settings);
   }
   return refused([`The store "${store.name}" has a connector dfm does not know: ${store.connector}`]);
 }
@@ -105,6 +117,46 @@ function ghostField(store: Store, binding: Binding, settings: Settings): PlaceRe
     ok: true,
     place: { connector: "ghost", site: { ...site, keyName: site.keyName }, keysFile: settings.keysFile, email, field, label },
   };
+}
+
+// A rest store names its address and the variable that holds its key; the place is the object's id
+function restObject(store: Store, binding: Binding, settings: Settings): PlaceResult {
+  const address = restAddress(store.where);
+  const addressProblem = restAddressProblem(store.name, address);
+  if (addressProblem) {
+    return refused([addressProblem]);
+  }
+  if (!store.keyName) {
+    return refused([`The store "${store.name}" names no key. Its line ends with the key's variable, such as: key in COFFEE_SHOP_STORE_KEY`]);
+  }
+  if (!settings.keysFile) {
+    return refused(["Settings name no keys file. Add a line such as: keys file: ~/.config/dfm/.env"]);
+  }
+
+  const id = binding.place.trim();
+  if (!NAME.test(id)) {
+    return refused([`The place of the ${binding.object} of ${binding.business} in a rest store is the object's id, lowercase with hyphens, such as: ${binding.business}`]);
+  }
+
+  const label = `rest ${address} ${binding.object} ${id}`;
+  return {
+    ok: true,
+    place: { connector: "rest", address, keyName: store.keyName, keysFile: settings.keysFile, kind: binding.object, id, label },
+  };
+}
+
+// A rest store's address with no slash at the end
+export function restAddress(where: string): string {
+  return where.trim().replace(/\/+$/, "");
+}
+
+// A rest store is https, except a Worker run on this computer (wrangler dev): the key must never cross a network
+// in plain text
+export function restAddressProblem(storeName: string, address: string): string | undefined {
+  if (address.startsWith("https://") || LOCAL_ADDRESS.test(address)) {
+    return undefined;
+  }
+  return `The address of the store "${storeName}" is not https:// (or http://localhost for a Worker on this computer): ${address}`;
 }
 
 function refused(problems: string[]): PlaceResult {

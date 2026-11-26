@@ -1,4 +1,5 @@
 // Turns store-add's flags into a request: a store, a binding or both. A binding needs all three of its flags.
+// --key-name names the variable that holds a rest store's key; it goes with --connector.
 
 import type { StoreRequest } from "./plan-add.ts";
 
@@ -9,8 +10,11 @@ export function readRequest(values: Record<string, string>): RequestResult {
   if (values["--connector"] !== undefined) {
     request.connector = values["--connector"];
     request.where = values["--where"];
-  } else if (values["--where"] !== undefined) {
-    return { ok: false, problem: "--where goes with --connector." };
+    if (values["--key-name"] !== undefined) {
+      request.keyName = values["--key-name"];
+    }
+  } else if (values["--where"] !== undefined || values["--key-name"] !== undefined) {
+    return { ok: false, problem: "--where and --key-name go with --connector." };
   }
 
   const bindingFlags = [values["--object"], values["--business"], values["--place"]];

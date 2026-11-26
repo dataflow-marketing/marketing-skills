@@ -1,9 +1,11 @@
-// store-add: names a store in settings (a folder of files or a Ghost site's member fields), a binding that says
+// store-add: names a store in settings (a folder of files, a Ghost site's member fields or a rest store), a binding that says
 // which store keeps which object (or both). It writes settings only; it never reads or writes an object.
 //
-// node dist/run.js --store <name> --settings <file> [--connector file|ghost --where <folder or site>]
+// node dist/run.js --store <name> --settings <file> [--connector file|ghost|rest --where <folder, site or address> [--key-name <NAME>]]
 //   [--object <kind> --business <name> --place <place>] [--preview | --go | --read-back] [--run-log <file>] [--json]
 // For a Ghost store the place is a member's email and a field, in quotes: --place "owner@example.com next".
+// For a rest store --key-name names the variable in the keys file that holds its key; the place is the object's id,
+// the business's name: --place coffee-shop.
 // --preview (the default) shows the lines and writes nothing; --go appends them; --read-back checks them.
 // Exit code: 0 done, 1 problems found, 2 refused or failed.
 
@@ -19,9 +21,9 @@ import { readRequest } from "./read-request.ts";
 
 const SKILL = "dfm-store:store-add";
 const USAGE =
-  'node dist/run.js --store <name> --settings <file> [--connector file|ghost --where <folder or site>] [--object <kind> --business <name> --place "<place>"] [--preview | --go | --read-back] [--run-log <file>] [--json]';
+  'node dist/run.js --store <name> --settings <file> [--connector file|ghost|rest --where <folder, site or address> [--key-name <NAME>]] [--object <kind> --business <name> --place "<place>"] [--preview | --go | --read-back] [--run-log <file>] [--json]';
 const FLAGS = {
-  valueFlags: ["--store", "--settings", "--connector", "--where", "--object", "--business", "--place", "--run-log"],
+  valueFlags: ["--store", "--settings", "--connector", "--where", "--key-name", "--object", "--business", "--place", "--run-log"],
   required: ["--store", "--settings"],
   usage: USAGE,
 };

@@ -741,4 +741,51 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** objects-read lists the bindings of a kind; a working-folder file with no binding is left out
 **Over:** listing an unbound `<kind>.txt` in the working folder too
 **Why:** with no binding it names no business; the list is about where objects are kept
+
+## 2026-11-26: The starter Worker's version is a new UUID on every write
+**Chose:** examples/store-worker gives a random UUID as the version on each add and change; the rest connector shows and sends back whatever version a store gives, never working one out
+**Over:** SHA-256 of the body, the same as the file and ghost connectors
+**Why:** spec/store.md says the version changes on every write; a hash stays the same when the same text is written again or an object is removed and added again: an old If-Match could then still pass
+**Source:** inferred
+
+## 2026-11-26: The starter Worker is the parked start, moved onto drizzle
+**Chose:** port the parked store-worker (Hono routes, valibot checks, the constant time key check, one SQL statement for the version check and the write) to drizzle-orm on D1, tests beside each file, an id that must be a business's name
+**Over:** the parked raw SQL; starting again
+**Why:** drizzle is in the standard Worker packages and you prefer it; the parked routes and tests already met the contract
+**Source:** inferred
+
+## 2026-11-26: A rest store is https, except on this computer
+**Chose:** a rest store's address must be `https://`; `http://localhost` and `http://127.0.0.1` are taken for a Worker run with wrangler dev; store-add and findPlace share the one check
+**Over:** any address; https only
+**Why:** the store key is sent on every request and must not cross a network in plain text; trying the starter Worker on your own computer should still work
+**Source:** inferred
+
+## 2026-11-26: A rest binding's place is the object's id; store-add takes --key-name
+**Chose:** `binding ledger coffee-shop: api coffee-shop` (the id is the business's name, lowercase with hyphens); `store-add --connector rest --where <address> --key-name <NAME>` writes `store api: rest <address> key in <NAME>`
+**Over:** an id made up per store; the key name as part of --where
+**Why:** the contract says the id is the business's name; settings already name keys by variable for sites: a rest store reads the same way
+**Source:** inferred
+
+## 2026-11-26: A missing rest object reads as none; a 409 or a 404 on a change is "moved"
+**Chose:** a 404 on read is an empty object with the version `none`; the first write to it is an add (POST); a 409 on an add or a change means the object moved since it was read (as does a 404 on a change): nothing is written and object-change shows it as it is now, as when the version moved at the second read
+**Over:** refusing to write an object the store does not keep yet; treating a 409 as a plain failure
+**Why:** a file that is not there already reads as `none`: every connector then starts an object the same way; the store's own check at the write is the one that closes the gap Ghost leaves open
+**Source:** inferred
+
+## 2026-11-26: The write decision takes the store's limit, not its connector (changes spec/store.md notes)
+**Chose:** readObject gives back the limit (none for a file, 65,535 for a Ghost field, what a rest store answers at /limits, read on every read) and decideWrite checks against it; spec/store.md now lists the answers of the contract, the 404 for a missing object and points at the starter Worker; spec/settings.md shows `key in <NAME>` on a store line
+**Over:** a limit fixed per connector; reading /limits only before a write
+**Why:** a rest store declares its own limit; the preview already refuses a change that is too large: it needs the limit at the first read
+**Source:** inferred
+
+## 2026-11-26: The starter Worker's kinds grow only when a real object needs them
+**Chose:** the example Worker takes the four kinds spec 1 names (ledger, profile, people, forecast); a kind is added when a real object needs a rest store
+**Over:** any kind at all; a longer list now
+**Why:** you agreed to grow it as needed; a kind with no object behind it is guesswork
+**Source:** stated
+
+## 2026-11-26: A rest store may be on http://localhost
+**Chose:** https for every rest store, except http://localhost or 127.0.0.1 for a Worker on your own computer
+**Over:** https only
+**Why:** a Worker run on your own computer has no certificate; nothing leaves the machine
 **Source:** stated (agreed), inferred (the reason as worded)

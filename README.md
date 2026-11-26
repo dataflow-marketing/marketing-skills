@@ -114,11 +114,11 @@ Everything planned, in the order it is built. Each row changes in the same commi
 | `spec/` | the shared formats every skill reads or writes | | spec 1 (draft) | built |
 | `packages/core` | reads settings and keys, checks settings, makes the Ghost Admin token, formats output and the run log line, builds and checks the bundled scripts | yes, beside each file | 0.1.0 | built |
 | `packages/ledger` | reads a ledger (spec 1, older words and look-alike punctuation too), carries steps forward, makes the straight line forecast; proved against real ledgers | yes, beside each file | 0.1.0 | built |
-| `packages/store` | finds where an object is kept, its version (a hash of its text), the Ghost member field calls, the write decision, the remove, backups | yes, beside each file | 0.1.0 | built |
+| `packages/store` | finds where an object is kept, its version (a hash of its text; a rest store's own), the Ghost member field calls, the rest calls with If-Match, the write decision, the remove, backups | yes, beside each file | 0.1.0 | built |
 | `scripts/` | checks the writing rules across the repo (`pnpm check`) | yes | 0.1.0 | built |
 | `examples/coffee-shop` | the made up business every test and example uses | | | built |
 | `examples/starter` | the starter plan: four steps a week | | | built |
-| `examples/store-worker` | a starter Hono Worker on D1 that meets the store contract | | not started | planned |
+| `examples/store-worker` | a starter Hono Worker on D1 (valibot, drizzle) that meets the store contract; runs on your computer, deploys to your own account | yes, beside each file, in workerd with a local D1 | | built |
 | tests on every pull request | GitHub runs the tests, the typecheck and the writing check | | | planned |
 
 The examples have no version: they are read, never installed.
@@ -184,7 +184,7 @@ The examples have no version: they are read, never installed.
 
 | Skill | Does | Kind | Script | State |
 |---|---|---|---|---|
-| store-add | adds a store and a binding to settings: a folder of files or Ghost member fields (a REST backend later) | code | yes | works |
+| store-add | adds a store and a binding to settings: a folder of files, Ghost member fields or a REST backend | code | yes | works |
 | store-check | each binding can be read: the store answers, its key works, the member and the field are there | code | yes | works |
 | objects-read | lists every object of a kind in settings: where each is and its version | code | yes | built |
 | object-read | one object with its version | code | yes | works |

@@ -4,7 +4,7 @@ import { readFile, readdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { LEDGER, OWNER_EMAIL, coffeeShopFolder } from "../../../fixtures/coffee-shop.ts";
+import { LEDGER, OWNER_EMAIL, coffeeShopFolder, coffeeShopRestFolder } from "../../../fixtures/coffee-shop.ts";
 import { runScript } from "../../../fixtures/run-script.ts";
 
 const SCRIPT = fileURLToPath(new URL("../dist/run.js", import.meta.url));
@@ -124,5 +124,77 @@ describe("object-change", () => {
     const version = versionIn((await objectChange(folder)).stdout);
     const ran = await objectChange(folder, "--go", "--version", version);
     expect(`${ran.stdout}${ran.stderr}`).not.toContain("0123456789abcdef0123456789abcdef");
+  });
+});
+
+async function objectInRest(folder: string): Promise<{ version: string; body: string } | undefined> {
+  const saved = JSON.parse(await readFile(join(folder, "fake-rest-objects.json"), "utf8"));
+  return saved.objects[0];
+}
+
+async function restFolderWithChange(ledger: string | null = LEDGER, limit = 1000): Promise<string> {
+  const folder = await coffeeShopRestFolder(ledger, limit);
+  await writeFile(join(folder, "new.txt"), CHANGED);
+  return folder;
+}
+
+describe("object-change on a rest store", () => {
+  it("previews with the store's own version and writes nothing", async () => {
+    const folder = await restFolderWithChange();
+    const ran = await objectChange(folder);
+    expect(ran.code).toBe(0);
+    expect(versionIn(ran.stdout)).toBe("v1");
+    expect(ran.stdout).toContain("where: rest https://store.coffee-shop.example ledger coffee-shop");
+    expect(await objectInRest(folder)).toMatchObject({ version: "v1", body: LEDGER });
+  });
+
+  it("with the preview's version, backs up, changes it with If-Match and reads back the new version", async () => {
+    const folder = await restFolderWithChange();
+    const ran = await objectChange(folder, "--go", "--version", "v1");
+    expect(ran.code).toBe(0);
+    expect(ran.stdout).toContain("changed and read back");
+    expect(ran.stdout).toContain("version: v2");
+    expect(await objectInRest(folder)).toMatchObject({ version: "v2", body: CHANGED });
+    expect(await readdir(join(folder, "backups"))).toHaveLength(1);
+
+    const requests = (await readFile(join(folder, "fake-ghost-requests.jsonl"), "utf8")).trim().split("\n").map((line) => JSON.parse(line));
+    const put = requests.find((each) => each.method === "PUT");
+    expect(put.headers["If-Match"]).toBe("v1");
+  });
+
+  it("adds an object the store does not keep yet", async () => {
+    const folder = await restFolderWithChange(null);
+    const version = versionIn((await objectChange(folder)).stdout);
+    expect(version).toBe("none");
+    const ran = await objectChange(folder, "--go", "--version", version);
+    expect(ran.code).toBe(0);
+    expect(ran.stdout).toContain("backup: none (it was empty)");
+    expect(await objectInRest(folder)).toMatchObject({ version: "v1", body: CHANGED });
+  });
+
+  it("stops on a 409 when someone changed it between the read and the write: nothing is written", async () => {
+    const folder = await restFolderWithChange();
+    const ran = await runScript(
+      SCRIPT,
+      ["--object", "ledger", "--business", "coffee-shop", "--settings", "settings.txt", "--from", "new.txt", "--go", "--version", "v1"],
+      { cwd: folder, fakeGhostFolder: folder, restEditOnWrite: "spec 1\ngoal: 110 regulars\n" },
+    );
+    expect(ran.code).toBe(2);
+    expect(ran.stdout).toContain("changed since it was read. Nothing was written.");
+    expect(ran.stdout).toContain("- goal: 110 regulars\n+ goal: 120 regulars");
+    expect(await objectInRest(folder)).toMatchObject({ version: "v2", body: "spec 1\ngoal: 110 regulars\n" });
+  });
+
+  it("refuses more than the store declares it takes", async () => {
+    const folder = await restFolderWithChange(LEDGER, 10);
+    const ran = await objectChange(folder);
+    expect(ran.code).toBe(2);
+    expect(ran.stderr).toContain("holds 10 at most");
+  });
+
+  it("never prints the key", async () => {
+    const folder = await restFolderWithChange();
+    const ran = await objectChange(folder, "--go", "--version", "v1");
+    expect(`${ran.stdout}${ran.stderr}`).not.toContain("made-up-store-key");
   });
 });

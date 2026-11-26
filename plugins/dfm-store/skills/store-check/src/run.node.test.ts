@@ -1,10 +1,10 @@
 // store-check's dist/run.js, run with Node alone against the fake Ghost: no real Ghost is ever called.
 
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { coffeeShopFolder } from "../../../fixtures/coffee-shop.ts";
+import { coffeeShopFolder, coffeeShopRestFolder } from "../../../fixtures/coffee-shop.ts";
 import { runScript } from "../../../fixtures/run-script.ts";
 
 const SCRIPT = fileURLToPath(new URL("../dist/run.js", import.meta.url));
@@ -41,5 +41,23 @@ describe("store-check", () => {
     await storeCheck(folder);
     const requests = (await readFile(join(folder, "fake-ghost-requests.jsonl"), "utf8")).trim().split("\n").map((line) => JSON.parse(line));
     expect(requests.every((request) => request.method === "GET")).toBe(true);
+  });
+});
+
+describe("store-check on a rest store", () => {
+  it("reads the binding with the store's key", async () => {
+    const folder = await coffeeShopRestFolder();
+    const ran = await storeCheck(folder);
+    expect(ran.code).toBe(0);
+    expect(ran.stdout).toContain("ok ledger coffee-shop: rest https://store.coffee-shop.example ledger coffee-shop (2 lines, version v1)");
+  });
+
+  it("names a key the store refuses, never the key", async () => {
+    const folder = await coffeeShopRestFolder();
+    await writeFile(join(folder, ".env"), "COFFEE_SHOP_STORE_KEY=not-the-store-key\n");
+    const ran = await storeCheck(folder);
+    expect(ran.code).toBe(1);
+    expect(ran.stdout).toContain("refused the key (401)");
+    expect(ran.stdout).not.toContain("not-the-store-key");
   });
 });

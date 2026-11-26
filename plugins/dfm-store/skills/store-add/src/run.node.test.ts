@@ -56,4 +56,15 @@ describe("store-add", () => {
     expect(ran.code).toBe(2);
     expect(await readFile(join(dir, "settings.txt"), "utf8")).toBe(SETTINGS);
   });
+
+  it("adds a rest store and a binding by the business's name", async () => {
+    const dir = await folder();
+    const rest = ["--store", "api", "--settings", "settings.txt", "--connector", "rest", "--where", "https://api.coffee-shop.example", "--key-name", "COFFEE_SHOP_STORE_KEY"];
+    const bind = ["--object", "ledger", "--business", "coffee-shop", "--place", "coffee-shop"];
+    const ran = await runScript(SCRIPT, [...rest, ...bind, "--go"], { cwd: dir });
+    expect(ran.code).toBe(0);
+    expect(await readFile(join(dir, "settings.txt"), "utf8")).toBe(
+      `${SETTINGS}store api: rest https://api.coffee-shop.example key in COFFEE_SHOP_STORE_KEY\nbinding ledger coffee-shop: api coffee-shop\n`,
+    );
+  });
 });

@@ -1,6 +1,6 @@
 ---
 name: store-check
-description: Prove each binding in settings can be read, with a script. Reads every object where settings say it is kept (a file or a Ghost member field) and names any problem; writes nothing. Use after dfm-store:store-add, before a change to a store and when a read or write fails ("check my stores", "can dfm reach the ledger").
+description: Prove each binding in settings can be read, with a script. Reads every object where settings say it is kept (a file, a Ghost member field or a rest store) and names any problem; writes nothing. Use after dfm-store:store-add, before a change to a store and when a read or write fails ("check my stores", "can dfm reach the ledger").
 ---
 
 # store-check
@@ -23,7 +23,7 @@ For each binding it finds the store and reads the object: a Ghost key that works
 
 ## Show
 
-Show what it printed, in full. For each problem say what would fix it in plain words: a member to add in Ghost, a field to make in Ghost Admin, a key to add with `dfm-ghost:site-add`.
+Show what it printed, in full. For each problem say what would fix it in plain words: a member to add in Ghost, a field to make in Ghost Admin, a key to add with `dfm-ghost:site-add`, a rest store's key to put in the keys file under the name settings give.
 
 ## Asking
 

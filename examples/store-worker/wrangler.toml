@@ -1,0 +1,21 @@
+# The starter store Worker. The database id below is a PLACEHOLDER: it is enough to run the Worker on your own
+# computer (wrangler dev keeps a local D1). Put your own in only when you deploy your own copy (see README.md).
+
+name = "store-worker"
+main = "src/index.ts"
+compatibility_date = "2026-03-17"
+
+# The largest body the store takes, in bytes. GET /limits answers with it.
+# D1 keeps a value of up to 2,000,000 bytes: stay under that.
+[vars]
+MAX_BODY_BYTES = "1000000"
+
+# The key every request must send as "Authorization: Bearer <key>" is a secret, never written here.
+# On your computer it goes in .dev.vars (never committed); deployed, it is set with: wrangler secret put STORE_KEY
+
+[[d1_databases]]
+binding = "DB"
+database_name = "store"
+# PLACEHOLDER: replace with the id that "wrangler d1 create store" prints, only in your own copy.
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "migrations"

@@ -18,7 +18,7 @@ import {
 } from "@dataflow-marketing/core";
 import type { OutputMode, Settings } from "@dataflow-marketing/core";
 import { appendRunLine, printOutput, readSettings, readText, runLogPath } from "@dataflow-marketing/core/node";
-import { backupName, decideWrite, findPlace, readBackProblems, readFlags, sameText, versionOf } from "@dataflow-marketing/store";
+import { NO_VERSION, backupName, decideWrite, findPlace, readBackProblems, readFlags, sameText } from "@dataflow-marketing/store";
 import type { Place } from "@dataflow-marketing/store";
 import { backupsFolder, readObject, writeBackup, writeObject } from "@dataflow-marketing/store/node";
 import type { ObjectRead } from "@dataflow-marketing/store/node";
@@ -91,7 +91,7 @@ function askedFrom(values: Record<string, string>): Asked {
 
 // Steps 1 and 3: read the object and show what would change. Nothing is written.
 function preview(shown: Shown, place: Place, current: Extract<ObjectRead, { ok: true }>, proposed: string, output: OutputMode): number {
-  const decision = decideWrite({ seenVersion: current.version, current, proposed, connector: place.connector });
+  const decision = decideWrite({ seenVersion: current.version, current, proposed, limit: current.limit });
   if (decision.kind === "too large") {
     return failed([describeTooLarge(shown, decision.bytes, decision.limit)]);
   }
@@ -113,7 +113,7 @@ async function change(
   proposed: string,
   output: OutputMode,
 ): Promise<number> {
-  const decision = decideWrite({ seenVersion: asked.version ?? "", current, proposed, connector: place.connector });
+  const decision = decideWrite({ seenVersion: asked.version ?? "", current, proposed, limit: current.limit });
   if (decision.kind === "moved") {
     printOutput(describeMoved(shown, decision.now, proposed, current.version), output);
     return EXIT_REFUSED_OR_FAILED;
@@ -128,13 +128,16 @@ async function change(
 
   const backup = await backUp(asked, settings, current.text);
   const written = await writeObject(place, current.found, proposed);
+  if (!written.ok && written.moved) {
+    return movedAtWrite(shown, place, proposed, output);
+  }
   if (!written.ok) {
     return failed([written.problem, ...backupLine(backup)]);
   }
 
   const after = await readObject(place);
   const kept = after.ok ? after.text : undefined;
-  const newVersion = await versionOf(kept);
+  const newVersion = after.ok ? after.version : NO_VERSION;
   await appendRunLine(runLogPath(asked.settings, asked.runLog), {
     when: new Date(),
     skill: SKILL,
@@ -150,6 +153,17 @@ async function change(
   }
   printOutput(describeWritten(shown, newVersion, backup), output);
   return EXIT_DONE;
+}
+
+// A rest store refused the write (409): someone changed the object between the read and the write. Nothing was
+// written. The object as it is now is shown beside the change, as when the version has moved at the read.
+async function movedAtWrite(shown: Shown, place: Place, proposed: string, output: OutputMode): Promise<number> {
+  const now = await readObject(place);
+  if (!now.ok) {
+    return failed(["The object changed in the store since it was read. Nothing was written.", now.problem]);
+  }
+  printOutput(describeMoved(shown, now.text, proposed, now.version), output);
+  return EXIT_REFUSED_OR_FAILED;
 }
 
 // An empty object has nothing to back up

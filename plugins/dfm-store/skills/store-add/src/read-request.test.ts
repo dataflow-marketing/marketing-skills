@@ -24,4 +24,16 @@ describe("readRequest", () => {
   it("refuses --where with no connector", () => {
     expect(readRequest({ "--store": "members", "--where": "acme" }).ok).toBe(false);
   });
+
+  it("reads the key name of a rest store", () => {
+    const values = { "--store": "api", "--connector": "rest", "--where": "https://api.example", "--key-name": "COFFEE_SHOP_STORE_KEY" };
+    expect(readRequest(values)).toEqual({
+      ok: true,
+      request: { store: "api", connector: "rest", where: "https://api.example", keyName: "COFFEE_SHOP_STORE_KEY" },
+    });
+  });
+
+  it("refuses --key-name with no connector", () => {
+    expect(readRequest({ "--store": "api", "--key-name": "COFFEE_SHOP_STORE_KEY" })).toEqual({ ok: false, problem: "--where and --key-name go with --connector." });
+  });
 });

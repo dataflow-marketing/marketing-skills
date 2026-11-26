@@ -1,6 +1,6 @@
 ---
 name: store-add
-description: Name where a business's objects are kept, with a script. Adds a store (a folder of files or a Ghost site's member fields) and a binding (which store keeps which object, such as the ledger) to settings. Use when someone wants their ledger or profile kept in Ghost or in a folder ("keep my ledger in Ghost", "store the plan on the member") or before dfm-store:object-change writes somewhere new.
+description: Name where a business's objects are kept, with a script. Adds a store (a folder of files, a Ghost site's member fields or a REST backend) and a binding (which store keeps which object, such as the ledger) to settings. Use when someone wants their ledger or profile kept in Ghost or in a folder ("keep my ledger in Ghost", "store the plan on the member") or before dfm-store:object-change writes somewhere new.
 ---
 
 # store-add
@@ -12,6 +12,7 @@ A scripted write to settings. It names a store, a binding or both; it never read
 - **A settings file,** started by adding a site: `dfm-ghost:site-add` or `dfm-site:site-add`.
 - **For a Ghost store, the Ghost site in settings** with its key, added with `dfm-ghost:site-add`.
 - **For a Ghost binding, the member's email and the field's name.** The field must already be a custom member field on the site (Ghost Admin, Settings, Members). Ask for both; never guess an email.
+- **For a rest store, its address and the name of the variable that holds its key** in the keys file (in capitals, such as `COFFEE_SHOP_STORE_KEY`). The person puts the key in the keys file themselves; never ask for the key in the chat. The address is `https://` (`http://localhost` for a Worker run on their computer). [examples/store-worker](https://github.com/dataflow-marketing/marketing-skills/blob/develop/examples/store-worker/README.md) is a starter.
 
 With no binding an object stays a file in the working folder. Nothing that works today needs a store.
 
@@ -21,8 +22,8 @@ With no binding an object stays a file in the working folder. Nothing that works
 node <this skill's folder>/dist/run.js --store <name> --settings <file> --connector ghost --where <site> --object ledger --business <name> --place "<email> <field>" --preview
 ```
 
-- **A store alone:** `--connector file --where <folder>` or `--connector ghost --where <site name>`.
-- **A binding alone,** to a store already listed: `--object`, `--business` and `--place`. For a file store the place is a path inside its folder.
+- **A store alone:** `--connector file --where <folder>`, `--connector ghost --where <site name>` or `--connector rest --where <https address> --key-name <NAME>`.
+- **A binding alone,** to a store already listed: `--object`, `--business` and `--place`. For a file store the place is a path inside its folder. For a rest store the place is the object's id: the business's name, such as `--place coffee-shop`.
 
 1. **Preview** (the default): shows the lines it would add and writes nothing. Show them.
 2. **Ask for a yes.**
@@ -37,7 +38,7 @@ node <this skill's folder>/dist/run.js --store <name> --settings <file> --connec
 ## The rules it keeps
 
 - **Adding, never changing.** A different store of the same name is refused. So is an object already bound somewhere else. Moving an object is a job of its own.
-- **The rest connector is refused** until it is built.
+- **Keys stay out of settings.** A rest store's line names the variable that holds its key, never the key.
 - **Settings must read cleanly** before and after.
 
 ## Asking

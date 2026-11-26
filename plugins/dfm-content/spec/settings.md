@@ -36,8 +36,8 @@ house rule avoid: em dashes
 | `site <name>: <platform> <address> key in <NAME>` | a site on a platform and the name of the variable that holds its key |
 | `site <name>: public <address>` | a public website dfm only reads (a profile, link checks), on any platform: no key, never written to |
 | `keys file` | the file the keys are read from |
-| `store <name>: <connector> <where>` | a [store](store.md) and its connector: file, ghost or rest |
-| `binding <object> <business>: <store> <place>` | which store holds which object for which business; for a ghost store the place is a member's email and a custom field |
+| `store <name>: <connector> <where> [key in <NAME>]` | a [store](store.md) and its connector: file, ghost or rest; a rest store names the variable that holds its key |
+| `binding <object> <business>: <store> <place>` | which store holds which object for which business; for a ghost store the place is a member's email and a custom field; for a rest store it is the object's id, the business's name |
 | `backups` | the folder a store copies an object into before each write (`backups/` beside the settings file by default) |
 | `house rule <name>: <rule>` | a rule every words skill applies and checks after |
 

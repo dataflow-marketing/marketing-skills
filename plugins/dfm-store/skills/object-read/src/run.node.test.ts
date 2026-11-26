@@ -4,7 +4,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { LEDGER, coffeeShopFolder } from "../../../fixtures/coffee-shop.ts";
+import { LEDGER, coffeeShopFolder, coffeeShopRestFolder } from "../../../fixtures/coffee-shop.ts";
 import { runScript } from "../../../fixtures/run-script.ts";
 
 const SCRIPT = fileURLToPath(new URL("../dist/run.js", import.meta.url));
@@ -59,5 +59,23 @@ describe("object-read", () => {
     const folder = await coffeeShopFolder();
     const ran = await objectRead(folder);
     expect(`${ran.stdout}${ran.stderr}`).not.toContain("0123456789abcdef0123456789abcdef");
+  });
+});
+
+describe("object-read on a rest store", () => {
+  it("reads the ledger with the store's own version", async () => {
+    const folder = await coffeeShopRestFolder();
+    const ran = await objectRead(folder);
+    expect(ran.code).toBe(0);
+    expect(ran.stdout).toContain("where: rest https://store.coffee-shop.example ledger coffee-shop");
+    expect(ran.stdout).toContain("version: v1");
+    expect(ran.stdout).toContain("goal: 100 regulars");
+  });
+
+  it("reads an object the store does not keep as empty", async () => {
+    const folder = await coffeeShopRestFolder(null);
+    const ran = await objectRead(folder);
+    expect(ran.code).toBe(0);
+    expect(ran.stdout).toContain("version: none");
   });
 });

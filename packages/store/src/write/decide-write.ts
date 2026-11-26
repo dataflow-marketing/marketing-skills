@@ -3,8 +3,6 @@
 // works it in again.
 // Trailing white space is not a change: Ghost and editors differ on the last newline.
 
-import type { Place } from "../find-place.ts";
-
 export type Decision =
   | { kind: "write" }
   | { kind: "nothing to change" }
@@ -15,7 +13,8 @@ export type WriteCheck = {
   seenVersion: string;
   current: { text: string; version: string };
   proposed: string;
-  connector: Place["connector"];
+  // The largest body the store takes, in bytes; undefined for a store with no limit (a file)
+  limit: number | undefined;
 };
 
 // The most a Ghost member field holds
@@ -29,8 +28,8 @@ export function decideWrite(check: WriteCheck): Decision {
     return { kind: "nothing to change" };
   }
   const bytes = new TextEncoder().encode(check.proposed).length;
-  if (check.connector === "ghost" && bytes > GHOST_FIELD_LIMIT) {
-    return { kind: "too large", bytes, limit: GHOST_FIELD_LIMIT };
+  if (check.limit !== undefined && bytes > check.limit) {
+    return { kind: "too large", bytes, limit: check.limit };
   }
   return { kind: "write" };
 }
