@@ -1,9 +1,9 @@
 // This week's steps, ticked and not yet, with any carried from an earlier week: an AI reading the ledger then never
 // offers help with a step already done.
 
-import { addDays, mondayOf } from "@dataflow-marketing/ledger/dates";
-import type { Done, Plan } from "@dataflow-marketing/ledger/read";
-import { weekSteps } from "@dataflow-marketing/ledger/week-steps";
+import { addDays, mondayOf } from "../../dates.ts";
+import type { Done, Plan } from "../../read/index.ts";
+import { weekSteps } from "../../week-steps.ts";
 
 export function stepLines(plan: Plan | undefined, done: Done, today: string): string[] {
   if (!plan) {

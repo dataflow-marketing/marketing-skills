@@ -1,7 +1,7 @@
 // Which weeks of the done part a summary reads: the whole weeks counted (oldest first) and this week, the one
 // counted only so far (it has a counted to line).
 
-import type { Done } from "@dataflow-marketing/ledger/read";
+import type { Done } from "../read/index.ts";
 
 export function wholeWeeks(done: Done): string[] {
   return Object.keys(done.weeks)

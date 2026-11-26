@@ -1,8 +1,8 @@
 // What was counted: each fact's weekly numbers and their average, totals on their day and this week so far.
 // All happened, added up from the lines (calculated).
 
-import type { Done } from "@dataflow-marketing/ledger/read";
-import { written } from "@dataflow-marketing/ledger/numbers";
+import type { Done } from "../../read/index.ts";
+import { written } from "../../numbers.ts";
 import { factsCounted, weekSoFar, wholeWeeks } from "../weeks.ts";
 
 // the goal's fact first, then the others in the order first counted

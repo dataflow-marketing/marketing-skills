@@ -1,7 +1,7 @@
 // More clicks than opens in a week: a mail server's link scanner followed the links before a person saw the email.
 // Those clicks are likely not people (inferred).
 
-import type { Done } from "@dataflow-marketing/ledger/read";
+import type { Done } from "../../read/index.ts";
 
 export function scannerLines(done: Done): string[] {
   const lines: string[] = [];

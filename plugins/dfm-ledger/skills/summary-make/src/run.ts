@@ -7,10 +7,10 @@
 import { EXIT_DONE, EXIT_PROBLEMS_FOUND, EXIT_REFUSED_OR_FAILED, nowIn, outputMode, parseSettings, writeMode } from "@dataflow-marketing/core";
 import { appendRunLine, printOutput, readText, runLogPath, writeText } from "@dataflow-marketing/core/node";
 import { readLedger } from "@dataflow-marketing/ledger/read";
+import { writeSummary } from "@dataflow-marketing/ledger/summary";
 import { describeResult } from "./describe-result.ts";
 import { putSummary, summaryIn } from "./put-summary.ts";
 import { readArgs } from "./read-args.ts";
-import { writeSummary } from "./write-summary.ts";
 
 const SKILL = "dfm-ledger:summary-make";
 

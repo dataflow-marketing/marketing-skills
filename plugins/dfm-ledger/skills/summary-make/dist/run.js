@@ -5318,75 +5318,7 @@ function summaryLines(lines) {
   return kept;
 }
 
-// src/describe-result.ts
-var HEADINGS = {
-  preview: "preview: nothing written",
-  written: "written",
-  current: "read back: the summary is current",
-  "not current": "read back: the summary is not what the lines above it say now: run with --go"
-};
-function describeResult(outcome, ledgerPath, summary) {
-  const text = [HEADINGS[outcome], `ledger: ${ledgerPath}`, "", "=== summary ===", ...summary].join("\n");
-  return { text, data: { outcome, ledger: ledgerPath, summary } };
-}
-
-// src/put-summary.ts
-var SUMMARY_HEADING = "=== summary ===";
-function putSummary(ledgerText, summary) {
-  const lines = ledgerText.replace(/\s+$/, "").split("\n");
-  const at = lines.findIndex((line) => line.trim() === SUMMARY_HEADING);
-  const above = at < 0 ? lines : lines.slice(0, at);
-  const kept = above.join("\n").replace(/\s+$/, "");
-  return `${kept}
-
-${SUMMARY_HEADING}
-${summary.join("\n")}
-`;
-}
-function summaryIn(ledgerText) {
-  const lines = ledgerText.replace(/\s+$/, "").split("\n");
-  const at = lines.findIndex((line) => line.trim() === SUMMARY_HEADING);
-  return at < 0 ? [] : lines.slice(at + 1);
-}
-
-// src/read-args.ts
-var USAGE = "node dist/run.js --ledger <file> --settings <file> [--today <date>] [--preview | --go | --read-back] [--run-log <file>] [--json]";
-var VALUE_FLAGS = ["--ledger", "--settings", "--today", "--run-log"];
-var DATE2 = /^\d{4}-\d{2}-\d{2}$/;
-function readArgs(args) {
-  const values = {};
-  for (let index = 0; index < args.length; index += 1) {
-    const arg = args[index];
-    const value = args[index + 1];
-    if (arg === "--json" || isModeFlag(arg)) {
-      continue;
-    }
-    if (VALUE_FLAGS.includes(arg) && value !== void 0 && !value.startsWith("--")) {
-      values[arg] = value;
-      index += 1;
-      continue;
-    }
-    return { ok: false, problem: `Not understood: ${arg}. Use: ${USAGE}` };
-  }
-  const ledger = values["--ledger"];
-  const settings = values["--settings"];
-  if (!ledger || !settings) {
-    return { ok: false, problem: `Name the ledger and the settings. Use: ${USAGE}` };
-  }
-  if (values["--today"] && !DATE2.test(values["--today"])) {
-    return { ok: false, problem: "--today must be a date such as 2026-12-02" };
-  }
-  const read = { ledger, settings };
-  if (values["--today"]) {
-    read.today = values["--today"];
-  }
-  if (values["--run-log"]) {
-    read.runLog = values["--run-log"];
-  }
-  return { ok: true, args: read };
-}
-
-// src/weeks.ts
+// ../../../../packages/ledger/src/summary/weeks.ts
 function wholeWeeks(done) {
   return Object.keys(done.weeks).sort().filter((week) => !done.weeks[week].countedTo && Object.keys(done.weeks[week].counts ?? {}).length > 0);
 }
@@ -5405,7 +5337,7 @@ function factsCounted(done, weeks) {
   return facts;
 }
 
-// src/lines/content-lines.ts
+// ../../../../packages/ledger/src/summary/lines/content-lines.ts
 function contentLines(done) {
   const week = weekSoFar(done) ?? Object.keys(done.weeks).sort().reverse().find((each) => done.weeks[each].said?.length);
   const said = week ? done.weeks[week].said ?? [] : [];
@@ -5429,7 +5361,7 @@ function written(n) {
   return rounded.toLocaleString("en-AU", { maximumFractionDigits: 1 });
 }
 
-// src/lines/count-lines.ts
+// ../../../../packages/ledger/src/summary/lines/count-lines.ts
 function weeklyLines(done, goalFact) {
   const weeks = wholeWeeks(done);
   return goalFirst(factsCounted(done, weeks), goalFact).map((fact) => {
@@ -5544,7 +5476,7 @@ function weeksLeft(from, by) {
   return Math.max(1, weeks);
 }
 
-// src/lines/goal-lines.ts
+// ../../../../packages/ledger/src/summary/lines/goal-lines.ts
 var SURE_AFTER2 = 8;
 function goalLines(want) {
   if (!want) {
@@ -5583,7 +5515,7 @@ function goalText(want) {
   return `more ${want.fact}`;
 }
 
-// src/lines/not-counted-lines.ts
+// ../../../../packages/ledger/src/summary/lines/not-counted-lines.ts
 function notCountedLines(graph, done) {
   const counted = new Set(done.facts.map((line) => line.fact.replace(/\s*\[.+\]$/, "")));
   const never = (graph?.facts ?? []).map((fact) => fact.fact).filter((fact) => !counted.has(fact));
@@ -5593,7 +5525,7 @@ function notCountedLines(graph, done) {
   return [`not counted: ${never.join(", ")} (unknown is not zero)`];
 }
 
-// src/lines/rate-lines.ts
+// ../../../../packages/ledger/src/summary/lines/rate-lines.ts
 function rateLines(graph) {
   const known = (graph?.links ?? []).filter((link) => link.result.kind !== "unknown" && (link.label === "proven" || link.label === "believed"));
   return known.map((link) => `links with a known rate: ${fromText(link)} -> ${link.to}: ${resultText(link.result)} (calculated, ${link.label})`);
@@ -5615,7 +5547,7 @@ function resultText(result) {
   return `${amount} ${result.kind} ${written(result.out)} ${result.unit}`.trim();
 }
 
-// src/lines/scanner-lines.ts
+// ../../../../packages/ledger/src/summary/lines/scanner-lines.ts
 function scannerLines(done) {
   const lines = [];
   for (const week of Object.keys(done.weeks).sort()) {
@@ -5698,7 +5630,7 @@ function repeatsIn(plan, week) {
   return entries;
 }
 
-// src/lines/step-lines.ts
+// ../../../../packages/ledger/src/summary/lines/step-lines.ts
 function stepLines(plan, done, today) {
   if (!plan) {
     return [];
@@ -5717,7 +5649,7 @@ function stepLines(plan, done, today) {
   ];
 }
 
-// src/write-summary.ts
+// ../../../../packages/ledger/src/summary/write-summary.ts
 function writeSummary(ledger, today) {
   const done = ledger.done ?? { weeks: {}, facts: [], others: [] };
   const want = ledger.plan?.want;
@@ -5733,6 +5665,74 @@ function writeSummary(ledger, today) {
     ...scannerLines(done),
     ...notCountedLines(ledger.graph, done)
   ];
+}
+
+// src/describe-result.ts
+var HEADINGS = {
+  preview: "preview: nothing written",
+  written: "written",
+  current: "read back: the summary is current",
+  "not current": "read back: the summary is not what the lines above it say now: run with --go"
+};
+function describeResult(outcome, ledgerPath, summary) {
+  const text = [HEADINGS[outcome], `ledger: ${ledgerPath}`, "", "=== summary ===", ...summary].join("\n");
+  return { text, data: { outcome, ledger: ledgerPath, summary } };
+}
+
+// src/put-summary.ts
+var SUMMARY_HEADING = "=== summary ===";
+function putSummary(ledgerText, summary) {
+  const lines = ledgerText.replace(/\s+$/, "").split("\n");
+  const at = lines.findIndex((line) => line.trim() === SUMMARY_HEADING);
+  const above = at < 0 ? lines : lines.slice(0, at);
+  const kept = above.join("\n").replace(/\s+$/, "");
+  return `${kept}
+
+${SUMMARY_HEADING}
+${summary.join("\n")}
+`;
+}
+function summaryIn(ledgerText) {
+  const lines = ledgerText.replace(/\s+$/, "").split("\n");
+  const at = lines.findIndex((line) => line.trim() === SUMMARY_HEADING);
+  return at < 0 ? [] : lines.slice(at + 1);
+}
+
+// src/read-args.ts
+var USAGE = "node dist/run.js --ledger <file> --settings <file> [--today <date>] [--preview | --go | --read-back] [--run-log <file>] [--json]";
+var VALUE_FLAGS = ["--ledger", "--settings", "--today", "--run-log"];
+var DATE2 = /^\d{4}-\d{2}-\d{2}$/;
+function readArgs(args) {
+  const values = {};
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
+    const value = args[index + 1];
+    if (arg === "--json" || isModeFlag(arg)) {
+      continue;
+    }
+    if (VALUE_FLAGS.includes(arg) && value !== void 0 && !value.startsWith("--")) {
+      values[arg] = value;
+      index += 1;
+      continue;
+    }
+    return { ok: false, problem: `Not understood: ${arg}. Use: ${USAGE}` };
+  }
+  const ledger = values["--ledger"];
+  const settings = values["--settings"];
+  if (!ledger || !settings) {
+    return { ok: false, problem: `Name the ledger and the settings. Use: ${USAGE}` };
+  }
+  if (values["--today"] && !DATE2.test(values["--today"])) {
+    return { ok: false, problem: "--today must be a date such as 2026-12-02" };
+  }
+  const read = { ledger, settings };
+  if (values["--today"]) {
+    read.today = values["--today"];
+  }
+  if (values["--run-log"]) {
+    read.runLog = values["--run-log"];
+  }
+  return { ok: true, args: read };
 }
 
 // src/run.ts

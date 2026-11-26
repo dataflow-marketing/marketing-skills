@@ -1,6 +1,6 @@
 // Who this week's content was for, from the said lines of the week counted so far (or the latest week said).
 
-import type { Done } from "@dataflow-marketing/ledger/read";
+import type { Done } from "../../read/index.ts";
 import { weekSoFar } from "../weeks.ts";
 
 export function contentLines(done: Done): string[] {

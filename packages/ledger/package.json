@@ -12,7 +12,8 @@
     "./carry": "./src/carry.ts",
     "./dates": "./src/dates.ts",
     "./week-steps": "./src/week-steps.ts",
-    "./numbers": "./src/numbers.ts"
+    "./numbers": "./src/numbers.ts",
+    "./summary": "./src/summary/write-summary.ts"
   },
   "scripts": {
     "test": "vitest run",

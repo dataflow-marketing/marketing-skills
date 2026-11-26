@@ -1,4 +1,4 @@
-import { readLedger } from "@dataflow-marketing/ledger/read";
+import { readLedger } from "../../read/index.ts";
 import { describe, expect, it } from "vitest";
 import { rateLines } from "./rate-lines.ts";
 

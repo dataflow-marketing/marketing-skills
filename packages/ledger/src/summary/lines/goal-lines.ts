@@ -1,9 +1,9 @@
 // The goal (a want) and, for a weekly goal with a date, its straight line forecast (an expectation).
 
-import { mondayOf } from "@dataflow-marketing/ledger/dates";
-import { straightLineForecast } from "@dataflow-marketing/ledger/forecast";
-import type { Done, Want } from "@dataflow-marketing/ledger/read";
-import { written } from "@dataflow-marketing/ledger/numbers";
+import { mondayOf } from "../../dates.ts";
+import { straightLineForecast } from "../../forecast.ts";
+import type { Done, Want } from "../../read/index.ts";
+import { written } from "../../numbers.ts";
 import { wholeWeeks } from "../weeks.ts";
 
 const SURE_AFTER = 8; // weeks counted before the line is more than rough

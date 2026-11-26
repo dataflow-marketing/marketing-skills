@@ -2,7 +2,7 @@
 // Every line ends with its summary source and says whether it is a want, an expectation or something that happened.
 // Pure: takes the ledger as read and today's date, gives back the summary's lines.
 
-import type { Ledger } from "@dataflow-marketing/ledger/read";
+import type { Ledger } from "../read/index.ts";
 import { contentLines } from "./lines/content-lines.ts";
 import { soFarLines, totalLines, weeklyLines } from "./lines/count-lines.ts";
 import { forecastLines, goalLines } from "./lines/goal-lines.ts";
