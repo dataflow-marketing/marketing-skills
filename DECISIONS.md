@@ -560,5 +560,5 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 
 ## 2026-11-26: askai-make puts together the spec's copy; the summary is shared code
 **Chose:** askai-make writes the copy from spec/ask-ai-instructions.txt (kept word for word), the profile and the ledger with a summary written fresh today; a test proves it makes examples/coffee-shop/ask-ai-copy.txt word for word; the summary's pieces live in packages/ledger, used by summary-make and askai-make
-**Over:** askai-make running summary-make, or a copy of the summary code in each skill
+**Over:** askai-make running summary-make; a copy of the summary code in each skill
 **Why:** skills never run each other; shared code is how two skills use one piece
