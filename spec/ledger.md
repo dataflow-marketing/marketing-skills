@@ -51,7 +51,7 @@ A business just starting has only the done part. The summary is written by a ski
 | **cycle** | `cycle weekly` | the length of one turn; only the default for a step with no timing | in use (as `cycle:`) |
 | area, icon | `area Website: visits, found the site` | how the picture is drawn | in use |
 
-**Plain ASCII.** A ledger is written in plain ASCII: a link is `->` and a step taken off is `-`. A reader also accepts the Unicode arrow (U+2192) and minus sign (U+2212), which older ledgers use.
+**Plain ASCII.** A ledger is written in plain ASCII: a link is `->` and a step taken off is `-`. A reader also accepts the Unicode arrow (U+2192) and minus sign (U+2212), which older ledgers and AI chats use. It reads curly quotes and apostrophes as straight ones and odd spaces (such as the no break space) as ordinary spaces. Everything else in a ledger is kept as written.
 
 **A link's rate** is a count (`8 of 41`), a range when assumed (`1 to 3 of 10`), borrowed (`like offers to share`), from the people list (`from people`) or unknown (`?`). It can say how long it takes (`, within 2 weeks`) and be marked a downside (`(unknown, downside)`).
 

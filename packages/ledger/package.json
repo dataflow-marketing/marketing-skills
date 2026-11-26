@@ -1,0 +1,24 @@
+{
+  "name": "@dataflow-marketing/ledger",
+  "version": "0.1.0",
+  "private": true,
+  "description": "dfm-ledger: the pure pieces of the ledger. The reader, carry forward and the straight line forecast",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./read": "./src/read/index.ts",
+    "./forecast": "./src/forecast.ts",
+    "./carry": "./src/carry.ts",
+    "./dates": "./src/dates.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "build": "node build.ts",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.work.json"
+  },
+  "devDependencies": {
+    "peggy": "5.1.1",
+    "@dataflow-marketing/core": "workspace:*"
+  }
+}

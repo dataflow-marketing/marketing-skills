@@ -487,3 +487,43 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** quotes-check skips a capital word at the start of a quote when it looks for names; the quote itself is checked whole
 **Over:** reporting it as a name as well
 **Why:** in a real profile it reported words such as "The" as names; the quote was already proved word for word
+
+## 2026-11-26: The first ledger core
+**Chose:** packages/ledger (the reader, carry forward and the forecast); dfm-ledger with plan-make, plan-check, summary-make, askai-make and counts-record; the week-run recipe; plan-make as client-run's third step
+**Over:** a smaller first version of plan-make, plan-check and summary-make only
+**Why:** with askai-make and told counts a business on any website has a plan, a weekly record and a copy for any AI; the rest (plan-change, inbox-read, followups-check, rates-record, whatif-make, picture-make) follows
+
+## 2026-11-26: plan-make starts from the starter plan
+**Chose:** plan-make begins with the starter plan (four steps a week) and changes one thing at a time in conversation
+**Over:** a blank conversation
+**Why:** it is how real businesses start in dfm today; it keeps the first conversation short
+
+## 2026-11-26: Counts are told by the person in the first version
+**Chose:** counts-record takes numbers the person tells it (source told); reading counts from platforms comes with their plugins
+**Over:** building platform readers first
+**Why:** told numbers work for every business, on any website
+
+## 2026-11-26: The ledger is a file in the working folder for now
+**Chose:** ledger.txt in the working folder, beside profile.txt; Ghost member fields later through the store skills
+**Over:** storing it in a platform now
+**Why:** the same reasons as the profile (simple, readable, checkable); the store comes as its own step
+
+## 2026-11-26: Building the ledger core and swapping it into a runner are separate
+**Chose:** build and prove the public ledger pieces first; swapping a runner's own code for them is its own step with its own zero difference check
+**Over:** doing the first swap while building
+**Why:** each step is proved on its own; a runner is never changed by a public build
+
+## 2026-11-26: The ledger reader matches dfm's on every real field and reads plain ASCII
+**Chose:** packages/ledger's reader is proved against dfm's own reader on the fields of seven real businesses, as written and again with every arrow and minus sign in ASCII: zero differences, apart from the one by design (the source paste is read as told); the grammar now stops a name at `->` as it does at the Unicode arrow
+**Over:** building skills on the reader before it was proved
+**Why:** a ledger written to spec 1 uses `->`; before the change a name ran on through `->` and the line could not be read
+
+## 2026-11-26: Write plain ASCII, read the arrow and minus sign too
+**Chose:** everything dfm writes uses `->` and `-`; every reader also accepts the Unicode arrow (U+2192) and minus sign (U+2212), for good
+**Over:** refusing them once every ledger is in ASCII
+**Why:** real ledgers already use them; AI chats write the arrow on their own. Refusing them would turn a harmless habit into an error
+
+## 2026-11-26: The reader reads look-alike punctuation as the plain kind
+**Chose:** before a ledger is read, curly quotes and apostrophes become straight ones, odd spaces (such as the no break space) become ordinary spaces and a byte order mark at the start is dropped, as the arrow and minus sign already are; everything else in a ledger is kept as written
+**Over:** a line failing to read (or one name read as two) because of punctuation that looks the same
+**Why:** people and AI chats paste these in; the format's own punctuation must read the same whichever kind was typed
