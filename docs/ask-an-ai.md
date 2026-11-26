@@ -10,6 +10,8 @@ You can use dataflow marketing today with any AI chat (ChatGPT, Gemini, the Clau
 4. Answer with a number. Keep going. Each reply after the first starts with its round, `Round 2 of 7` and so on.
 5. It ends with a short email: `Change:` lines and one sentence on why.
 
+To see one before trying it: [a whole conversation](../examples/coffee-shop/ask-ai-conversation.md) with the coffee shop's copy.
+
 **What good looks like:**
 
 - Every number comes from the summary. It never works out its own.

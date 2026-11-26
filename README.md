@@ -25,7 +25,7 @@ Questions are welcome: email me at matt@mattcameron.me. Feel welcome to raise an
 
 **Start on the [starter plan](examples/starter/README.md):** four steps a week, then change one thing at a time.
 
-**Today, with no install:** [ask an AI about your marketing plan](docs/ask-an-ai.md). Paste the coffee shop's copy into ChatGPT to see it work, then make one for your own business by hand.
+**Today, with no install:** [ask an AI about your marketing plan](docs/ask-an-ai.md). Read [a whole conversation](examples/coffee-shop/ask-ai-conversation.md) to see what comes back, paste the coffee shop's copy into ChatGPT to see it work, then make one for your own business by hand.
 
 **When the skills are built:**
 

@@ -642,10 +642,10 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Why:** that is enough to take over the write at the end of the runner's push; the rest follow
 **Source:** stated (agreed), inferred (the reason as worded)
 
-## 2026-11-26: The Ghost behaviour is proved on a test member on vibe2value.com
-**Chose:** a test member on vibe2value.com to prove what Ghost does with a member write (no version check expected)
+## 2026-11-26: The Ghost behaviour is proved on a test member
+**Chose:** a test member on a real Ghost site to prove what Ghost does with a member write (no version check expected)
 **Over:** relying on what Ghost is believed to do
-**Why:** the guard at step 4 is only as good as what Ghost really does; vibe2value.com already takes the trial drafts
+**Why:** the guard at step 4 is only as good as what Ghost really does; that site already takes the trial drafts
 **Source:** stated
 
 ## 2026-11-26: The store's small formats
@@ -672,16 +672,16 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Why:** a runner swapping its push for the store (the next step after the reader swap) needs the same functions without a skill around them
 **Source:** inferred
 
-## 2026-11-26: vibe2value.com is upgraded to prove the ghost connector
-**Chose:** upgrade vibe2value.com's Ghost (6.58 has no member custom fields), then prove the ghost connector on a test member there
-**Over:** a local Ghost (Western District Digital's at 6.71); the Violin World local copy, which holds real members
-**Why:** the agreed test site was vibe2value.com; it was found to lack member fields when checked read only
+## 2026-11-26: The test site's Ghost is upgraded to prove the ghost connector
+**Chose:** upgrade the test site's Ghost (6.58 has no member custom fields), then prove the ghost connector on a test member there
+**Over:** a local Ghost at 6.71; a local copy that holds real members
+**Why:** it was the agreed test site; it was found to lack member fields when checked read only
 **Source:** stated (the upgrade), inferred (the reason as worded)
 
-## 2026-11-26: The ghost connector is proved on influencer.tips, for vibe2value (reverses the upgrade)
-**Chose:** vibe2value.com is the business under test; its objects are kept in its member record on influencer.tips, the Ghost that already has member custom fields
-**Over:** upgrading vibe2value.com's Ghost and keeping the test member there
-**Why:** that is how the method keeps every business: as a member of influencer.tips; vibe2value.com needs no upgrade
+## 2026-11-26: The ghost connector is proved on a real member record (reverses the upgrade)
+**Chose:** the business under test keeps its objects in its own member record on a Ghost site that already has member custom fields
+**Over:** upgrading the test site's Ghost and keeping the test member there
+**Why:** that is how the method keeps a business: as a member record; no upgrade is needed
 **Source:** stated (where the data goes), inferred (the reason as worded)
 
 ## 2026-11-26: A public line beside its Ghost line is taken out
@@ -795,3 +795,15 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** leaving the three newer skills to files and Ghost only
 **Why:** the two branches were built side by side; one connector that works for every skill keeps the skills free of store kinds
 **Source:** inferred
+
+## 2026-11-26: A whole ask an AI conversation as an example
+**Chose:** examples/coffee-shop/ask-ai-conversation.md, the coffee shop's copy pasted as it is with the AI's replies written from the copy alone, linked from the README and the tutorial
+**Over:** only the copy and the tutorial's description of what comes back
+**Why:** someone can see it work in principle before installing anything or pasting it themselves
+**Source:** stated
+
+## 2026-11-27: Older commit titles stay as they are
+**Chose:** take names out of the files going forward and leave history alone
+**Over:** rewording an older commit title and force pushing develop
+**Why:** a force push gives six public commits new ids while the old commit and older file versions stay reachable; the files people read now carry no names
+**Source:** stated (no force push), inferred (the reasons)
