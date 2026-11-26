@@ -6,3 +6,4 @@ export { readSettings } from "./read-settings.ts";
 export { readKey } from "./read-key.ts";
 export { appendRunLine } from "./append-run-line.ts";
 export { printOutput } from "./print-output.ts";
+export { runLogPath, RUN_LOG_FILE } from "./run-log-path.ts";

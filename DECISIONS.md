@@ -356,3 +356,23 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** the writing check fails any character outside plain ASCII; the ledger format writes links with `->` and taken off steps with `-`; readers still accept the Unicode arrow (U+2192) and minus sign (U+2212) from older ledgers; the coffee shop is a "cafe", without the accent
 **Over:** banning only emojis and em dashes; allowing a short list of other characters
 **Why:** the files stay plain text, predictable in any editor or terminal; one rule covers emojis, em dashes and symbols
+
+## 2026-11-26: A test that needs Node is named .node.test.ts
+**Chose:** a test that must run in Node (a built script run end to end, a check against node:crypto, a guard that reads files) sits beside its file as <file>.node.test.ts and runs in Node; every other test runs the way a Worker runs
+**Over:** keeping such tests in a separate folder
+**Why:** the rule that a test sits beside its file holds for every test; the name says where it runs
+
+## 2026-11-26: One shared check that work modules never reach Node
+**Chose:** core/build holds the one check (usesNode, nodeInWorkModules) that core and every plugin use for their guard tests
+**Over:** a copy of the check in each plugin
+**Why:** the copies had drifted: two still missed every "node:" import after core's was fixed
+
+## 2026-11-26: A skill asks for what it needs; site-add asks for the time zone when it starts a settings file
+**Chose:** when a skill runs and needs information it does not have, it asks for it (its script refuses until it is given); site-add takes --time-zone when it starts a new settings file and refuses to start one without it
+**Over:** site-add starting a settings file with no time zone; site-add never starting one
+**Why:** a skill should never leave settings that break the next skill; asking is the way to get what is missing
+
+## 2026-11-26: The first loop works
+**Chose:** mark quotes-check, post-make, site-add, post-draft and recording-run as works: on 26 Nov a real recording became a checked draft post on a real Ghost site, read back as a draft and published by no skill
+**Over:** keeping them at built until the findings from that run are fixed
+**Why:** a skill works when it has done one real job (spec/skills.md); the findings are fixed next, on develop

@@ -1,0 +1,16 @@
+{
+  "name": "@dataflow-marketing/dfm-content",
+  "version": "0.1.0",
+  "private": true,
+  "description": "dataflow marketing: content skills. post-make makes a post from a person's own words; quotes-check proves that every quote, name, number and money amount in a text is in its source.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "build": "node build.ts",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.work.json"
+  },
+  "devDependencies": {
+    "@dataflow-marketing/core": "workspace:*"
+  }
+}

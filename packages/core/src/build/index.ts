@@ -4,3 +4,4 @@ export { bundleScript } from "./bundle-script.ts";
 export { distIsCurrent } from "./dist-is-current.ts";
 export type { DistCheck } from "./dist-is-current.ts";
 export type { ScriptBundle } from "./bundle-options.ts";
+export { nodeInWorkModules, usesNode } from "./node-in-work-modules.ts";

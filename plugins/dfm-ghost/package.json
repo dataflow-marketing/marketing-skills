@@ -1,0 +1,16 @@
+{
+  "name": "@dataflow-marketing/dfm-ghost",
+  "version": "0.1.0",
+  "private": true,
+  "description": "dataflow marketing: Ghost skills. site-add names a site in settings; post-draft puts a checked post on Ghost as a draft.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "build": "node build.ts",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.work.json"
+  },
+  "devDependencies": {
+    "@dataflow-marketing/core": "workspace:*"
+  }
+}

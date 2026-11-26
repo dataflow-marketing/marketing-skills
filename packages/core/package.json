@@ -14,5 +14,8 @@
     "test": "vitest run",
     "build": "node example/settings-show/build.ts",
     "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.work.json"
+  },
+  "dependencies": {
+    "jose": "6.2.17"
   }
 }

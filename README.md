@@ -10,7 +10,7 @@ This is based on real work I'm currently doing at [influencer.tips](https://www.
 
 Questions are welcome: email me at matt@mattcameron.me. Feel welcome to raise an [issue](https://github.com/dataflow-marketing/marketing-skills/issues). Everyone taking part follows the [code of conduct](CODE_OF_CONDUCT.md).
 
-**Status: the foundation is built, nothing to install yet.** The shared formats come first: [spec 1](spec/README.md) is a draft. The first skills are being written now; [the plan](#the-plan-and-where-it-is-up-to) shows where each part is up to.
+**Status: the first loop works: a recording becomes a checked draft post on Ghost.** The shared formats come first: [spec 1](spec/README.md) is a draft. More are being written now; [the plan](#the-plan-and-where-it-is-up-to) shows where each part is up to.
 
 ## A worked example
 
@@ -103,8 +103,8 @@ Everything planned, in the order it is built. Each row changes in the same commi
 | 1. spec 1 | the shared formats: ledger, words, settings, check report, store, profile, forecast | built (a draft until the first skills run on real work) |
 | 2. ask an AI by hand | the instructions, the coffee shop copy and a tutorial | works |
 | 3. the foundation | the workspace, `packages/core` (settings, keys, output, run log, build) and the writing check | built |
-| 4. first loop | quotes-check, post-make, site-add, post-draft, recording-run | next |
-| 5. ledger core | the ledger skills and week-run | planned |
+| 4. first loop | quotes-check, post-make, site-add, post-draft, recording-run | works |
+| 5. ledger core | the ledger skills and week-run | next |
 | 6. the rest | content, media, storage, more platforms, upkeep | planned |
 
 ### The foundation
@@ -112,7 +112,7 @@ Everything planned, in the order it is built. Each row changes in the same commi
 | Part | Does | Tests | Version | State |
 |---|---|---|---|---|
 | `spec/` | the shared formats every skill reads or writes | | spec 1 (draft) | built |
-| `packages/core` | reads settings and keys, checks settings, formats output and the run log line, builds and checks the bundled scripts | yes, beside each file | 0.1.0 | built |
+| `packages/core` | reads settings and keys, checks settings, makes the Ghost Admin token, formats output and the run log line, builds and checks the bundled scripts | yes, beside each file | 0.1.0 | built |
 | `scripts/` | checks the writing rules across the repo (`pnpm check`) | yes | 0.1.0 | built |
 | `examples/coffee-shop` | the made up business every test and example uses | | | built |
 | `examples/starter` | the starter plan: four steps a week | | | built |
@@ -121,24 +121,24 @@ Everything planned, in the order it is built. Each row changes in the same commi
 
 The examples have no version: they are read, never installed.
 
-### dfm-content: words, from the person's own (not started)
+### dfm-content: words, from the person's own (0.1.0)
 
 | Skill | Does | Kind | Script | State |
 |---|---|---|---|---|
-| quotes-check | checks every quote, name and number in a text against its source | code | no | next |
-| post-make | turns their own words (a transcript, notes, a reply) into a post, never invented | model | none | next |
+| quotes-check | checks every quote, name and number in a text against its source | code | yes | works |
+| post-make | turns their own words (a transcript, notes, a reply) into a post, never invented | model | none | works |
 | profile-make | makes a business's profile from its site | model | none | planned |
 | share-make | words to share a post or clip on a channel | model | none | planned |
 | message-make | a direct message or 1:1 email from their words | model | none | planned |
 | ideas-make | what to make next and why, from what people asked | model | none | planned |
 | schedule-make | a run of weeks, each with its post and share | model | none | planned |
 
-### dfm-ghost: Ghost sites (not started)
+### dfm-ghost: Ghost sites (0.1.0)
 
 | Skill | Does | Kind | Script | State |
 |---|---|---|---|---|
-| site-add | adds a site to settings; the key goes in through a hidden prompt | code | no | next |
-| post-draft | puts a words file on Ghost as a draft and reads its status back | code | no | next |
+| site-add | adds a site to settings; the key goes in through a hidden prompt | code | yes | works |
+| post-draft | puts a words file on Ghost as a draft and reads its status back | code | yes | works |
 | numbers-read | a week's members, paid plans, emails, opens and clicks | code | no | planned |
 | fields-read | a member's custom fields | code | no | planned |
 | fields-change | changes one custom field for one member, read back | code | no | planned |
@@ -218,11 +218,11 @@ The examples have no version: they are read, never installed.
 |---|---|---|---|---|
 | pack-make | a ready to post folder for a channel with no API | code | no | planned |
 
-### dfm-recipes: the front door (not started)
+### dfm-recipes: the front door (0.1.0)
 
 | Recipe | Runs, in order | State |
 |---|---|---|
-| recording-run | transcript-make, post-make, quotes-check, post-draft | next |
+| recording-run | a transcript (by hand until transcript-make is built), post-make, quotes-check, post-draft | works |
 | week-run | the week's counts from each platform, counts-record, summary-make, followups-check | planned |
 | client-run | site-add, llms-check, profile-make, quotes-check, plan-make, fields-change | planned |
 | clips-run | transcript-make, clips-make, video-encode, share-make, pack-make | planned |

@@ -1,4 +1,5 @@
-// Each test sits beside the file it tests, named <file>.test.ts. Two kinds of test:
+// Each test sits beside the file it tests, named <file>.test.ts (<file>.node.test.ts when it needs Node).
+// Two kinds of test:
 // work: the work modules, run inside workerd the way a Worker runs them. The pool turns some Node flags on for the
 //   runner itself: a passing work test does not prove a module has no Node API. The guards for that are
 //   `pnpm typecheck` (tsconfig.work.json has no Node types) and src/index.test.ts
@@ -22,7 +23,7 @@ export default defineConfig({
         test: {
           name: "work",
           include: ["src/**/*.test.ts", "example/*/src/**/*.test.ts"],
-          exclude: ["src/node/**", "src/build/**", "src/index.test.ts"],
+          exclude: ["src/node/**", "src/build/**", "src/index.test.ts", "**/*.node.test.ts"],
           pool: cloudflarePool(workerOptions),
         },
       },
@@ -33,6 +34,7 @@ export default defineConfig({
             "src/node/**/*.test.ts",
             "src/build/**/*.test.ts",
             "src/index.test.ts",
+            "src/**/*.node.test.ts",
             "fixtures/**/*.test.ts",
             "example/*/build.test.ts",
           ],

@@ -1,0 +1,12 @@
+{
+  "name": "dfm-ghost",
+  "version": "0.1.0",
+  "description": "dataflow marketing: Ghost as a platform. site-add names a Ghost site and the variable that holds its key in settings; post-draft puts a checked words file on Ghost as a draft and reads it back.",
+  "author": {
+    "name": "mattcam"
+  },
+  "homepage": "https://dataflow.marketing",
+  "repository": "https://github.com/dataflow-marketing/marketing-skills",
+  "license": "MIT",
+  "keywords": ["dataflow-marketing", "dfm", "ghost", "draft", "post"]
+}

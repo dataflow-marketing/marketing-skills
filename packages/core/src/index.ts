@@ -11,6 +11,10 @@ export type { Keys } from "./keys/parse-keys-file.ts";
 export { findKey, MissingKeyError } from "./keys/find-key.ts";
 export { keyFromEnv } from "./keys/key-from-env.ts";
 
+export { adminToken } from "./ghost/token.ts";
+export { MalformedAdminKeyError, parseAdminKey } from "./ghost/admin-key.ts";
+export type { AdminKey } from "./ghost/admin-key.ts";
+
 export { formatRunLine } from "./run-log/format-run-line.ts";
 export type { RunLogEntry } from "./run-log/format-run-line.ts";
 
@@ -19,3 +23,5 @@ export type { OutputMode } from "./output/output-mode.ts";
 export { formatOutput } from "./output/format-output.ts";
 export type { ScriptResult } from "./output/format-output.ts";
 export { EXIT_DONE, EXIT_PROBLEMS_FOUND, EXIT_REFUSED_OR_FAILED } from "./output/exit-codes.ts";
+export { isModeFlag, writeMode } from "./output/write-mode.ts";
+export type { WriteMode, WriteModeResult } from "./output/write-mode.ts";

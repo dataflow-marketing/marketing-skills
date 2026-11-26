@@ -1,0 +1,12 @@
+{
+  "name": "dfm-recipes",
+  "version": "0.1.0",
+  "description": "dataflow marketing: recipes that run the dfm skills a job needs in order and stop for a yes between each. recording-run turns a recording into a checked draft post on Ghost.",
+  "author": {
+    "name": "mattcam"
+  },
+  "homepage": "https://dataflow.marketing",
+  "repository": "https://github.com/dataflow-marketing/marketing-skills",
+  "license": "MIT",
+  "keywords": ["dataflow-marketing", "dfm", "recipes", "recording", "draft"]
+}
