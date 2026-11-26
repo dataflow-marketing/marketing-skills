@@ -27,6 +27,11 @@
       "name": "dfm-recipes",
       "source": "./plugins/dfm-recipes",
       "description": "Recipes that run skills in order: client-run sets up a business (start here if you are new to dfm); recording-run turns a recording into a draft post."
+    },
+    {
+      "name": "dfm-ledger",
+      "source": "./plugins/dfm-ledger",
+      "description": "A business's ledger: plan-check reads a ledger and names every problem in it."
     }
   ]
 }

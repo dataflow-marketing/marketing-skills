@@ -104,7 +104,7 @@ Everything planned, in the order it is built. Each row changes in the same commi
 | 2. ask an AI by hand | the instructions, the coffee shop copy and a tutorial | works |
 | 3. the foundation | the workspace, `packages/core` (settings, keys, output, run log, build) and the writing check | built |
 | 4. first loop | quotes-check, post-make, site-add, post-draft, recording-run | works |
-| 5. ledger core | the ledger skills and week-run | next |
+| 5. ledger core | the ledger skills and week-run (first version: plan-make, plan-check, counts-record, summary-make, askai-make, week-run) | next |
 | 6. the rest | content, media, storage, more platforms, upkeep | planned |
 
 ### The foundation
@@ -113,6 +113,7 @@ Everything planned, in the order it is built. Each row changes in the same commi
 |---|---|---|---|---|
 | `spec/` | the shared formats every skill reads or writes | | spec 1 (draft) | built |
 | `packages/core` | reads settings and keys, checks settings, makes the Ghost Admin token, formats output and the run log line, builds and checks the bundled scripts | yes, beside each file | 0.1.0 | built |
+| `packages/ledger` | reads a ledger (spec 1, older words and look-alike punctuation too), carries steps forward, makes the straight line forecast; proved against real ledgers | yes, beside each file | 0.1.0 | built |
 | `scripts/` | checks the writing rules across the repo (`pnpm check`) | yes | 0.1.0 | built |
 | `examples/coffee-shop` | the made up business every test and example uses | | | built |
 | `examples/starter` | the starter plan: four steps a week | | | built |
@@ -147,13 +148,13 @@ The examples have no version: they are read, never installed.
 | post-change | changes a published page's text on an explicit ask, with a backup | code | no | planned |
 | member-signin | a sign in link for a member, to the terminal only | code | no | planned |
 
-### dfm-ledger: the method, on any platform (not started)
+### dfm-ledger: the method, on any platform (0.1.0)
 
 | Skill | Does | Kind | Script | State |
 |---|---|---|---|---|
 | plan-make | a new ledger from a conversation | model | none | planned |
 | plan-change | changes a ledger, the difference shown first | code | no | planned |
-| plan-check | reads every line and names the problems | code | no | planned |
+| plan-check | reads every line and names the problems | code | yes | built |
 | counts-record | adds the week's counts, ticks and said lines | code | no | planned |
 | summary-make | writes a ledger's summary | code | no | planned |
 | askai-make | a copy of the ledger and profile for any AI chat | code | no | planned |
@@ -248,7 +249,7 @@ In Claude Code, add the marketplace:
 Then install every plugin at once from a terminal, in the folder you work in. `--scope local` keeps them to that folder; leave it out to have them in every session:
 
 ```
-for p in dfm-recipes dfm-content dfm-ghost dfm-site; do claude plugin install "$p@dataflow-marketing" --scope local; done
+for p in dfm-recipes dfm-content dfm-ghost dfm-site dfm-ledger; do claude plugin install "$p@dataflow-marketing" --scope local; done
 ```
 
 Inside Claude Code, put `!` in front of that line to run it there. Or install one at a time with `/plugin install dfm-recipes@dataflow-marketing`.
