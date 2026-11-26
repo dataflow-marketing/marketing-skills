@@ -43,4 +43,14 @@ describe("readDone", () => {
     expect(done.others).toEqual(["a line of notes"]);
     expect(unread).toEqual([{ line: 7, text: "a line of notes" }]);
   });
+
+  it("reads a said line with a topic; leaves the topic unknown when there is none", () => {
+    const { done: withTopic } = readDone(
+      numbered('2026-11-30 said on Instagram on 2026-12-01: "Iced coffee is back" https://coffee-shop.example/iced-coffee/ [Regulars] topic: summer menu summary: "From Monday."'),
+    );
+    const said = withTopic.weeks["2026-11-30"].said?.[0];
+    expect(said?.topic).toBe("summer menu");
+    expect(said?.for).toEqual(["Regulars"]);
+    expect(done.weeks["2026-11-16"].said?.[0].topic).toBeUndefined();
+  });
 });

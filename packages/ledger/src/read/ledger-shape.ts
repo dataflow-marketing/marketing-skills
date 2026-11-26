@@ -88,7 +88,8 @@ export type Plan = {
 export type Answer = "done" | "not done";
 
 // what went out: the channel or way, the day, its title, link, who it was for and a summary
-export type Said = { how: string; on: string; title: string; url: string; for: string[]; summary: string };
+// topic: what the content is about; optional, unknown when there is none
+export type Said = { how: string; on: string; title: string; url: string; for: string[]; topic?: string; summary: string };
 
 // each week is keyed by the date its lines are written with
 export type DoneWeek = {

@@ -5,7 +5,8 @@
 //   2026-11-16 fact count visits: 1,240                   how many in that week
 //   2026-11-23 fact total loyalty list: 312               how many on that day
 //   2026-11-16 counted to 2026-11-18                      the week's counts are so far, to that day
-//   2026-11-30 said on Instagram on 2026-12-01: "..." <link> [<who>] summary: "..."
+//   2026-11-30 said on Instagram on 2026-12-01: "..." <link> [<who>] topic: <what about> summary: "..."
+//                                                                       (the topic is optional)
 //
 // A count for one group is read as a count whose name ends with the group: `emails sent [Keen]`.
 // Any other line is kept exactly as written in others and given back as unread: it is never lost.
@@ -18,7 +19,8 @@ const DATE = "(\\d{4}-\\d{2}-\\d{2})";
 const NUMBER = "(\\d+(?:,\\d{3})*(?:\\.\\d+)?)";
 
 const STARTED = new RegExp(`^started ${DATE}$`);
-const SAID = new RegExp(`^${DATE} said (.+?) on ${DATE}: "(.*)" (\\S+) \\[(.*)\\] summary: "(.*)"$`);
+// a topic is optional: when there is none it is unknown, never guessed
+const SAID = new RegExp(`^${DATE} said (.+?) on ${DATE}: "(.*)" (\\S+) \\[(.*)\\](?: topic: (.+?))? summary: "(.*)"$`);
 const COUNTED_TO = new RegExp(`^${DATE} counted to ${DATE}$`);
 const ANSWER = new RegExp(`^${DATE} (.+): (done|not done)(?: at (\\S+ \\S+))?$`);
 const FACT_TOTAL = new RegExp(`^${DATE} fact total (.+): ${NUMBER}$`);
@@ -114,7 +116,8 @@ function addSaid(week: DoneWeek, match: RegExpExecArray): void {
     title: match[4],
     url: match[5],
     for: match[6].split(", ").filter(Boolean),
-    summary: match[7],
+    ...(match[7] ? { topic: match[7] } : {}),
+    summary: match[8],
   };
   const others = (week.said ?? []).filter((earlier) => !(earlier.url === said.url && earlier.how === said.how));
   week.said = [...others, said];

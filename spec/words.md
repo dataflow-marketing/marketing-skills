@@ -32,7 +32,7 @@ Iced coffee is back from Monday.
 | title | the title, in the person's words | for a post or email |
 | excerpt | one or two sentences, in the person's words | no |
 | channel | where it goes, a channel named in the ledger | yes |
-| topic | what it is about | no |
+| topic | what it is about; with none it is unknown, never guessed | no |
 | for | the group or groups it is for; everyone if none | no |
 | ask | the action it asks someone to take | no |
 | campaign | the campaign it belongs to | no |

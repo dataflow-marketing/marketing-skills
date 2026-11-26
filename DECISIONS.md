@@ -527,3 +527,13 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** before a ledger is read, curly quotes and apostrophes become straight ones, odd spaces (such as the no break space) become ordinary spaces and a byte order mark at the start is dropped, as the arrow and minus sign already are; everything else in a ledger is kept as written
 **Over:** a line failing to read (or one name read as two) because of punctuation that looks the same
 **Why:** people and AI chats paste these in; the format's own punctuation must read the same whichever kind was typed
+
+## 2026-11-26: summary-make writes the spec's summary
+**Chose:** summary-make writes the summary as spec/ledger.md and the examples show it: each line marked with its summary source and as a want, an expectation or something that happened; the straight line forecast only; this week's steps, links with a known rate, weekly numbers and their average, this week so far, link scanners and what is not counted
+**Over:** matching a runner's own summary word for word, with its simulated runs
+**Why:** it is what the spec promises and every line can be checked; the first version stays small. A runner that swaps to it later reads slightly differently, by design, until the forecast swap brings the simulated runs
+
+## 2026-11-26: A topic is optional; with none it is unknown
+**Chose:** a said line or words file may name a topic; with none the topic is unknown, left out of any comparison of topics, never guessed and never a topic of its own; a person can add one later; the reader reads a said line with a topic like any other and keeps the topic
+**Over:** a wildcard or an empty topic; setting a said line with a topic aside
+**Why:** unknown is not zero; a later skill comparing topics says how many said lines it left out

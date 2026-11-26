@@ -27,9 +27,7 @@ const PLAN_WORDS: SpecWord[] = [
   { word: "series", starts: /^\d{4}-\d{2}-\d{2}\s[^:]+:\s*\S/ },
 ];
 
-const DONE_WORDS: SpecWord[] = [
-  { word: "said with a topic", starts: /^\d{4}-\d{2}-\d{2} said .* topic: / },
-];
+const DONE_WORDS: SpecWord[] = [];
 
 const WORDS: Record<PartName, SpecWord[]> = {
   graph: GRAPH_WORDS,

@@ -107,7 +107,7 @@ The planning settled "the seven group rules as they are"; dfm reads eight. This 
 | **fact count** | `2026-11-16 fact count visits: 168` | how many in that week | in use |
 | **fact total** | `2026-11-23 fact total loyalty list: 312` | how many on that day | in use |
 | **fact count by group** | `2026-11-30 fact count new regulars [Office workers]: 1` | a count for one group; the whole stays its own line | to settle |
-| **said** | `2026-11-30 said on Instagram on 2026-12-01: "Iced coffee is back" https://coffee-shop.example/iced-coffee/ [Regulars] topic: summer menu summary: "Iced coffee is back from Monday."` | what went out: the channel, the day, the title, the link, who it was for, its topic and a summary in the business's own words (never written for them) | in use; the channel name and topic new |
+| **said** | `2026-11-30 said on Instagram on 2026-12-01: "Iced coffee is back" https://coffee-shop.example/iced-coffee/ [Regulars] topic: summer menu summary: "Iced coffee is back from Monday."` | what went out: the channel, the day, the title, the link, who it was for, its topic and a summary in the business's own words (never written for them). The topic is optional: with none it is unknown, left out of any comparison of topics and never guessed; a person can add one later | in use; the channel name and topic new |
 | **counted to** | `2026-11-16 counted to 2026-11-18` | the week's counts are so far, to that day | in use |
 
 A starting total is a `fact total` line in done. Every week is keyed by its Monday, in the business's time zone.
