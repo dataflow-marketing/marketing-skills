@@ -376,3 +376,28 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** mark quotes-check, post-make, site-add, post-draft and recording-run as works: on 26 Nov a real recording became a checked draft post on a real Ghost site, read back as a draft and published by no skill
 **Over:** keeping them at built until the findings from that run are fixed
 **Why:** a skill works when it has done one real job (spec/skills.md); the findings are fixed next, on develop
+
+## 2026-11-26: Every yes is asked in the question dialog
+**Chose:** each skill and recipe asks every question and every yes with the question dialog where there is one (options such as "Yes, go on", "Change something", "Stop"); where there is none the question is the last line of the message
+**Over:** a question at the end of a message
+**Why:** in the first real run a question waiting for a yes scrolled out of sight when a hook added a turn; a new user thought the skill had stopped
+
+## 2026-11-26: Each skill says what comes next
+**Chose:** every SKILL.md ends with what usually follows it; the plugin descriptions point a newcomer to dfm-recipes:recording-run
+**Over:** leaving the order to the README
+**Why:** a newcomer never sees the README; in the first real run nothing named the step after site-add
+
+## 2026-11-26: post-make asks about what it cannot make out
+**Chose:** a word or sentence post-make cannot make out is asked about, never cut or guessed; recording-run offers to fix a misheard transcript before post-make
+**Over:** leaving out whatever it is unsure of
+**Why:** in the first real run a misheard sentence was cut; it may have been the point of the post
+
+## 2026-11-26: The quote check runs once, inside post-make
+**Chose:** recording-run has four steps: transcript, post-make (which runs quotes-check and saves the passing report), site-add when needed, post-draft
+**Over:** a separate quotes-check step after post-make
+**Why:** in the first real run the check ran twice for the same words file
+
+## 2026-11-26: site-add makes settings post-draft can use
+**Chose:** site-add asks for the keys file (--keys-file) when settings name none and adds its line; its read back fails settings with no keys file; its key steps make the keys file readable only by the person (chmod 600)
+**Over:** leaving the keys file line to be added by hand
+**Why:** in the first real run post-draft refused for a missing keys file line; the keys file was also readable by other users

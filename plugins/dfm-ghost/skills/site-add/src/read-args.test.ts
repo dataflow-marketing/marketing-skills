@@ -21,4 +21,9 @@ describe("readArgs", () => {
     const read = readArgs([...args, "--time-zone", "Australia/Melbourne"]);
     expect(read.ok && read.args.timeZone).toBe("Australia/Melbourne");
   });
+
+  it("reads the keys file for settings that name none", () => {
+    const read = readArgs([...args, "--keys-file", "~/.config/dfm/.env"]);
+    expect(read.ok && read.args.keysFile).toBe("~/.config/dfm/.env");
+  });
 });

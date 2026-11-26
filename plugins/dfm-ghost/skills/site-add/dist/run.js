@@ -383,6 +383,9 @@ function checkReadBack(settingsText, site) {
   if (!there) {
     found.push(`The settings file does not have the line: ${expected}`);
   }
+  if (!settings.keysFile) {
+    found.push("The settings file names no keys file.");
+  }
   for (const problem of problems) {
     found.push(`settings ${problem}`);
   }
@@ -435,7 +438,7 @@ function describePlan(plan, settingsPath) {
   if (plan.kind === "add") {
     lines.push("preview: nothing written");
     lines.push(`would add to ${settingsPath}:`);
-    lines.push(plan.line);
+    lines.push(...plan.lines);
     if (plan.newFile) {
       lines.push("(the file is new: it would start with spec 1 and its time zone)");
     }
@@ -449,12 +452,12 @@ function describePlan(plan, settingsPath) {
   }
   return { text: lines.join("\n"), data: { settings: settingsPath, plan, wrote: false } };
 }
-function describeAdded(line, settingsPath, problems) {
+function describeAdded(added, settingsPath, problems) {
   const lines = [];
   lines.push(`added to ${settingsPath}:`);
-  lines.push(line);
+  lines.push(...added);
   lines.push(...readBackLines(problems));
-  return { text: lines.join("\n"), data: { settings: settingsPath, line, wrote: true, problems } };
+  return { text: lines.join("\n"), data: { settings: settingsPath, lines: added, wrote: true, problems } };
 }
 function describeReadBack(line, settingsPath, problems) {
   const lines = [];
@@ -485,60 +488,87 @@ async function appendSettingsText(settingsPath, text) {
 
 // src/plan-add.ts
 var SPEC_LINE2 = "spec 1";
-function planAdd(settingsText, site, timeZone) {
-  const line = siteLine(site);
+var ASK_TIME_ZONE = "There is no settings file yet. Starting one needs its time zone: add --time-zone, such as --time-zone Australia/Melbourne.";
+var ASK_KEYS_FILE = "Settings name no keys file yet: the file the site's key goes in. Add --keys-file, such as --keys-file ~/.config/dfm/.env.";
+function planAdd(settingsText, site, given = {}) {
   if (settingsText === void 0) {
-    return planNewFile(line, timeZone);
+    return planNewFile(site, given);
   }
-  if (!settingsText.startsWith(SPEC_LINE2)) {
-    return { kind: "refused", problem: `The settings file does not start with "${SPEC_LINE2}". It may not be a settings file.` };
-  }
-  const { settings, problems } = parseSettings(settingsText);
-  if (problems.length > 0) {
-    return { kind: "refused", problem: `Fix the settings file first: ${problems.join("; ")}` };
-  }
-  const sameName = settings.sites.find((known) => known.business === site.business && known.platform === site.platform);
-  if (sameName && siteLine(sameName) === line) {
-    return { kind: "already there", line };
-  }
-  if (sameName) {
-    return {
-      kind: "refused",
-      problem: `Settings already have a different Ghost site called ${site.business}: ${siteLine(sameName)}. Change it by hand if it is wrong.`
-    };
-  }
-  return { kind: "add", line, append: appendAfter(settingsText, line), newFile: false };
+  return planExistingFile(settingsText, site, given);
 }
-function planNewFile(line, timeZone) {
-  if (!timeZone) {
-    return {
-      kind: "refused",
-      problem: "There is no settings file yet. Starting one needs its time zone: add --time-zone, such as --time-zone Australia/Melbourne."
-    };
+function planNewFile(site, given) {
+  if (!given.timeZone) {
+    return refused(ASK_TIME_ZONE);
   }
+  if (!given.keysFile) {
+    return refused(ASK_KEYS_FILE);
+  }
+  const line = siteLine(site);
+  const keysFileLine = keysFileLineFor(given.keysFile);
   const append = `${SPEC_LINE2}
-time zone: ${timeZone}
+time zone: ${given.timeZone}
+${keysFileLine}
 ${line}
 `;
   const { problems } = parseSettings(append);
   if (problems.length > 0) {
-    return { kind: "refused", problem: problems.join("; ") };
+    return refused(problems.join("; "));
   }
-  return { kind: "add", line, append, newFile: true };
+  return { kind: "add", lines: [keysFileLine, line], append, newFile: true };
 }
-function appendAfter(settingsText, line) {
+function planExistingFile(settingsText, site, given) {
+  if (!settingsText.startsWith(SPEC_LINE2)) {
+    return refused(`The settings file does not start with "${SPEC_LINE2}". It may not be a settings file.`);
+  }
+  const { settings, problems } = parseSettings(settingsText);
+  if (problems.length > 0) {
+    return refused(`Fix the settings file first: ${problems.join("; ")}`);
+  }
+  const line = siteLine(site);
+  const sameName = settings.sites.find((known) => known.business === site.business && known.platform === site.platform);
+  if (sameName && siteLine(sameName) !== line) {
+    return refused(
+      `Settings already have a different Ghost site called ${site.business}: ${siteLine(sameName)}. Change it by hand if it is wrong.`
+    );
+  }
+  const keysFileLine = missingKeysFileLine(settings, given);
+  if (keysFileLine === ASK_KEYS_FILE) {
+    return refused(ASK_KEYS_FILE);
+  }
+  if (sameName && keysFileLine === void 0) {
+    return { kind: "already there", line };
+  }
+  const lines = [keysFileLine, sameName ? void 0 : line].filter((each) => each !== void 0);
+  return { kind: "add", lines, append: appendAfter(settingsText, lines), newFile: false };
+}
+function missingKeysFileLine(settings, given) {
+  if (settings.keysFile) {
+    return void 0;
+  }
+  if (!given.keysFile) {
+    return ASK_KEYS_FILE;
+  }
+  return keysFileLineFor(given.keysFile);
+}
+function keysFileLineFor(path) {
+  return `keys file: ${path}`;
+}
+function appendAfter(settingsText, lines) {
+  const added = lines.map((each) => `${each}
+`).join("");
   if (settingsText.endsWith("\n")) {
-    return `${line}
-`;
+    return added;
   }
   return `
-${line}
-`;
+${added}`;
+}
+function refused(problem) {
+  return { kind: "refused", problem };
 }
 
 // src/read-args.ts
-var USAGE = "node dist/run.js --name <name> --address <https://...> --key-name <NAME> --settings <file> [--time-zone <zone>] [--preview | --go | --read-back] [--run-log <file>] [--json]";
-var VALUE_FLAGS = ["--name", "--address", "--key-name", "--settings", "--time-zone", "--run-log"];
+var USAGE = "node dist/run.js --name <name> --address <https://...> --key-name <NAME> --settings <file> [--time-zone <zone>] [--keys-file <file>] [--preview | --go | --read-back] [--run-log <file>] [--json]";
+var VALUE_FLAGS = ["--name", "--address", "--key-name", "--settings", "--time-zone", "--keys-file", "--run-log"];
 function readArgs(args) {
   const values = {};
   for (let index = 0; index < args.length; index += 1) {
@@ -564,6 +594,9 @@ function readArgs(args) {
   const read = { name, address, keyName, settings };
   if (values["--time-zone"]) {
     read.timeZone = values["--time-zone"];
+  }
+  if (values["--keys-file"]) {
+    read.keysFile = values["--keys-file"];
   }
   if (values["--run-log"]) {
     read.runLog = values["--run-log"];
@@ -597,7 +630,7 @@ async function main(args) {
 }
 async function addSite2(asked, site, output, go) {
   const before = await readSettingsText(asked.settings);
-  const plan = planAdd(before, site, asked.timeZone);
+  const plan = planAdd(before, site, { timeZone: asked.timeZone, keysFile: asked.keysFile });
   printOutputIfNotWriting(plan, asked, output, go);
   if (plan.kind === "refused") {
     return EXIT_REFUSED_OR_FAILED;
@@ -612,10 +645,10 @@ async function addSite2(asked, site, output, go) {
     what: "site added",
     where: `settings ${asked.settings}`,
     before: "",
-    after: plan.line
+    after: plan.lines.join(" | ")
   });
   const problems = checkReadBack(await readSettingsText(asked.settings), site);
-  printOutput(describeAdded(plan.line, asked.settings, problems), output);
+  printOutput(describeAdded(plan.lines, asked.settings, problems), output);
   if (problems.length > 0) {
     return EXIT_REFUSED_OR_FAILED;
   }

@@ -14,7 +14,7 @@ import {
 import { runScript } from "../../../fixtures/run-script.ts";
 
 const SCRIPT = fileURLToPath(new URL("../dist/run.js", import.meta.url));
-const SETTINGS_START = "spec 1\ntime zone: Australia/Melbourne\n";
+const SETTINGS_START = "spec 1\ntime zone: Australia/Melbourne\nkeys file: ~/.config/dfm/.env\n";
 
 let folder = "";
 let settings = "";
@@ -58,7 +58,8 @@ describe("site-add dist/run.js", () => {
 
   it("starts a settings file that is not there yet, with the time zone it is given", async () => {
     settings = join(folder, "new-settings.txt");
-    const ran = await runScript(SCRIPT, siteArgs("--go", "--time-zone", "Australia/Melbourne"), { cwd: folder });
+    const newFile = ["--time-zone", "Australia/Melbourne", "--keys-file", "~/.config/dfm/.env"];
+    const ran = await runScript(SCRIPT, siteArgs("--go", ...newFile), { cwd: folder });
     expect(ran.code).toBe(0);
     expect(await readFile(settings, "utf8")).toBe(`${SETTINGS_START}${COFFEE_SHOP_SITE_LINE}\n`);
   });

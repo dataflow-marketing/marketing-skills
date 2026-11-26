@@ -5,12 +5,12 @@ import { COFFEE_SHOP_SITE, COFFEE_SHOP_SITE_LINE } from "../../../fixtures/coffe
 
 describe("describe", () => {
   it("says a preview wrote nothing", () => {
-    const plan = planAdd(undefined, COFFEE_SHOP_SITE, "Australia/Melbourne");
+    const plan = planAdd(undefined, COFFEE_SHOP_SITE, { timeZone: "Australia/Melbourne", keysFile: "~/.config/dfm/.env" });
     expect(describePlan(plan, "settings.txt").text).toContain("preview: nothing written");
   });
 
   it("says what was added and the read back", () => {
-    const text = describeAdded(COFFEE_SHOP_SITE_LINE, "settings.txt", []).text;
+    const text = describeAdded([COFFEE_SHOP_SITE_LINE], "settings.txt", []).text;
     expect(text).toContain(COFFEE_SHOP_SITE_LINE);
     expect(text).toContain("read back: the site is there");
   });

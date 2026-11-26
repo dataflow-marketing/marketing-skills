@@ -1,8 +1,8 @@
 // Reads the command line: the site's name, its address, the name of the variable
 // that holds its key and the settings file to add it to.
-// --name <name> --address <https://...> --key-name <NAME> --settings <file> [--time-zone <zone>]
+// --name <name> --address <https://...> --key-name <NAME> --settings <file> [--time-zone <zone>] [--keys-file <file>]
 // [--preview | --go | --read-back] [--run-log <file>] [--json]
-// --time-zone is needed only when there is no settings file yet.
+// --time-zone is needed only when there is no settings file yet; --keys-file only when settings name no keys file.
 
 import { isModeFlag } from "@dataflow-marketing/core";
 
@@ -12,15 +12,16 @@ export type SiteAddArgs = {
   keyName: string;
   settings: string;
   timeZone?: string;
+  keysFile?: string;
   runLog?: string;
 };
 
 export type ArgsResult = { ok: true; args: SiteAddArgs } | { ok: false; problem: string };
 
 export const USAGE =
-  "node dist/run.js --name <name> --address <https://...> --key-name <NAME> --settings <file> [--time-zone <zone>] [--preview | --go | --read-back] [--run-log <file>] [--json]";
+  "node dist/run.js --name <name> --address <https://...> --key-name <NAME> --settings <file> [--time-zone <zone>] [--keys-file <file>] [--preview | --go | --read-back] [--run-log <file>] [--json]";
 
-const VALUE_FLAGS = ["--name", "--address", "--key-name", "--settings", "--time-zone", "--run-log"];
+const VALUE_FLAGS = ["--name", "--address", "--key-name", "--settings", "--time-zone", "--keys-file", "--run-log"];
 
 export function readArgs(args: readonly string[]): ArgsResult {
   const values: Record<string, string> = {};
@@ -51,6 +52,9 @@ export function readArgs(args: readonly string[]): ArgsResult {
   const read: SiteAddArgs = { name, address, keyName, settings };
   if (values["--time-zone"]) {
     read.timeZone = values["--time-zone"];
+  }
+  if (values["--keys-file"]) {
+    read.keysFile = values["--keys-file"];
   }
   if (values["--run-log"]) {
     read.runLog = values["--run-log"];

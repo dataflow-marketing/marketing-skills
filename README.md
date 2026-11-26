@@ -232,12 +232,18 @@ The examples have no version: they are read, never installed.
 | review-run | whatif-make, picture-make | planned |
 | health-run | llms-check, links-check, stripe links-check, profile-make | planned |
 
-## Install (when the first skills are here)
+## Install
+
+The skills' scripts need **Node 24 or later** on your PATH. With nvm, Node may only be on the PATH in an interactive shell: the skills ask how to run it when `node` is not found.
 
 ```
 /plugin marketplace add dataflow-marketing/marketing-skills
+/plugin install dfm-recipes@dataflow-marketing
+/plugin install dfm-content@dataflow-marketing
 /plugin install dfm-ghost@dataflow-marketing
 ```
+
+Then start with a recipe: say "I recorded a post" or run `/dfm-recipes:recording-run`. Settings and keys are asked for as they are needed.
 
 ## Why things are the way they are
 

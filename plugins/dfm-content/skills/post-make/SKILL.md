@@ -21,7 +21,7 @@ Make it shorter and plainer with the same meaning.
 - **Keep their sentences.** Cut filler, false starts, repeats and asides. Join two halves of a thought said apart. Change the order only when it reads more clearly.
 - **Keep their words for things.** If they say "regulars", the post says "regulars".
 - **Invent nothing.** No fact, name, number, price, date, quote, claim or call to action that is not in the source. No opening line, closing line or summary of your own.
-- **Leave out what you are unsure of.** A shorter true post beats a longer guessed one.
+- **Ask about what you cannot make out.** A word or sentence that makes no sense (often a word the transcript misheard) is asked about: "I could not make out 'today is all about black'. What did you say?" Never cut it or guess it: it may be the point of the post. Leave something out only when the person says to.
 - **The title and excerpt are their words too,** taken from the source, not written fresh.
 
 ## Write the words file
@@ -63,3 +63,12 @@ node <quotes-check folder>/dist/run.js --text drafts/iced-coffee.txt --against r
 ## Show the person
 
 Show the words file and the passing report. The person reads every word: the check cannot catch a claim with no quote, name or number in it.
+
+## Asking
+
+- **Ask with the question dialog** where there is one: every question and every yes, with options such as "Yes, go on", "Change something" and "Stop". Where there is no dialog, the question is the last line of the message. A question in the middle of a long message is easily missed.
+- **Ask for what is missing; never guess it.** When an answer could mean more than one thing, ask which.
+
+## Next
+
+`dfm-ghost:post-draft` puts the checked words file on Ghost as a draft. In `dfm-recipes:recording-run`, go back to the recipe's next step.

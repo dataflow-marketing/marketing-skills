@@ -10,7 +10,7 @@ export function describePlan(plan: AddPlan, settingsPath: string): ScriptResult 
   if (plan.kind === "add") {
     lines.push("preview: nothing written");
     lines.push(`would add to ${settingsPath}:`);
-    lines.push(plan.line);
+    lines.push(...plan.lines);
     if (plan.newFile) {
       lines.push("(the file is new: it would start with spec 1 and its time zone)");
     }
@@ -26,12 +26,12 @@ export function describePlan(plan: AddPlan, settingsPath: string): ScriptResult 
   return { text: lines.join("\n"), data: { settings: settingsPath, plan, wrote: false } };
 }
 
-export function describeAdded(line: string, settingsPath: string, problems: readonly string[]): ScriptResult {
+export function describeAdded(added: readonly string[], settingsPath: string, problems: readonly string[]): ScriptResult {
   const lines: string[] = [];
   lines.push(`added to ${settingsPath}:`);
-  lines.push(line);
+  lines.push(...added);
   lines.push(...readBackLines(problems));
-  return { text: lines.join("\n"), data: { settings: settingsPath, line, wrote: true, problems } };
+  return { text: lines.join("\n"), data: { settings: settingsPath, lines: added, wrote: true, problems } };
 }
 
 export function describeReadBack(line: string, settingsPath: string, problems: readonly string[]): ScriptResult {

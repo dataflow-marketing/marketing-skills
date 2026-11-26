@@ -47,3 +47,13 @@ The run log is `run-log.txt` beside the settings file unless `--run-log <file>` 
 ## Show
 
 Show what the script printed, in full. After `--go`, give the person the link to the draft: they read it and publish it in Ghost themselves.
+
+## Asking
+
+- **Ask with the question dialog** where there is one: every question and every yes, with options such as "Yes, go on", "Change something" and "Stop". Where there is no dialog, the question is the last line of the message. A question in the middle of a long message is easily missed.
+- **Ask for what is missing; never guess it.** When an answer could mean more than one thing, ask which.
+- **Its script needs Node 24 or later.** If `node` is not found, ask the person how Node is installed (with nvm it is often only on the PATH in an interactive shell) and run the script with that Node.
+
+## Next
+
+Nothing: the run ends with the draft. The person opens the link, reads the draft and publishes it in Ghost themselves.

@@ -2,8 +2,8 @@
 // variable that holds its key. It never sees, asks for or writes a key.
 //
 // node dist/run.js --name <name> --address <https://...> --key-name <NAME> --settings <file>
-//   [--time-zone <zone>] [--preview | --go | --read-back] [--run-log <file>] [--json]
-// --time-zone is needed only to start a new settings file.
+//   [--time-zone <zone>] [--keys-file <file>] [--preview | --go | --read-back] [--run-log <file>] [--json]
+// --time-zone is needed only to start a new settings file; --keys-file only when settings name no keys file yet.
 // --preview (the default) shows the line and writes nothing; --go appends it; --read-back checks it.
 // Exit code: 0 done, 1 problems found, 2 refused or failed.
 
@@ -54,7 +54,7 @@ async function main(args: string[]): Promise<number> {
 
 async function addSite(asked: SiteAddArgs, site: Site, output: OutputMode, go: boolean): Promise<number> {
   const before = await readSettingsText(asked.settings);
-  const plan = planAdd(before, site, asked.timeZone);
+  const plan = planAdd(before, site, { timeZone: asked.timeZone, keysFile: asked.keysFile });
   printOutputIfNotWriting(plan, asked, output, go);
 
   if (plan.kind === "refused") {
@@ -71,11 +71,11 @@ async function addSite(asked: SiteAddArgs, site: Site, output: OutputMode, go: b
     what: "site added",
     where: `settings ${asked.settings}`,
     before: "",
-    after: plan.line,
+    after: plan.lines.join(" | "),
   });
 
   const problems = checkReadBack(await readSettingsText(asked.settings), site);
-  printOutput(describeAdded(plan.line, asked.settings, problems), output);
+  printOutput(describeAdded(plan.lines, asked.settings, problems), output);
   if (problems.length > 0) {
     return EXIT_REFUSED_OR_FAILED;
   }

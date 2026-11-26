@@ -21,7 +21,7 @@
     {
       "name": "dfm-recipes",
       "source": "./plugins/dfm-recipes",
-      "description": "Recipes that run skills in order: recording-run turns a recording into a draft post."
+      "description": "Recipes that run skills in order: recording-run turns a recording into a draft post. Start here if you are new to dfm."
     }
   ]
 }

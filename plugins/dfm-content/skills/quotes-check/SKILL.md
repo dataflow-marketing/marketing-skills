@@ -39,3 +39,13 @@ Show the report as the script printed it, in full. Do not summarise it or leave 
 ## What it cannot catch
 
 A claim with no quote, name or number in it ("a small team curates the content"). A person reads every text before it is kept or sent. It also cannot see a name at the start of a sentence, a number used in a different sense from the source or a quote in single quote marks.
+
+## Asking
+
+- **Ask with the question dialog** where there is one: every question and every yes, with options such as "Yes, go on", "Change something" and "Stop". Where there is no dialog, the question is the last line of the message. A question in the middle of a long message is easily missed.
+- **Ask for what is missing; never guess it.** When an answer could mean more than one thing, ask which.
+- **Its script needs Node 24 or later.** If `node` is not found, ask the person how Node is installed (with nvm it is often only on the PATH in an interactive shell) and run the script with that Node.
+
+## Next
+
+When it passes, the text goes back to the step that asked for the check: `dfm-content:post-make` shows it to the person; on its own, a checked words file usually goes on to `dfm-ghost:post-draft`.
