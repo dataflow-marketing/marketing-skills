@@ -239,13 +239,19 @@ The examples have no version: they are read, never installed.
 
 The skills' scripts need **Node 24 or later** on your PATH. With nvm, Node may only be on the PATH in an interactive shell: the skills ask how to run it when `node` is not found.
 
+In Claude Code, add the marketplace:
+
 ```
 /plugin marketplace add dataflow-marketing/marketing-skills
-/plugin install dfm-recipes@dataflow-marketing
-/plugin install dfm-content@dataflow-marketing
-/plugin install dfm-ghost@dataflow-marketing
-/plugin install dfm-site@dataflow-marketing
 ```
+
+Then install every plugin at once from a terminal, in the folder you work in. `--scope local` keeps them to that folder; leave it out to have them in every session:
+
+```
+for p in dfm-recipes dfm-content dfm-ghost dfm-site; do claude plugin install "$p@dataflow-marketing" --scope local; done
+```
+
+Inside Claude Code, put `!` in front of that line to run it there. Or install one at a time with `/plugin install dfm-recipes@dataflow-marketing`.
 
 Then start with a recipe: say "set up my business" or run `/dfm-recipes:client-run`. Settings and keys are asked for as they are needed.
 
