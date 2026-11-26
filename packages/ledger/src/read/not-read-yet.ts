@@ -1,6 +1,6 @@
 // Names the spec 1 word on a line this reader cannot read, when the word is one spec/ledger.md marks
 // new or to settle and dfm does not read yet. Such a line is set aside, not named as unreadable.
-// Only the line's first words are looked at: the syntax after them is not settled: none is assumed.
+// Only the line's first words are looked at: the syntax after them is not settled; none is assumed.
 // A line the grammar reads is never asked about here: these words never change what is read.
 
 import type { PartName } from "./ledger-shape.ts";
