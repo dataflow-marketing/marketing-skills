@@ -158,6 +158,8 @@ The examples have no version: they are read, never installed.
 | counts-record | adds the counts, totals and ticks a person tells for a week | code | yes | built |
 | summary-make | writes a ledger's summary: each line a want, an expectation or what happened | code | yes | built |
 | askai-make | a copy of the ledger and profile for any AI chat, with its instructions inside | code | yes | built |
+| askai-here | the same copy, answered by the AI the person is already in (Claude in this session): the same rounds, ending in Change: lines for plan-change | model | none | planned |
+| askai-send | sends the copy to an AI's API with the person's own key; the response comes back for plan-change | code | no | later |
 | inbox-read | proposes changes from messages in and says what needs a reply | model | none | planned |
 | followups-check | what needs following up | code | no | planned |
 | rates-record | learns how well each link works from the counts | code | no | planned |

@@ -587,3 +587,9 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** plan-change reads each Change: line with the ledger's own reader to place it (done, graph, then plan); a how, ask, goal, start, fact source or link rate replaces the line before it, a step's script lines replace as a set, the rest are added; one line that is not a ledger line refuses the whole change; the shared putInPart (packages/ledger) now writes counts-record's lines too
 **Over:** Claude editing the ledger by hand; writing the lines that read and skipping the rest
 **Why:** a change is the person's: half a change written is harder to see than none
+
+## 2026-11-26: Ask an AI can be answered here; an AI API comes later
+**Chose:** plan askai-here, where the AI the person is already in (Claude) follows the same instructions with them and ends in Change: lines for plan-change; put askai-send (the copy sent to an AI's API with the person's own key) on the road map for later
+**Over:** only a copy to paste into another AI chat
+**Why:** the person is already in an AI: copying out and pasting back is a step they need not take; an API is useful too, though not yet
+**Source:** stated (both options, the API for later), inferred (the reason as worded)
