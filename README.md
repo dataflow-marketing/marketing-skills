@@ -156,7 +156,7 @@ The examples have no version: they are read, never installed.
 | plan-change | changes a ledger, the difference shown first | code | no | planned |
 | plan-check | reads every line and names the problems | code | yes | built |
 | counts-record | adds the week's counts, ticks and said lines | code | no | planned |
-| summary-make | writes a ledger's summary | code | no | planned |
+| summary-make | writes a ledger's summary: each line a want, an expectation or what happened | code | yes | built |
 | askai-make | a copy of the ledger and profile for any AI chat | code | no | planned |
 | inbox-read | proposes changes from messages in and says what needs a reply | model | none | planned |
 | followups-check | what needs following up | code | no | planned |

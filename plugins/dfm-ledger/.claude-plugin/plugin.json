@@ -1,7 +1,7 @@
 {
   "name": "dfm-ledger",
   "version": "0.1.0",
-  "description": "dataflow marketing: a business's ledger, read and checked. plan-check reads a ledger and names every problem in it. New to dfm: start with dfm-recipes:client-run.",
+  "description": "dataflow marketing: a business's ledger, read, checked and summed up. plan-check names every problem in a ledger; summary-make writes its summary. New to dfm: start with dfm-recipes:client-run.",
   "author": {
     "name": "mattcam"
   },

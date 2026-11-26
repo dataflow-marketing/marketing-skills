@@ -3,11 +3,14 @@
 import { fileURLToPath } from "node:url";
 import { bundleScript } from "@dataflow-marketing/core/build";
 import { planCheckBundle } from "./skills/plan-check/bundle.ts";
+import { summaryMakeBundle } from "./skills/summary-make/bundle.ts";
 
 async function main(): Promise<void> {
   const pluginFolder = fileURLToPath(new URL(".", import.meta.url));
   await bundleScript(planCheckBundle(pluginFolder));
   process.stdout.write("built skills/plan-check/dist/run.js\n");
+  await bundleScript(summaryMakeBundle(pluginFolder));
+  process.stdout.write("built skills/summary-make/dist/run.js\n");
 }
 
 await main();

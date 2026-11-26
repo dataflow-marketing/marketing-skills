@@ -537,3 +537,8 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** a said line or words file may name a topic; with none the topic is unknown, left out of any comparison of topics, never guessed and never a topic of its own; a person can add one later; the reader reads a said line with a topic like any other and keeps the topic
 **Over:** a wildcard or an empty topic; setting a said line with a topic aside
 **Why:** unknown is not zero; a later skill comparing topics says how many said lines it left out
+
+## 2026-11-26: The coffee shop example's summary is written by summary-make
+**Chose:** the example ledger's summary (and the Ask an AI copy's) is the one summary-make writes from its lines: it gains this week's steps and loses a hand written not counted line that named nothing in the ledger; a test proves the example and summary-make agree
+**Over:** keeping the hand written summary
+**Why:** the spec says a summary is never written by hand; the example now proves it

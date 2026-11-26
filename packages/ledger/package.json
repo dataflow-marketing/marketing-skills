@@ -10,7 +10,8 @@
     "./read": "./src/read/index.ts",
     "./forecast": "./src/forecast.ts",
     "./carry": "./src/carry.ts",
-    "./dates": "./src/dates.ts"
+    "./dates": "./src/dates.ts",
+    "./week-steps": "./src/week-steps.ts"
   },
   "scripts": {
     "test": "vitest run",
