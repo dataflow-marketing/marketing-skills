@@ -467,3 +467,8 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** when settings already hold a public site of the same name, dfm-ghost:site-add replaces that line with the Ghost line (the preview shows the line it replaces; the read back checks the site is named once)
 **Over:** adding a second line for the same site
 **Why:** every site starts as a public site; adding drafts later must not leave settings saying two things about one site
+
+## 2026-11-26: Each choice is named by what it is
+**Chose:** client-run names the choices "Any website" and "Ghost"; what each lets dfm do (read only; drafts too) is in its description
+**Over:** names such as "Ghost, with drafts"
+**Why:** a choice reads as what the person has, not as a feature list
