@@ -83,8 +83,8 @@ PlanLine
   = Spec
   / _ "extends" __ file:Rest { return { kind: "extends", file }; }
   / _ "start" __ date:Date _ Comment? { return { kind: "start", date }; }
-  / _ "want" __ fact:WantName __ ("+" _)? n:Num __ ("a" / "per" / "each") __ every:("week" / "month") by:(__ "by" __ d:Date { return d; })? _ Comment? {
-      return { kind: "want", fact, per: { n, every }, by: by ?? undefined };
+  / _ "want" __ fact:WantName __ plus:("+" _)? n:Num __ ("a" / "per" / "each") __ every:("week" / "month") by:(__ "by" __ d:Date { return d; })? _ Comment? {
+      return { kind: "want", fact, per: { n, every }, by: by ?? undefined, grows: plus ? true : undefined };
     }
   / _ "want" __ fact:WantName n:(__ n:Num { return n; })? by:(__ "by" __ d:Date { return d; })? _ Comment? {
       return { kind: "want", fact, n: n ?? undefined, by: by ?? undefined };

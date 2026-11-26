@@ -37,4 +37,9 @@ describe("readPlan", () => {
   it("gives back a line it cannot read", () => {
     expect(unread).toEqual([{ line: 6, text: "not a plan line" }]);
   });
+
+  it("keeps a plus on a goal, which reads the same as without", () => {
+    const { plan: grows } = readPlan(numbered("want followers +1 a week"));
+    expect(grows.want).toEqual({ fact: "followers", per: { n: 1, every: "week" }, grows: true });
+  });
 });

@@ -572,3 +572,8 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** askai-make takes a template of the person's own (--instructions <file>) in place of the default instructions (spec/ask-ai-instructions.txt), filling the same blanks, {who} and {send to}, wherever they appear; the profile and the plan always follow
 **Over:** one fixed set of instructions
 **Why:** a business may want its own way of asking, another language or another job for the AI; the default stays the one tried with real businesses
+
+## 2026-11-26: A goal keeps its plus as written
+**Chose:** the reader keeps a goal's plus (`want followers +1 a week` as grows) and the summary shows it as written; it reads the same as without
+**Over:** dropping the plus from the summary
+**Why:** the summary should say the goal the way the business wrote it; a plus reads as growth

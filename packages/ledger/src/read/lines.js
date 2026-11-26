@@ -366,9 +366,9 @@ function peg$parse(input, options) {
   }
   function peg$f29(file) {    return { kind: "extends", file };  }
   function peg$f30(date) {    return { kind: "start", date };  }
-  function peg$f31(fact, n, every, d) {    return d;  }
-  function peg$f32(fact, n, every, by) {
-    return { kind: "want", fact, per: { n, every }, by: by ?? undefined };
+  function peg$f31(fact, plus, n, every, d) {    return d;  }
+  function peg$f32(fact, plus, n, every, by) {
+    return { kind: "want", fact, per: { n, every }, by: by ?? undefined, grows: plus ? true : undefined };
   }
   function peg$f33(fact, n) {    return n;  }
   function peg$f34(fact, n, d) {    return d;  }
@@ -2138,7 +2138,7 @@ function peg$parse(input, options) {
                                   s16 = peg$parseDate();
                                   if (s16 !== peg$FAILED) {
                                     peg$savedPos = s12;
-                                    s12 = peg$f31(s4, s7, s11, s16);
+                                    s12 = peg$f31(s4, s6, s7, s11, s16);
                                   } else {
                                     peg$currPos = s12;
                                     s12 = peg$FAILED;
@@ -2164,7 +2164,7 @@ function peg$parse(input, options) {
                               s14 = null;
                             }
                             peg$savedPos = s0;
-                            s0 = peg$f32(s4, s7, s11, s12);
+                            s0 = peg$f32(s4, s6, s7, s11, s12);
                           } else {
                             peg$currPos = s0;
                             s0 = peg$FAILED;

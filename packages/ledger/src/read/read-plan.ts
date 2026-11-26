@@ -65,6 +65,9 @@ function wantOf(shape: WantShape): Want {
     if (shape.by) {
       want.by = shape.by;
     }
+    if (shape.grows) {
+      want.grows = true;
+    }
     return want;
   }
   return { fact: shape.fact, n: shape.n, by: shape.by };

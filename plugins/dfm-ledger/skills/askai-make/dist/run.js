@@ -828,11 +828,11 @@ function peg$parse(input, options) {
   function peg$f30(date) {
     return { kind: "start", date };
   }
-  function peg$f31(fact, n, every, d) {
+  function peg$f31(fact, plus, n, every, d) {
     return d;
   }
-  function peg$f32(fact, n, every, by) {
-    return { kind: "want", fact, per: { n, every }, by: by ?? void 0 };
+  function peg$f32(fact, plus, n, every, by) {
+    return { kind: "want", fact, per: { n, every }, by: by ?? void 0, grows: plus ? true : void 0 };
   }
   function peg$f33(fact, n) {
     return n;
@@ -2752,7 +2752,7 @@ function peg$parse(input, options) {
                                   s16 = peg$parseDate();
                                   if (s16 !== peg$FAILED) {
                                     peg$savedPos = s12;
-                                    s12 = peg$f31(s4, s7, s11, s16);
+                                    s12 = peg$f31(s4, s6, s7, s11, s16);
                                   } else {
                                     peg$currPos = s12;
                                     s12 = peg$FAILED;
@@ -2778,7 +2778,7 @@ function peg$parse(input, options) {
                               s14 = null;
                             }
                             peg$savedPos = s0;
-                            s0 = peg$f32(s4, s7, s11, s12);
+                            s0 = peg$f32(s4, s6, s7, s11, s12);
                           } else {
                             peg$currPos = s0;
                             s0 = peg$FAILED;
@@ -5119,6 +5119,9 @@ function wantOf(shape) {
     if (shape.by) {
       want.by = shape.by;
     }
+    if (shape.grows) {
+      want.grows = true;
+    }
     return want;
   }
   return { fact: shape.fact, n: shape.n, by: shape.by };
@@ -5454,7 +5457,8 @@ function forecastLines(want, done, today) {
 }
 function goalText(want) {
   if (want.per) {
-    return `${want.fact} ${want.per.n} a ${want.per.every}${want.by ? ` by ${want.by}` : ""}`;
+    const plus = want.grows ? "+" : "";
+    return `${want.fact} ${plus}${want.per.n} a ${want.per.every}${want.by ? ` by ${want.by}` : ""}`;
   }
   if (want.n !== void 0) {
     return `${want.fact} ${want.n}${want.by ? ` by ${want.by}` : ""}`;

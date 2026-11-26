@@ -62,7 +62,8 @@ export type Graph = {
 // ---- plan ----
 
 // a goal: a total by a date (`want followers 20 by 2027-02-14`) or a rate (`want followers +1 a week`)
-export type Want = { fact: string; n?: number; by?: string; per?: { n: number; every: "week" | "month" } };
+// grows: the goal was written with a plus, `+1 a week`: it reads the same as `1 a week` and is shown as written
+export type Want = { fact: string; n?: number; by?: string; per?: { n: number; every: "week" | "month" }; grows?: true };
 
 // `every week new post`, from the plan's start or from a later date
 export type Repeat = { every: "week"; methods: Part[]; from?: string; line: number };

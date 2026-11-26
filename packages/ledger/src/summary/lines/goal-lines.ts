@@ -40,7 +40,8 @@ export function forecastLines(want: Want | undefined, done: Done, today: string)
 
 function goalText(want: Want): string {
   if (want.per) {
-    return `${want.fact} ${want.per.n} a ${want.per.every}${want.by ? ` by ${want.by}` : ""}`;
+    const plus = want.grows ? "+" : "";
+    return `${want.fact} ${plus}${want.per.n} a ${want.per.every}${want.by ? ` by ${want.by}` : ""}`;
   }
   if (want.n !== undefined) {
     return `${want.fact} ${want.n}${want.by ? ` by ${want.by}` : ""}`;

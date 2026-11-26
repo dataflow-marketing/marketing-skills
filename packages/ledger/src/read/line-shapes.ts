@@ -20,7 +20,7 @@ export type PlanLineShape =
   | { kind: "blank" }
   | { kind: "extends"; file: string }
   | { kind: "start"; date: string }
-  | { kind: "want"; fact: string; n?: number; by?: string; per?: { n: number; every: "week" | "month" } }
+  | { kind: "want"; fact: string; n?: number; by?: string; per?: { n: number; every: "week" | "month" }; grows?: true }
   | { kind: "every"; every: "week"; methods: Part[]; from?: string }
   | { kind: "how" | "script"; thing: string; words: string; week?: string }
   | { kind: "entry"; date: string; op: "=" | "+" | "-"; methods: Part[] };

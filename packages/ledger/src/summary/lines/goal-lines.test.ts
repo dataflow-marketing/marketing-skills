@@ -10,6 +10,7 @@ describe("goalLines", () => {
   it("says the goal as a want", () => {
     expect(goalLines(ledger("").plan?.want)).toEqual(["goal: stamp cards started 10 a week by 2026-12-31 (want)"]);
     expect(goalLines(undefined)).toEqual([]);
+    expect(goalLines(readLedger("spec 1\n=== plan ===\nwant followers +1 a week\n").plan?.want)).toEqual(["goal: followers +1 a week (want)"]);
   });
 });
 
