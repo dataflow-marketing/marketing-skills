@@ -226,8 +226,8 @@ The examples have no version: they are read, never installed.
 | Recipe | Runs, in order | State |
 |---|---|---|
 | recording-run | a transcript (by hand until transcript-make is built), post-make, quotes-check, post-draft | works |
-| week-run | the week's counts from each platform, counts-record, summary-make, followups-check | planned |
-| client-run | asks which kind of site it is (any website or Ghost), runs that site-add, then profile-make with its check; plan-make and storing in Ghost join later | works |
+| week-run | plan-check, the week's told numbers (counts-record), summary-make; platform readers and followups-check join later | built |
+| client-run | asks which kind of site it is (any website or Ghost), runs that site-add, then profile-make with its check, then plan-make; storing in Ghost joins later | built |
 | clips-run | transcript-make, clips-make, video-encode, share-make, pack-make | planned |
 | calendar-run | ideas-make or schedule-make, then plan-change | planned |
 | reply-run | inbox-read, then plan-change and counts-record on a yes | planned |

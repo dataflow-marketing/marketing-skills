@@ -562,3 +562,8 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** askai-make writes the copy from spec/ask-ai-instructions.txt (kept word for word), the profile and the ledger with a summary written fresh today; a test proves it makes examples/coffee-shop/ask-ai-copy.txt word for word; the summary's pieces live in packages/ledger, used by summary-make and askai-make
 **Over:** askai-make running summary-make; a copy of the summary code in each skill
 **Why:** skills never run each other; shared code is how two skills use one piece
+
+## 2026-11-26: week-run and client-run's first plan
+**Chose:** week-run runs plan-check, counts-record (told numbers) and summary-make, then offers askai-make; client-run gains plan-make as its third step and ends by naming week-run, askai-make and (for Ghost) recording-run
+**Over:** waiting for platform readers and followups-check before week-run
+**Why:** told numbers work for every business now; the readers join week-run as their plugins are built

@@ -26,7 +26,7 @@
     {
       "name": "dfm-recipes",
       "source": "./plugins/dfm-recipes",
-      "description": "Recipes that run skills in order: client-run sets up a business (start here if you are new to dfm); recording-run turns a recording into a draft post."
+      "description": "Recipes that run skills in order: client-run sets up a business with a first plan (start here if you are new to dfm); week-run brings in a week; recording-run turns a recording into a draft post."
     },
     {
       "name": "dfm-ledger",

@@ -1,7 +1,7 @@
 {
   "name": "dfm-recipes",
   "version": "0.1.0",
-  "description": "dataflow marketing: recipes that run the dfm skills a job needs in order and stop for a yes between each. client-run sets up a business on any platform (start here if you are new to dfm); recording-run turns a recording into a checked draft post on Ghost.",
+  "description": "dataflow marketing: recipes that run the dfm skills a job needs in order and stop for a yes between each. client-run sets up a business on any platform with a first plan (start here if you are new to dfm); week-run brings in a week; recording-run turns a recording into a checked draft post on Ghost.",
   "author": {
     "name": "mattcam"
   },
