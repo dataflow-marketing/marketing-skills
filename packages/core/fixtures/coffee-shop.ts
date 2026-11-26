@@ -8,13 +8,14 @@ week starts: Monday
 site coffee-shop: ghost https://coffee-shop.example key in COFFEE_SHOP_GHOST_ADMIN_KEY
 site coffee-shop: cloudflare coffee-shop.example key in CLOUDFLARE_API_TOKEN
 keys file: ~/.config/dfm/.env
+backups: ~/.config/dfm/backups
 
 store notes: file ~/dfm/ledgers
 store members: ghost coffee-shop
 store api: rest https://api.coffee-shop.example key in COFFEE_SHOP_API_KEY
 
-binding ledger coffee-shop: members field next
-binding profile coffee-shop: members field context
+binding ledger coffee-shop: members owner@coffee-shop.example next
+binding profile coffee-shop: members owner@coffee-shop.example context
 binding people coffee-shop: notes people/coffee-shop.txt
 
 house rule spelling: Australian English

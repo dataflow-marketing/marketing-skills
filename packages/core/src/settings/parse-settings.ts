@@ -11,7 +11,7 @@ const SPEC_LINE = "spec 1";
 const DEFAULT_WEEK_START = "Monday";
 
 // The kinds of line that may be given once only
-const ONCE_ONLY = ["time zone", "week starts", "keys file"];
+const ONCE_ONLY = ["time zone", "week starts", "keys file", "backups"];
 
 type NumberedLine = {
   number: number;

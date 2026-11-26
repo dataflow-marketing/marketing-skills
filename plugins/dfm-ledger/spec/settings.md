@@ -12,13 +12,14 @@ week starts: Monday
 site coffee-shop: ghost https://coffee-shop.example key in COFFEE_SHOP_GHOST_ADMIN_KEY
 site coffee-shop: cloudflare coffee-shop.example key in CLOUDFLARE_API_TOKEN
 keys file: ~/.config/dfm/.env
+backups: ~/.config/dfm/backups
 
 store notes: file ~/dfm/ledgers
 store members: ghost coffee-shop
 store api: rest https://api.coffee-shop.example key in COFFEE_SHOP_API_KEY
 
-binding ledger coffee-shop: members field next
-binding profile coffee-shop: members field context
+binding ledger coffee-shop: members owner@coffee-shop.example next
+binding profile coffee-shop: members owner@coffee-shop.example context
 binding people coffee-shop: notes people/coffee-shop.txt
 
 house rule spelling: Australian English
@@ -36,7 +37,8 @@ house rule avoid: em dashes
 | `site <name>: public <address>` | a public website dfm only reads (a profile, link checks), on any platform: no key, never written to |
 | `keys file` | the file the keys are read from |
 | `store <name>: <connector> <where>` | a [store](store.md) and its connector: file, ghost or rest |
-| `binding <object> <business>: <store> <place>` | which store holds which object for which business |
+| `binding <object> <business>: <store> <place>` | which store holds which object for which business; for a ghost store the place is a member's email and a custom field |
+| `backups` | the folder a store copies an object into before each write (`backups/` beside the settings file by default) |
 | `house rule <name>: <rule>` | a rule every words skill applies and checks after |
 
 ## Rules
@@ -46,3 +48,4 @@ house rule avoid: em dashes
 1. **Keys are never in settings.** Settings names the variable; the key is in the keys file, added through a hidden prompt, never pasted into a chat.
 2. **One name per business,** lowercase with hyphens, used for its site, its ledger and its bindings.
 3. **Moving an object to another store changes its binding line only.**
+4. **An object with no binding is a file in the working folder,** as the first loop and the ledger core keep them.

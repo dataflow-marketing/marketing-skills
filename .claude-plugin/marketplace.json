@@ -32,6 +32,11 @@
       "name": "dfm-ledger",
       "source": "./plugins/dfm-ledger",
       "description": "A business's ledger: plan-make starts one; plan-check names every problem; counts-record adds a week's told numbers; summary-make writes the summary; askai-make makes a copy for any AI chat (askai-here answers it in this session); plan-change takes its Change lines back."
+    },
+    {
+      "name": "dfm-store",
+      "source": "./plugins/dfm-store",
+      "description": "Where a business's objects are kept: store-add names a store and a binding in settings; store-check proves each can be read; object-read reads an object with its version; object-change changes it only if no one else has since, with a backup first and a read back after. Files and Ghost member fields."
     }
   ]
 }

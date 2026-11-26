@@ -31,6 +31,7 @@ export type Settings = {
   timeZone?: string;
   weekStarts: string;
   keysFile?: string;
+  backups?: string;
   sites: Site[];
   stores: Store[];
   bindings: Binding[];

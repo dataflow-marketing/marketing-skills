@@ -9,11 +9,12 @@ describe("parseSettings on the coffee shop", () => {
     expect(problems).toEqual([]);
   });
 
-  it("reads the time zone, week start and keys file", () => {
+  it("reads the time zone, week start, keys file and backups folder", () => {
     expect(settings.spec).toBe("spec 1");
     expect(settings.timeZone).toBe("Australia/Melbourne");
     expect(settings.weekStarts).toBe("Monday");
     expect(settings.keysFile).toBe("~/.config/dfm/.env");
+    expect(settings.backups).toBe("~/.config/dfm/backups");
   });
 
   it("reads both sites with the names of their keys", () => {
@@ -48,8 +49,8 @@ describe("parseSettings on the coffee shop", () => {
 
   it("reads which store holds each object", () => {
     expect(settings.bindings).toEqual([
-      { object: "ledger", business: "coffee-shop", store: "members", place: "field next" },
-      { object: "profile", business: "coffee-shop", store: "members", place: "field context" },
+      { object: "ledger", business: "coffee-shop", store: "members", place: "owner@coffee-shop.example next" },
+      { object: "profile", business: "coffee-shop", store: "members", place: "owner@coffee-shop.example context" },
       { object: "people", business: "coffee-shop", store: "notes", place: "people/coffee-shop.txt" },
     ]);
   });
@@ -95,5 +96,11 @@ describe("parseSettings on a line given twice", () => {
     const text = "spec 1\ntime zone: Australia/Melbourne\ntime zone: Europe/London\n";
     const { problems } = parseSettings(text);
     expect(problems).toEqual(["line 3: time zone is given more than once"]);
+  });
+
+  it("stops on a backups line given twice", () => {
+    const text = "spec 1\ntime zone: Australia/Melbourne\nbackups: ~/a\nbackups: ~/b\n";
+    const { problems } = parseSettings(text);
+    expect(problems).toEqual(["line 4: backups is given more than once"]);
   });
 });

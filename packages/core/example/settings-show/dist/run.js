@@ -73,6 +73,7 @@ var LINE_KINDS = [
   { name: "time zone", addTo: addTimeZone },
   { name: "week starts", addTo: addWeekStarts },
   { name: "keys file", addTo: addKeysFile },
+  { name: "backups", addTo: addBackups },
   { name: "site", addTo: addSite },
   { name: "store", addTo: addStore },
   { name: "binding", addTo: addBinding },
@@ -108,6 +109,14 @@ function addKeysFile(settings, line) {
     return false;
   }
   settings.keysFile = keysFile;
+  return true;
+}
+function addBackups(settings, line) {
+  const backups = readValueAfter("backups:", line);
+  if (backups === void 0) {
+    return false;
+  }
+  settings.backups = backups;
   return true;
 }
 function addSite(settings, line) {
@@ -189,7 +198,7 @@ function checkBindings(settings) {
 // ../../src/settings/parse-settings.ts
 var SPEC_LINE = "spec 1";
 var DEFAULT_WEEK_START = "Monday";
-var ONCE_ONLY = ["time zone", "week starts", "keys file"];
+var ONCE_ONLY = ["time zone", "week starts", "keys file", "backups"];
 function parseSettings(text) {
   const lines = numberedLines(text);
   const settings = emptySettings();

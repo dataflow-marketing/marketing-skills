@@ -203,6 +203,12 @@ importers:
         specifier: 5.1.1
         version: 5.1.1
 
+  packages/store:
+    devDependencies:
+      '@dataflow-marketing/core':
+        specifier: workspace:*
+        version: link:../core
+
   plugins/dfm-content:
     devDependencies:
       '@dataflow-marketing/core':
@@ -229,6 +235,15 @@ importers:
       '@dataflow-marketing/core':
         specifier: workspace:*
         version: link:../../packages/core
+
+  plugins/dfm-store:
+    devDependencies:
+      '@dataflow-marketing/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@dataflow-marketing/store':
+        specifier: workspace:*
+        version: link:../../packages/store
 
   scripts: {}
 

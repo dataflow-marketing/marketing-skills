@@ -611,3 +611,69 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** linking skills to the repo's spec/ (missing once installed); a new starter for other kinds of business
 **Why:** an installed plugin has only its own folder; the starter's words were your decision: the person's own words fit it to their business instead
 **Source:** inferred (from the trial findings 23 to 30)
+
+## 2026-11-26: A Ghost field's version is a hash of its own text
+**Chose:** the ghost connector's version is a hash of the field's text
+**Over:** the member's `updated_at`
+**Why:** `updated_at` moves when anything on the member changes (a label, another field): a write to one field would then be refused because a different one moved
+**Source:** stated (agreed), inferred (the reason as worded)
+
+## 2026-11-26: A backup before every change, not only a remove
+**Chose:** every change and every remove first writes a copy into `backups/` beside the settings file, one file per write; a runner can point it elsewhere
+**Over:** a backup before a remove only, as spec 1 first said
+**Why:** a lost edit costs more than a small file; it matches the runner's own rule of a backup before any member's field changes
+**Source:** stated (agreed), inferred (the reason as worded)
+
+## 2026-11-26: The store never merges
+**Chose:** when the version has moved, the store stops and shows both; the skill that made the change works it in again and asks again
+**Over:** the store reading again and merging, as spec 1 first said
+**Why:** only the skill that made an object knows how to merge it; the store keeps no knowledge of any format
+**Source:** stated (agreed), inferred (the reason as worded)
+
+## 2026-11-26: A Ghost binding names a member by email and the field
+**Chose:** `binding ledger acme: members someone@acme.com next` (store, member email, field); store-check confirms exactly one member and that the field exists; with no binding an object stays a file in the working folder
+**Over:** the member id; a binding being required
+**Why:** an email can be read and checked by a person; keeping files as the default means nothing that works today breaks
+**Source:** stated (agreed), inferred (the reason as worded)
+
+## 2026-11-26: The first store build is file and Ghost, four skills
+**Chose:** the file and ghost connectors with store-add, store-check, object-read and object-change
+**Over:** the rest connector, the Worker example, objects-read, object-add and object-remove now
+**Why:** that is enough to take over the write at the end of the runner's push; the rest follow
+**Source:** stated (agreed), inferred (the reason as worded)
+
+## 2026-11-26: The Ghost behaviour is proved on a test member on vibe2value.com
+**Chose:** a test member on vibe2value.com to prove what Ghost does with a member write (no version check expected)
+**Over:** relying on what Ghost is believed to do
+**Why:** the guard at step 4 is only as good as what Ghost really does; vibe2value.com already takes the trial drafts
+**Source:** stated
+
+## 2026-11-26: The store's small formats
+**Chose:** the version is SHA-256 of the text in lowercase hex, `none` for an empty object; a `backups` settings line (default `backups/` beside the settings file); backups named `<kind>-<business>-<time>.txt` in the settings time zone; the place in a ghost binding is the email then the field, with no `field` word
+**Over:** a shorter hash; a fixed backups folder; the `members field next` form spec 1 first showed
+**Why:** a full hash needs no thought about clashes; a runner keeps its backups in its own folder; the binding reads as the agreed example
+**Source:** inferred
+
+## 2026-11-26: The backup is taken just before the write
+**Chose:** object-change copies the object into the backups folder after the second read, just before writing; a preview writes nothing at all, not even a backup; an empty object is not copied
+**Over:** a backup at the first read, as the spec first put it
+**Why:** the copy is then exactly what the write replaces; previews that never go ahead leave no files behind
+**Source:** inferred
+
+## 2026-11-26: object-change takes the preview's version on the command line
+**Chose:** `--go` needs `--version <version>`, the version the preview printed; the script reads again and stops if it differs
+**Over:** the script keeping the version itself between runs; `--go` reading and writing in one step
+**Why:** the yes is given to what the preview showed: the write has to prove the object is still that; a version in the command keeps the script free of hidden state
+**Source:** inferred
+
+## 2026-11-26: The store package is shared, the plugin runs it
+**Chose:** `packages/store` holds the pure pieces and the Node edges (find the place, version, Ghost calls, decide the write, backups, read and write an object); `dfm-store` runs them as four skills
+**Over:** the code inside the plugin only
+**Why:** a runner swapping its push for the store (the next step after the reader swap) needs the same functions without a skill around them
+**Source:** inferred
+
+## 2026-11-26: vibe2value.com is upgraded to prove the ghost connector
+**Chose:** upgrade vibe2value.com's Ghost (6.58 has no member custom fields), then prove the ghost connector on a test member there
+**Over:** a local Ghost (Western District Digital's at 6.71); the Violin World local copy, which holds real members
+**Why:** the agreed test site was vibe2value.com; it was found to lack member fields when checked read only
+**Source:** stated (the upgrade), inferred (the reason as worded)

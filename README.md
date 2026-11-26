@@ -114,6 +114,7 @@ Everything planned, in the order it is built. Each row changes in the same commi
 | `spec/` | the shared formats every skill reads or writes | | spec 1 (draft) | built |
 | `packages/core` | reads settings and keys, checks settings, makes the Ghost Admin token, formats output and the run log line, builds and checks the bundled scripts | yes, beside each file | 0.1.0 | built |
 | `packages/ledger` | reads a ledger (spec 1, older words and look-alike punctuation too), carries steps forward, makes the straight line forecast; proved against real ledgers | yes, beside each file | 0.1.0 | built |
+| `packages/store` | finds where an object is kept, its version (a hash of its text), the Ghost member field calls, the write decision, backups | yes, beside each file | 0.1.0 | built |
 | `scripts/` | checks the writing rules across the repo (`pnpm check`) | yes | 0.1.0 | built |
 | `examples/coffee-shop` | the made up business every test and example uses | | | built |
 | `examples/starter` | the starter plan: four steps a week | | | built |
@@ -179,15 +180,15 @@ The examples have no version: they are read, never installed.
 | video-encode | a copy of a clip that fits a channel's size limit | code | no | planned |
 | still-make | a share card or still from a clip or post | code | no | planned |
 
-### dfm-store: any object, in any store (not started)
+### dfm-store: any object, in any store (0.1.0)
 
 | Skill | Does | Kind | Script | State |
 |---|---|---|---|---|
-| store-add | adds a store to settings: a file, Ghost member fields or a REST backend | code | no | planned |
-| store-check | the store answers and its key works | code | no | planned |
+| store-add | adds a store and a binding to settings: a folder of files or Ghost member fields (a REST backend later) | code | yes | built |
+| store-check | each binding can be read: the store answers, its key works, the member and the field are there | code | yes | built |
 | objects-read | lists the objects of a kind | code | no | planned |
-| object-read | one object with its version | code | no | planned |
-| object-change | changes an object only if no one else has since, read back | code | no | planned |
+| object-read | one object with its version | code | yes | built |
+| object-change | changes an object only if no one else has since, a backup first, read back | code | yes | built |
 | object-add | adds an object | code | no | planned |
 | object-remove | removes an object, a backup first | code | no | planned |
 

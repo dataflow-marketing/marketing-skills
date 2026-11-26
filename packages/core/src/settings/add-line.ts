@@ -19,6 +19,7 @@ export const LINE_KINDS: LineKind[] = [
   { name: "time zone", addTo: addTimeZone },
   { name: "week starts", addTo: addWeekStarts },
   { name: "keys file", addTo: addKeysFile },
+  { name: "backups", addTo: addBackups },
   { name: "site", addTo: addSite },
   { name: "store", addTo: addStore },
   { name: "binding", addTo: addBinding },
@@ -61,6 +62,15 @@ function addKeysFile(settings: Settings, line: string): boolean {
     return false;
   }
   settings.keysFile = keysFile;
+  return true;
+}
+
+function addBackups(settings: Settings, line: string): boolean {
+  const backups = readValueAfter("backups:", line);
+  if (backups === undefined) {
+    return false;
+  }
+  settings.backups = backups;
   return true;
 }
 
