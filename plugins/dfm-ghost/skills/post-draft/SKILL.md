@@ -9,7 +9,7 @@ A scripted write to Ghost. The script builds the request, sends it and reads it 
 
 ## Before it runs
 
-- **A words file** in the shape of [words](../../../../spec/words.md): `kind: post`, `state: draft` or `approved`, a title and a body.
+- **A words file** in the shape of [words](../../spec/words.md): `kind: post`, `state: draft` or `approved`, a title and a body.
 - **A quotes-check report that passed** for that words file, checked against the source named in its `from`, saved after the words last changed. Save it from `dfm-content:quotes-check` as printed: `node <quotes-check folder>/dist/run.js --text <words> --against <from> > <report file>`.
 - **The site in settings,** added with `dfm-ghost:site-add`; its key in the keys file.
 

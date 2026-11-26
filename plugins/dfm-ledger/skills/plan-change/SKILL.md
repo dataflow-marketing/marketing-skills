@@ -5,7 +5,7 @@ description: Make the Change lines from an AI chat's response (made with askai-m
 
 # plan-change
 
-A scripted write ([the way back](../../../../spec/ask-ai.md)). The script finds every `Change:` line, works out where each goes and what it replaces, previews it, writes it on a yes and reads it back. Claude runs it; Claude never edits the ledger by hand.
+A scripted write ([the way back](../../spec/ask-ai.md)). The script finds every `Change:` line, works out where each goes and what it replaces, previews it, writes it on a yes and reads it back. Claude runs it; Claude never edits the ledger by hand.
 
 ## What it does with each line
 

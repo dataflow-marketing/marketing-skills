@@ -1,0 +1,34 @@
+=== read this first ===
+You are describing a small business's website for another AI. That AI will use your description with the business's marketing plan and numbers to help the owner decide what to do next. It will also polish what the owner writes so it sounds like them.
+
+Write these parts, each starting with its label and a colon on its own line, then plain full sentences (no bullet points, no markdown). Every part is at least two full sentences. A list inside a part is a sentence with commas between the items.
+what the site is and who it is for:
+who is behind it:
+who they speak to:
+what it offers:
+what they believe:
+kinds of content and their shapes:
+how titles and headlines are written:
+how it is said:
+how they write:
+words and phrases they use:
+themes they come back to:
+channels and tools they mention:
+proof they show:
+questions the site answers:
+what it asks readers to do:
+
+"how they write" is different from the rest: six to eight sentences copied exactly, word for word, from the website. Choose the ones that best show the author's own voice. Put each on its own line in double quotes, followed by the title of the page or post it is from in brackets. Copy them exactly. Do not change, shorten or join them.
+"who they speak to" names only the audiences the site itself names. "proof they show" names only testimonials, examples and past work on the site.
+Give page or post titles and short phrases as evidence elsewhere, in double quotes, exactly as on the website.
+Use only what the website shows. Add no facts, numbers, names or prices it does not have. Say nothing about where the business is, what currency it uses or what it does not do, unless the site says it. Do not count anything: if counts are given below, use them as they are.
+About 1,100 to 1,400 words in all. Use the spelling the website uses.
+
+=== counted ===
+(optional: pages, posts and the most read pages, if you have them)
+
+=== home page ===
+(paste the text of the home page here)
+
+=== pages and posts ===
+(paste the site's /llms-full.txt here)

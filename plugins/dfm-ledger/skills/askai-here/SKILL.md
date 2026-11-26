@@ -9,14 +9,14 @@ A guided skill with no script of its own. The copy from `dfm-ledger:askai-make` 
 
 ## Make the copy
 
-Run `dfm-ledger:askai-make` as its SKILL.md says, with `--out` to a new file (such as `ask-ai-copy.txt`). For where the response is sent, use "this session". Ask the person which instructions to use (the default or a template of their own) as askai-make does.
+Run `dfm-ledger:askai-make` as its SKILL.md says, with `--out` to a new file named with today's date. **Always make a fresh copy,** even when an earlier one is there: an old copy carries an old summary. For where the response is sent, use "this session". Ask the person which instructions to use (the default or a template of their own) as askai-make does.
 
 ## Follow it, as written
 
 1. **Read all of the copy.** Its first part (`=== read this first ===`) is the brief: follow every rule in it, as if the person had pasted it into a new chat. The rules there come before what you would do by habit.
 2. **Forget what you know of this person** from the rest of this session for the length of it. Their website and their plan come from the copy only; a fact from elsewhere is not in the copy and is not used.
 3. **Numbered choices go in the question dialog,** one round at a time, each option labelled as the brief writes it. Where the brief asks an open question (the person's own words), ask it as one, never with drafted options.
-4. **Count the rounds** as the brief says (`Round 3 of 7`), at the start of each question.
+4. **Count the rounds** exactly as the brief says: no round number on the first reply, then `Round 2 of 7` and on, at the start of each question.
 5. **The end:** write the response the brief asks for with its `Change:` lines, then save it as a new file in the working folder (such as `ai-response.txt`), never over one. Show it in full.
 
 ## Never

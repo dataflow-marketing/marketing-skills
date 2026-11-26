@@ -9,7 +9,7 @@ A scripted write to the ledger. The script works out every line; Claude runs it,
 
 ## What it writes
 
-Each line ends with where it came from (calculated, modelled) and whether it is a want, an expectation or something that happened ([ledger](../../../../spec/ledger.md), Summary):
+Each line ends with where it came from (calculated, modelled) and whether it is a want, an expectation or something that happened ([ledger](../../spec/ledger.md), Summary):
 
 - the goal (want)
 - each fact's weekly numbers and their average, the goal's fact first; totals on their day (happened)

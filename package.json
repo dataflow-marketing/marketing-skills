@@ -32,7 +32,7 @@
   "packageManager": "pnpm@12.11.2",
   "scripts": {
     "test": "pnpm -r test",
-    "build": "pnpm -r build",
+    "build": "node scripts/copy-spec.ts && pnpm -r build",
     "check": "node scripts/check-writing.ts",
     "typecheck": "pnpm -r typecheck"
   },

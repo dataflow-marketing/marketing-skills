@@ -5,7 +5,7 @@ description: Make a business's profile, what its website says and how it says it
 
 # profile-make
 
-A words skill with a script. The script reads the site and counts it; Claude writes the profile from what was read; `dfm-content:quotes-check` proves it. The shape is [profile](../../../../spec/profile.md).
+A words skill with a script. The script reads the site and counts it; Claude writes the profile from what was read; `dfm-content:quotes-check` proves it. The shape is [profile](../../spec/profile.md).
 
 ## 1. Read the site
 

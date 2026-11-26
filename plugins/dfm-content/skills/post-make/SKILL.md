@@ -12,7 +12,7 @@ A guided words skill. Claude does the writing; the check proves it. There is no 
 1. **Ask for the source:** a transcript of a recording, the person's notes or a reply they wrote. It is a plain text file. Read all of it.
 2. **No source, no post.** A topic, a title or an idea is not a source. Ask the person to say or write what they want to say first.
 3. **A recording with no transcript** is made into one by hand for now: the person types it or uses a tool they already have. Use the transcript, not a summary of it.
-4. **Read the house rules** in the person's [settings](../../../../spec/settings.md) (spelling, length, words to avoid). They apply to everything written.
+4. **Read the house rules** in the person's [settings](../../spec/settings.md) (spelling, length, words to avoid). They apply to everything written.
 
 ## Polish, never invent
 
@@ -26,7 +26,7 @@ Make it shorter and plainer with the same meaning.
 
 ## Write the words file
 
-Write a new file in the shape of [words](../../../../spec/words.md), such as `drafts/iced-coffee.txt`. Never write over an existing one.
+Write a new file in the shape of [words](../../spec/words.md), such as `drafts/iced-coffee.txt`. Never write over an existing one.
 
 ```
 spec 1

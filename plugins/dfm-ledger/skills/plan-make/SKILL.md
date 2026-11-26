@@ -5,7 +5,7 @@ description: Make a business's first ledger: start from the starter plan (four s
 
 # plan-make
 
-A words skill with a script. The script starts the ledger from the [starter plan](../../../../examples/starter/README.md); Claude shapes it with the person, one thing at a time; `dfm-ledger:plan-check` proves every line reads.
+A words skill with a script. The script starts the ledger from the [starter plan](https://github.com/dataflow-marketing/marketing-skills/blob/develop/examples/starter/README.md); Claude shapes it with the person, one thing at a time; `dfm-ledger:plan-check` proves every line reads.
 
 ## 1. Start from the starter plan
 
@@ -23,11 +23,22 @@ The starter: four steps a week in order (check your profiles, new post, post onc
 
 Ask, one question at a time in the dialog:
 
-1. **The goal.** Keep "one more follower a week" or change it to what the business actually wants each week: enquiries, bookings, sales, sign ups. A goal is a count of actions a week, never money. If it changes: change the `want` line and add a `fact <name>: told` line for it.
-2. **What they can count.** For each thing they can tell each week, add a `fact <name>: told` line and a link from the step that leads to it with `? (unknown)`.
-3. **One change to the steps,** only if they want one now. Every step needs a link from it in the graph.
+1. **The goal.** Keep "one more follower a week" or change it to what the business actually wants each week: enquiries, bookings, sales, sign ups. A goal is a count of actions a week, never money.
+2. **What they can count.** Each thing they can tell each week becomes a fact, with a link from the step that leads to it (`?` until it is counted).
+3. **The how lines.** The starter's how lines are written for a business people visit (opening times, a customer's question). If the profile shows a different kind of business, show each how line and ask whether it fits. If one does not, ask how they would say it: their words, polished shorter and plainer, never yours.
+4. **One change to the steps,** only if they want one now. Every step needs a link from it in the graph.
 
-Change only what they said. Keep every other line of the starter as it is. Write lines in plain ASCII as [ledger](../../../../spec/ledger.md) shows: `->` for a link.
+**Every change goes through `dfm-ledger:plan-change`;** never edit `ledger.txt` by hand. Write what was agreed as `Change:` lines in a new file (such as `plan-changes.txt`), in plain ASCII as [ledger](../../spec/ledger.md) shows:
+
+```
+Change: want enquiries +1 a week
+Change: fact enquiries: told
+Change: fact site visits: told
+Change: new post -> site visits: ? (unknown)
+Change: how check your profiles: Check your LinkedIn and your About page say what you do now.
+```
+
+A `want`, a `how` or a fact's source replaces the line before it; the rest are added. Run plan-change to preview, show it, then `--go` on a yes. Change only what they said: every other line of the starter stays as it is.
 
 ## 3. Check it
 

@@ -599,3 +599,15 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** waiting until after the trial; a second set of instructions for here
 **Why:** you asked for it now; one brief for every AI keeps what Claude does here the same as what ChatGPT does with the copy
 **Source:** stated (now), inferred (the shape)
+
+## 2026-11-26: The order to bring the skills close to the legacy method
+**Chose:** the fix round from trial 4 first, then the store (dfm-store with Ghost), then counts from platforms (visits-read, numbers-read), then inbox-read for replies, then the forecast's running total and sign in
+**Over:** another order, such as counts before the store
+**Why:** everything the legacy method does happens in members' Ghost fields: the store closes the most distance once the skills are sound
+**Source:** stated (the order), inferred (the reason as worded)
+
+## 2026-11-26: Fixes from trial 4
+**Chose:** the spec is copied into every plugin by `pnpm build` (links out of it point to GitHub, a test keeps each copy current); plan-make shapes the plan through plan-change (never by hand) and offers to put a how line that does not fit in the person's own words; the starter's wording stays as decided; askai-make suggests the person the profile names as who and dates each copy; askai-here always makes a fresh copy and numbers rounds as the brief says
+**Over:** linking skills to the repo's spec/ (missing once installed); a new starter for other kinds of business
+**Why:** an installed plugin has only its own folder; the starter's words were your decision: the person's own words fit it to their business instead
+**Source:** inferred (from the trial findings 23 to 30)

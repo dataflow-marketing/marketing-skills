@@ -27,7 +27,7 @@ node dist/run.js --text <the text> --against <its source> [--against <another so
 
 ## Show
 
-Show the report as the script printed it, in full. Do not summarise it or leave lines out. It is in the shape of [the check report](../../../../spec/check-report.md).
+Show the report as the script printed it, in full. Do not summarise it or leave lines out. It is in the shape of [the check report](../../spec/check-report.md).
 
 ## When it finds problems
 

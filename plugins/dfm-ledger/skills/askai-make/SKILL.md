@@ -5,18 +5,18 @@ description: Make the copy of a business's plan (and its profile) to paste into 
 
 # askai-make
 
-A scripted copy ([ask an AI](../../../../spec/ask-ai.md)). The script puts together the instructions, the profile and the ledger with a summary written fresh today; Claude runs it and hands the copy over. It changes nothing.
+A scripted copy ([ask an AI](../../spec/ask-ai.md)). The script puts together the instructions, the profile and the ledger with a summary written fresh today; Claude runs it and hands the copy over. It changes nothing.
 
 ## What to ask the person
 
-1. **Who the plan belongs to,** as the AI should name them, such as "the coffee shop" or their own name.
+1. **Who the plan belongs to,** as the AI should name them. Suggest the person or business the profile names (such as their own name), not the site's short name in settings.
 2. **Where the AI's response is sent:** their email address (or where they will paste it back).
 3. **Whether to include their profile** (`profile.txt`, made by `dfm-content:profile-make`), when there is one.
 4. **Which instructions:** the default (the dfm instructions, tried with real businesses) or a template of their own.
 
 ## The instructions are a template
 
-The default instructions are [ask-ai-instructions.txt](../../../../spec/ask-ai-instructions.txt). Any text file can take their place with `--instructions <file>`: a business's own way of asking, another language, a different job for the AI. Two blanks are filled in wherever they appear: `{who}` and `{send to}`. The profile and the plan always follow it. A template that changes how the response comes back should still end in `Change:` lines if the plan is to take them.
+The default instructions are [ask-ai-instructions.txt](../../spec/ask-ai-instructions.txt). Any text file can take their place with `--instructions <file>`: a business's own way of asking, another language, a different job for the AI. Two blanks are filled in wherever they appear: `{who}` and `{send to}`. The profile and the plan always follow it. A template that changes how the response comes back should still end in `Change:` lines if the plan is to take them.
 
 ## Run
 
@@ -26,7 +26,7 @@ From the working folder:
 node <this skill's folder>/dist/run.js --ledger ledger.txt --settings settings.txt --who "<who>" --send-to "<address>" [--profile profile.txt] [--instructions <template>] --out ask-ai-copy.txt
 ```
 
-Without `--out` it prints the copy. With `--out` it writes a new file, never over one. The ledger must have no lines that cannot be read: run `dfm-ledger:plan-check` first.
+Without `--out` it prints the copy. With `--out` it writes a new file, never over one: name it with today's date (`ask-ai-copy-2026-12-02.txt`) so every copy is fresh. The ledger must have no lines that cannot be read: run `dfm-ledger:plan-check` first.
 
 Tell the person: copy all of the file, paste it into any AI chat, answer its numbered choices, then send back the response it writes at the end. The `Change:` lines in it come back into the ledger later, after their yes; nothing the AI says changes the plan by itself.
 
