@@ -157,7 +157,7 @@ The examples have no version: they are read, never installed.
 | plan-check | reads every line and names the problems | code | yes | built |
 | counts-record | adds the counts, totals and ticks a person tells for a week | code | yes | built |
 | summary-make | writes a ledger's summary: each line a want, an expectation or what happened | code | yes | built |
-| askai-make | a copy of the ledger and profile for any AI chat | code | no | planned |
+| askai-make | a copy of the ledger and profile for any AI chat, with its instructions inside | code | yes | built |
 | inbox-read | proposes changes from messages in and says what needs a reply | model | none | planned |
 | followups-check | what needs following up | code | no | planned |
 | rates-record | learns how well each link works from the counts | code | no | planned |

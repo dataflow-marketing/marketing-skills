@@ -5318,6 +5318,25 @@ function summaryLines(lines) {
   return kept;
 }
 
+// ../../../../packages/ledger/src/summary/put-summary.ts
+var SUMMARY_HEADING = "=== summary ===";
+function putSummary(ledgerText, summary) {
+  const lines = ledgerText.replace(/\s+$/, "").split("\n");
+  const at = lines.findIndex((line) => line.trim() === SUMMARY_HEADING);
+  const above = at < 0 ? lines : lines.slice(0, at);
+  const kept = above.join("\n").replace(/\s+$/, "");
+  return `${kept}
+
+${SUMMARY_HEADING}
+${summary.join("\n")}
+`;
+}
+function summaryIn(ledgerText) {
+  const lines = ledgerText.replace(/\s+$/, "").split("\n");
+  const at = lines.findIndex((line) => line.trim() === SUMMARY_HEADING);
+  return at < 0 ? [] : lines.slice(at + 1);
+}
+
 // ../../../../packages/ledger/src/summary/weeks.ts
 function wholeWeeks(done) {
   return Object.keys(done.weeks).sort().filter((week) => !done.weeks[week].countedTo && Object.keys(done.weeks[week].counts ?? {}).length > 0);
@@ -5677,25 +5696,6 @@ var HEADINGS = {
 function describeResult(outcome, ledgerPath, summary) {
   const text = [HEADINGS[outcome], `ledger: ${ledgerPath}`, "", "=== summary ===", ...summary].join("\n");
   return { text, data: { outcome, ledger: ledgerPath, summary } };
-}
-
-// src/put-summary.ts
-var SUMMARY_HEADING = "=== summary ===";
-function putSummary(ledgerText, summary) {
-  const lines = ledgerText.replace(/\s+$/, "").split("\n");
-  const at = lines.findIndex((line) => line.trim() === SUMMARY_HEADING);
-  const above = at < 0 ? lines : lines.slice(0, at);
-  const kept = above.join("\n").replace(/\s+$/, "");
-  return `${kept}
-
-${SUMMARY_HEADING}
-${summary.join("\n")}
-`;
-}
-function summaryIn(ledgerText) {
-  const lines = ledgerText.replace(/\s+$/, "").split("\n");
-  const at = lines.findIndex((line) => line.trim() === SUMMARY_HEADING);
-  return at < 0 ? [] : lines.slice(at + 1);
 }
 
 // src/read-args.ts
