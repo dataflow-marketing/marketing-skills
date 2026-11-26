@@ -322,9 +322,7 @@ var PLAN_WORDS = [
   { word: "every month", starts: /^every month\b/ },
   { word: "series", starts: /^\d{4}-\d{2}-\d{2}\s[^:]+:\s*\S/ }
 ];
-var DONE_WORDS = [
-  { word: "said with a topic", starts: /^\d{4}-\d{2}-\d{2} said .* topic: / }
-];
+var DONE_WORDS = [];
 var WORDS = {
   graph: GRAPH_WORDS,
   plan: PLAN_WORDS,
@@ -345,7 +343,7 @@ function notReadYetWord(part, text) {
 var DATE = "(\\d{4}-\\d{2}-\\d{2})";
 var NUMBER = "(\\d+(?:,\\d{3})*(?:\\.\\d+)?)";
 var STARTED = new RegExp(`^started ${DATE}$`);
-var SAID = new RegExp(`^${DATE} said (.+?) on ${DATE}: "(.*)" (\\S+) \\[(.*)\\] summary: "(.*)"$`);
+var SAID = new RegExp(`^${DATE} said (.+?) on ${DATE}: "(.*)" (\\S+) \\[(.*)\\](?: topic: (.+?))? summary: "(.*)"$`);
 var COUNTED_TO = new RegExp(`^${DATE} counted to ${DATE}$`);
 var ANSWER = new RegExp(`^${DATE} (.+): (done|not done)(?: at (\\S+ \\S+))?$`);
 var FACT_TOTAL = new RegExp(`^${DATE} fact total (.+): ${NUMBER}$`);
@@ -425,7 +423,8 @@ function addSaid(week, match) {
     title: match[4],
     url: match[5],
     for: match[6].split(", ").filter(Boolean),
-    summary: match[7]
+    ...match[7] ? { topic: match[7] } : {},
+    summary: match[8]
   };
   const others = (week.said ?? []).filter((earlier) => !(earlier.url === said.url && earlier.how === said.how));
   week.said = [...others, said];
