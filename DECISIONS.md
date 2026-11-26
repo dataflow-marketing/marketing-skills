@@ -705,5 +705,5 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 ## 2026-11-26: quotes-check keeps checking one-word quotes
 **Chose:** one-word quotes such as "we" or "you" stay checked
 **Over:** skipping common words through a word list
-**Why:** they are found in the source, so they are extra report lines, not problems; a word list would need choosing
+**Why:** they are found in the source: extra report lines, not problems; a word list would need choosing
 **Source:** stated (agreed), inferred (the reason as worded)
