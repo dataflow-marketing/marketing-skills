@@ -3,7 +3,7 @@
 import { mondayOf } from "@dataflow-marketing/ledger/dates";
 import { straightLineForecast } from "@dataflow-marketing/ledger/forecast";
 import type { Done, Want } from "@dataflow-marketing/ledger/read";
-import { written } from "../numbers.ts";
+import { written } from "@dataflow-marketing/ledger/numbers";
 import { wholeWeeks } from "../weeks.ts";
 
 const SURE_AFTER = 8; // weeks counted before the line is more than rough

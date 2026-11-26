@@ -5409,7 +5409,7 @@ function contentLines(done) {
   return [`this week's content was for: ${groups.join(", ")} (calculated)`];
 }
 
-// src/numbers.ts
+// ../../../../packages/ledger/src/numbers.ts
 function written(n) {
   const rounded = Math.round(n * 10) / 10;
   return rounded.toLocaleString("en-AU", { maximumFractionDigits: 1 });

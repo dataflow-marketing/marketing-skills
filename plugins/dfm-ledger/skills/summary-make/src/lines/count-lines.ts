@@ -2,7 +2,7 @@
 // All happened, added up from the lines (calculated).
 
 import type { Done } from "@dataflow-marketing/ledger/read";
-import { written } from "../numbers.ts";
+import { written } from "@dataflow-marketing/ledger/numbers";
 import { factsCounted, weekSoFar, wholeWeeks } from "../weeks.ts";
 
 // the goal's fact first, then the others in the order first counted

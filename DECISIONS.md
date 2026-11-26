@@ -542,3 +542,8 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** the example ledger's summary (and the Ask an AI copy's) is the one summary-make writes from its lines: it gains this week's steps and loses a hand written not counted line that named nothing in the ledger; a test proves the example and summary-make agree
 **Over:** keeping the hand written summary
 **Why:** the spec says a summary is never written by hand; the example now proves it
+
+## 2026-11-26: counts-record writes told numbers for one week at a time
+**Chose:** counts-record adds a week's counts, totals (on the day told) and ticks (with when they were made, in the business's time zone); a count replaces that week's earlier count of the fact; this week's counts are so far (counted to today); a fact the graph does not declare and a step not in the week are refused
+**Over:** adding a fact or step it does not know of, or keeping two counts of one fact in a week
+**Why:** every number is told, never guessed; the plan and graph say what can be counted, and plan-check would name anything else as a problem

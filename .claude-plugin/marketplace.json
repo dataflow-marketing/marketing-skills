@@ -31,7 +31,7 @@
     {
       "name": "dfm-ledger",
       "source": "./plugins/dfm-ledger",
-      "description": "A business's ledger: plan-check names every problem in it; summary-make writes its summary."
+      "description": "A business's ledger: plan-check names every problem in it; counts-record adds a week's told numbers and ticks; summary-make writes its summary."
     }
   ]
 }
