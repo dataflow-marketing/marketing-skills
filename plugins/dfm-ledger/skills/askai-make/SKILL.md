@@ -38,4 +38,4 @@ Tell the person: copy all of the file, paste it into any AI chat, answer its num
 
 ## Next
 
-The person takes the copy to an AI chat. The response with its `Change:` lines comes back to the ledger through a change skill, after their yes.
+The person takes the copy to an AI chat. The response with its `Change:` lines comes back to the ledger through `dfm-ledger:plan-change`, after their yes.

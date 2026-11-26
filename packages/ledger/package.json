@@ -14,7 +14,8 @@
     "./week-steps": "./src/week-steps.ts",
     "./numbers": "./src/numbers.ts",
     "./summary": "./src/summary/write-summary.ts",
-    "./put-summary": "./src/summary/put-summary.ts"
+    "./put-summary": "./src/summary/put-summary.ts",
+    "./put-in-part": "./src/edit/put-in-part.ts"
   },
   "scripts": {
     "test": "vitest run",

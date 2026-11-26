@@ -413,6 +413,35 @@ function mondayOf(d) {
   return addDays(d, -daysSinceMonday);
 }
 
+// ../../../../packages/ledger/src/edit/put-in-part.ts
+var ORDER = ["graph", "plan", "done", "summary"];
+var ANY_HEADING = /^=== (graph|plan|done|summary) ===$/;
+function putInPart(ledgerText, part, change) {
+  const lines = ledgerText.replace(/\s+$/, "").split("\n");
+  const start = headingAt(lines, part);
+  const after = lines.findIndex((line, index) => index > start && ANY_HEADING.test(line.trim()));
+  const end = after < 0 ? lines.length : after;
+  const kept = lines.slice(start + 1, end).filter((line) => !change.remove.some((beginning) => line.startsWith(beginning)));
+  while (kept.length > 0 && kept[kept.length - 1].trim() === "") {
+    kept.pop();
+  }
+  const body = [...kept, ...change.add, ...after < 0 ? [] : [""]];
+  return `${[...lines.slice(0, start + 1), ...body, ...lines.slice(end)].join("\n")}
+`;
+}
+function headingAt(lines, part) {
+  const heading = `=== ${part} ===`;
+  const at = lines.findIndex((line) => line.trim() === heading);
+  if (at >= 0) {
+    return at;
+  }
+  const later = ORDER.slice(ORDER.indexOf(part) + 1).map((name) => `=== ${name} ===`);
+  const before = lines.findIndex((line) => later.includes(line.trim()));
+  const place = before < 0 ? lines.length : before;
+  lines.splice(place, 0, heading);
+  return place;
+}
+
 // ../../../../packages/ledger/src/read/not-read-yet.ts
 var GRAPH_WORDS = [
   { word: "business", starts: /^business\s/ },
@@ -5335,28 +5364,6 @@ function describeResult(outcome, ledgerPath, added, missing = []) {
   return { text: lines.join("\n"), data: { outcome, ledger: ledgerPath, added, missing } };
 }
 
-// src/put-done-lines.ts
-var DONE_HEADING = "=== done ===";
-var ANY_HEADING = /^=== (graph|plan|done|summary) ===$/;
-function putDoneLines(ledgerText, change) {
-  const lines = ledgerText.replace(/\s+$/, "").split("\n");
-  let start = lines.findIndex((line) => line.trim() === DONE_HEADING);
-  if (start < 0) {
-    const summary = lines.findIndex((line) => line.trim() === "=== summary ===");
-    start = summary < 0 ? lines.length : summary;
-    lines.splice(start, 0, DONE_HEADING);
-  }
-  const after = lines.findIndex((line, index) => index > start && ANY_HEADING.test(line.trim()));
-  const end = after < 0 ? lines.length : after;
-  const kept = lines.slice(start + 1, end).filter((line) => !change.remove.some((beginning) => line.startsWith(beginning)));
-  while (kept.length > 0 && kept[kept.length - 1].trim() === "") {
-    kept.pop();
-  }
-  const done = [...kept, ...change.add, ...after < 0 ? [] : [""]];
-  return `${[...lines.slice(0, start + 1), ...done, ...lines.slice(end)].join("\n")}
-`;
-}
-
 // src/read-args.ts
 var USAGE = "node dist/run.js --ledger <file> --settings <file> [--week <Monday>] [--count <fact=n>]... [--total <fact=n>]... [--done <step>]... [--not-done <step>]... [--preview | --go | --read-back] [--run-log <file>] [--json]";
 var SINGLE = ["--ledger", "--settings", "--week", "--run-log"];
@@ -5596,7 +5603,7 @@ async function main(args) {
     printOutput(describeResult("preview", asked.args.ledger, plan.change.add), output);
     return EXIT_DONE;
   }
-  await writeText(asked.args.ledger, putDoneLines(ledgerText, plan.change));
+  await writeText(asked.args.ledger, putInPart(ledgerText, "done", plan.change));
   await appendRunLine(runLogPath(asked.args.settings, asked.args.runLog), {
     when: /* @__PURE__ */ new Date(),
     skill: SKILL,

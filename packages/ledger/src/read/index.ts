@@ -2,6 +2,7 @@
 
 export { readLedger } from "./read-ledger.ts";
 export { splitParts } from "./split-parts.ts";
+export { tidyPasted } from "./tidy-pasted.ts";
 export type { LedgerParts } from "./split-parts.ts";
 export type {
   Answer,

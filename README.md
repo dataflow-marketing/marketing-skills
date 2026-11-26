@@ -153,7 +153,7 @@ The examples have no version: they are read, never installed.
 | Skill | Does | Kind | Script | State |
 |---|---|---|---|---|
 | plan-make | a first ledger: the starter plan, shaped in conversation one thing at a time, checked by plan-check | model | yes | built |
-| plan-change | changes a ledger, the difference shown first | code | no | planned |
+| plan-change | takes Change: lines into the ledger, each shown first, written on a yes | code | yes | built |
 | plan-check | reads every line and names the problems | code | yes | built |
 | counts-record | adds the counts, totals and ticks a person tells for a week | code | yes | built |
 | summary-make | writes a ledger's summary: each line a want, an expectation or what happened | code | yes | built |

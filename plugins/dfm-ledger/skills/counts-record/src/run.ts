@@ -10,9 +10,9 @@ import { EXIT_DONE, EXIT_PROBLEMS_FOUND, EXIT_REFUSED_OR_FAILED, nowIn, outputMo
 import type { OutputMode } from "@dataflow-marketing/core";
 import { appendRunLine, printOutput, readText, runLogPath, writeText } from "@dataflow-marketing/core/node";
 import { mondayOf } from "@dataflow-marketing/ledger/dates";
+import { putInPart } from "@dataflow-marketing/ledger/put-in-part";
 import { readLedger } from "@dataflow-marketing/ledger/read";
 import { describeResult } from "./describe-result.ts";
-import { putDoneLines } from "./put-done-lines.ts";
 import { readArgs } from "./read-args.ts";
 import type { CountsArgs } from "./read-args.ts";
 import { recordPlan } from "./record-plan.ts";
@@ -64,7 +64,7 @@ async function main(args: string[]): Promise<number> {
     printOutput(describeResult("preview", asked.args.ledger, plan.change.add), output);
     return EXIT_DONE;
   }
-  await writeText(asked.args.ledger, putDoneLines(ledgerText, plan.change));
+  await writeText(asked.args.ledger, putInPart(ledgerText, "done", plan.change));
   await appendRunLine(runLogPath(asked.args.settings, asked.args.runLog), {
     when: new Date(),
     skill: SKILL,

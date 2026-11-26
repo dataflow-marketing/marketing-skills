@@ -577,3 +577,13 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** the reader keeps a goal's plus (`want followers +1 a week` as grows) and the summary shows it as written; it reads the same as without
 **Over:** dropping the plus from the summary
 **Why:** the summary should say the goal the way the business wrote it; a plus reads as growth
+
+## 2026-11-26: Tests on every pull request wait until development settles
+**Chose:** keep the GitHub test run (the parked ci-workflow) out for now; tests, the typecheck and the writing check run locally before each commit
+**Over:** adding it now
+**Why:** development is moving fast and is tested locally; the run goes in, with its actions pinned to exact versions, once things are more stable
+
+## 2026-11-26: plan-change places, replaces or refuses; never guesses
+**Chose:** plan-change reads each Change: line with the ledger's own reader to place it (done, graph, then plan); a how, ask, goal, start, fact source or link rate replaces the line before it, a step's script lines replace as a set, the rest are added; one line that is not a ledger line refuses the whole change; the shared putInPart (packages/ledger) now writes counts-record's lines too
+**Over:** Claude editing the ledger by hand; writing the lines that read and skipping the rest
+**Why:** a change is the person's: half a change written is harder to see than none

@@ -1,7 +1,7 @@
 {
   "name": "dfm-ledger",
   "version": "0.1.0",
-  "description": "dataflow marketing: a business's ledger. plan-make starts one from the starter plan; plan-check names every problem in it; counts-record adds what a person tells for a week; summary-make writes the summary; askai-make makes a copy for any AI chat. New to dfm: start with dfm-recipes:client-run.",
+  "description": "dataflow marketing: a business's ledger. plan-make starts one from the starter plan; plan-check names every problem in it; counts-record adds what a person tells for a week; summary-make writes the summary; askai-make makes a copy for any AI chat; plan-change takes its Change lines back. New to dfm: start with dfm-recipes:client-run.",
   "author": {
     "name": "mattcam"
   },
