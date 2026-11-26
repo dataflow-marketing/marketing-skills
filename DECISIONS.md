@@ -547,3 +547,13 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** counts-record adds a week's counts, totals (on the day told) and ticks (with when they were made, in the business's time zone); a count replaces that week's earlier count of the fact; this week's counts are so far (counted to today); a fact the graph does not declare and a step not in the week are refused
 **Over:** adding a fact or step it does not know of; keeping two counts of one fact in a week
 **Why:** every number is told, never guessed; the plan and graph say what can be counted (plan-check would name anything else as a problem)
+
+## 2026-11-26: plan-make starts the file; Claude shapes it; plan-check proves it
+**Chose:** plan-make's script writes the starter plan (kept word for word with examples/starter) as a new ledger starting this week, with the followers told today (none when not told); Claude then changes only what the person asks, one thing at a time; plan-check must pass
+**Over:** Claude writing the whole ledger by hand
+**Why:** the start is the same for everyone and is code; the shaping is a conversation; the check proves the result
+
+## 2026-11-26: Reading and writing a text file and the time in a time zone are in core
+**Chose:** core holds readText and writeText (Node edge) and nowIn (today and the time with its offset in a time zone, web standard); the ledger skills use them
+**Over:** a copy in each skill
+**Why:** three skills had the same copies by the time plan-make was built

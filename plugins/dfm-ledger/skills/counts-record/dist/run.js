@@ -331,6 +331,25 @@ function isModeFlag(arg) {
   return arg in MODE_FLAGS;
 }
 
+// ../../../../packages/core/src/time/now-in.ts
+function nowIn(timeZone, now = /* @__PURE__ */ new Date()) {
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat("en-CA", {
+      timeZone,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+      timeZoneName: "longOffset"
+    }).formatToParts(now).map((part) => [part.type, part.value])
+  );
+  const today = `${parts.year}-${parts.month}-${parts.day}`;
+  const offset = String(parts.timeZoneName).replace("GMT", "") || "+00:00";
+  return { today, stamp: `${today}T${parts.hour}:${parts.minute}${offset}` };
+}
+
 // ../../../../packages/core/src/node/expand-home.ts
 import { homedir } from "node:os";
 import { join } from "node:path";
@@ -367,6 +386,19 @@ function runLogPath(settingsPath, given) {
     return expandHome(given);
   }
   return join2(dirname(expandHome(settingsPath)), RUN_LOG_FILE);
+}
+
+// ../../../../packages/core/src/node/text-file.ts
+import { readFile, writeFile } from "node:fs/promises";
+async function readText(path) {
+  try {
+    return await readFile(expandHome(path), "utf8");
+  } catch {
+    return void 0;
+  }
+}
+async function writeText(path, text) {
+  await writeFile(expandHome(path), text, "utf8");
 }
 
 // ../../../../packages/ledger/src/dates.ts
@@ -5298,38 +5330,6 @@ function describeResult(outcome, ledgerPath, added, missing = []) {
     lines.push("", "the summary is now out of date: run dfm-ledger:summary-make next");
   }
   return { text: lines.join("\n"), data: { outcome, ledger: ledgerPath, added, missing } };
-}
-
-// src/node/ledger-file.ts
-import { readFile, writeFile } from "node:fs/promises";
-async function readText(path) {
-  try {
-    return await readFile(expandHome(path), "utf8");
-  } catch {
-    return void 0;
-  }
-}
-async function writeText(path, text) {
-  await writeFile(expandHome(path), text, "utf8");
-}
-
-// src/node/now-in.ts
-function nowIn(timeZone, now = /* @__PURE__ */ new Date()) {
-  const parts = Object.fromEntries(
-    new Intl.DateTimeFormat("en-CA", {
-      timeZone,
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      hourCycle: "h23",
-      timeZoneName: "longOffset"
-    }).formatToParts(now).map((part) => [part.type, part.value])
-  );
-  const today = `${parts.year}-${parts.month}-${parts.day}`;
-  const offset = String(parts.timeZoneName).replace("GMT", "") || "+00:00";
-  return { today, stamp: `${today}T${parts.hour}:${parts.minute}${offset}` };
 }
 
 // src/put-done-lines.ts

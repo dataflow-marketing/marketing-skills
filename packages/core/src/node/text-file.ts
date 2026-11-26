@@ -1,4 +1,4 @@
-// Node edge: reads the ledger and settings, writes the ledger back.
+// Node edge: reads a text file (nothing when it is not there) and writes one.
 
 import { readFile, writeFile } from "node:fs/promises";
 import { expandHome } from "@dataflow-marketing/core/node";

@@ -1,4 +1,4 @@
-// Node edge: today and the time now in a time zone, as the done lines write them: 2026-12-02 and 2026-12-02T10:00+11:00.
+// Today and the time now in a time zone (web standard: it runs in a Worker too), as the done lines write them: 2026-12-02 and 2026-12-02T10:00+11:00.
 
 export function nowIn(timeZone: string, now: Date = new Date()): { today: string; stamp: string } {
   const parts = Object.fromEntries(

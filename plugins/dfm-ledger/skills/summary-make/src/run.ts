@@ -4,12 +4,10 @@
 // node dist/run.js --ledger <file> --settings <file> [--today <date>] [--preview | --go | --read-back] [--run-log <file>] [--json]
 // Exit code: 0 done (or current), 1 read back found the summary not current, 2 refused or failed.
 
-import { EXIT_DONE, EXIT_PROBLEMS_FOUND, EXIT_REFUSED_OR_FAILED, outputMode, parseSettings, writeMode } from "@dataflow-marketing/core";
-import { appendRunLine, printOutput, runLogPath } from "@dataflow-marketing/core/node";
+import { EXIT_DONE, EXIT_PROBLEMS_FOUND, EXIT_REFUSED_OR_FAILED, nowIn, outputMode, parseSettings, writeMode } from "@dataflow-marketing/core";
+import { appendRunLine, printOutput, readText, runLogPath, writeText } from "@dataflow-marketing/core/node";
 import { readLedger } from "@dataflow-marketing/ledger/read";
 import { describeResult } from "./describe-result.ts";
-import { readText, writeText } from "./node/ledger-file.ts";
-import { todayIn } from "./node/today-in.ts";
 import { putSummary, summaryIn } from "./put-summary.ts";
 import { readArgs } from "./read-args.ts";
 import { writeSummary } from "./write-summary.ts";
@@ -44,7 +42,7 @@ async function main(args: string[]): Promise<number> {
     return failed(`The ledger has lines that cannot be read: run dfm-ledger:plan-check and fix them first.`);
   }
 
-  const today = asked.args.today ?? todayIn(settings.settings.timeZone);
+  const today = asked.args.today ?? nowIn(settings.settings.timeZone).today;
   const summary = writeSummary(ledger, today);
 
   if (mode.mode === "read-back") {

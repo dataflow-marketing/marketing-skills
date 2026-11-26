@@ -24,4 +24,5 @@ export { formatOutput } from "./output/format-output.ts";
 export type { ScriptResult } from "./output/format-output.ts";
 export { EXIT_DONE, EXIT_PROBLEMS_FOUND, EXIT_REFUSED_OR_FAILED } from "./output/exit-codes.ts";
 export { isModeFlag, writeMode } from "./output/write-mode.ts";
+export { nowIn } from "./time/now-in.ts";
 export type { WriteMode, WriteModeResult } from "./output/write-mode.ts";
