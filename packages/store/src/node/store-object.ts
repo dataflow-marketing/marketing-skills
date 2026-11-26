@@ -9,7 +9,7 @@ import { readField } from "../ghost/read-field.ts";
 import type { Fetch } from "../ghost/member-calls.ts";
 import { writeField } from "../ghost/write-field.ts";
 import { versionOf } from "../version.ts";
-import { objectPath, readObjectFile, writeObjectFile } from "./object-file.ts";
+import { objectPath, readObjectFile, removeObjectFile, writeObjectFile } from "./object-file.ts";
 
 // Where a read found the object: a write goes to the same place
 export type Found = { connector: "file"; path: string } | { connector: "ghost"; memberId: string; token: string };
@@ -36,6 +36,15 @@ export async function writeObject(place: Place, found: Found, text: string, fetc
   const change = { address: ghost.site.address, memberId: found.memberId, field: ghost.field, text, token: found.token };
   const written = await writeField(change, fetch);
   return written.ok ? { ok: true } : written;
+}
+
+// Empties the object: a file is removed; a Ghost field is set to null (spec/store.md, add and remove)
+export async function removeObject(place: Place, found: Found, fetch: Fetch = globalThis.fetch): Promise<ObjectWrite> {
+  if (found.connector === "file") {
+    await removeObjectFile(found.path);
+    return { ok: true };
+  }
+  return writeObject(place, found, "", fetch);
 }
 
 async function readGhostField(place: GhostPlace, fetch: Fetch): Promise<ObjectRead> {

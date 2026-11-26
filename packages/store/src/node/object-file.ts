@@ -1,8 +1,9 @@
 // Node edge: the file connector. Reads and writes an object kept as a plain text file.
 // A path that starts with ~ is under the home folder; any other relative path is under the working folder.
 // Reading gives back undefined when the file is not there yet; writing makes its folder first.
+// Removing a file that is not there is not a problem: the object is empty either way.
 
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { expandHome } from "@dataflow-marketing/core/node";
 
@@ -24,4 +25,8 @@ export async function readObjectFile(path: string): Promise<string | undefined> 
 export async function writeObjectFile(path: string, text: string): Promise<void> {
   await mkdir(dirname(path), { recursive: true });
   await writeFile(path, text, "utf8");
+}
+
+export async function removeObjectFile(path: string): Promise<void> {
+  await rm(path, { force: true });
 }

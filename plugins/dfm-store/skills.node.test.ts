@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { nodeInWorkModules } from "@dataflow-marketing/core/build";
 import { describe, expect, it } from "vitest";
 
-const SKILLS = ["store-add", "store-check", "object-read", "object-change"];
+const SKILLS = ["store-add", "store-check", "objects-read", "object-read", "object-change", "object-add", "object-remove"];
 
 describe("dfm-store work modules", () => {
   for (const skill of SKILLS) {

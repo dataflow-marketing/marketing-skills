@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import { fakeGhostMembers } from "../../fixtures/fake-ghost-members.ts";
 import type { GhostPlace } from "../find-place.ts";
 import { versionOf } from "../version.ts";
-import { readObject, writeObject } from "./store-object.ts";
+import { readObject, removeObject, writeObject } from "./store-object.ts";
 
 // Made up: a Ghost Admin key in Ghost's form, for a site that does not exist
 const KEY = "c0ffeec0ffeec0ffeec0ffee:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
@@ -47,6 +47,25 @@ describe("readObject and writeObject", () => {
     if (!before.ok) throw new Error(before.problem);
     expect(await writeObject(place, before.found, "goal: 120", ghost.fetch)).toEqual({ ok: true });
     expect(ghost.members[0].custom.next).toBe("goal: 120");
+  });
+
+  it("remove a file: it is gone and reads as none", async () => {
+    const folder = await mkdtemp(join(tmpdir(), "dfm-store-"));
+    const place = { connector: "file" as const, path: join(folder, "ledger.txt"), label: "file" };
+    await writeFile(join(folder, "ledger.txt"), "goal: 100\n");
+    const before = await readObject(place);
+    if (!before.ok) throw new Error(before.problem);
+    expect(await removeObject(place, before.found)).toEqual({ ok: true });
+    expect(await readObject(place)).toMatchObject({ ok: true, text: "", version: "none" });
+  });
+
+  it("remove a member's field: it is set to null and every other field is kept", async () => {
+    const ghost = fakeGhostMembers({ members: [{ id: "m1", email: "owner@coffee-shop.example", custom: { next: "goal: 100", context: "kept" } }] });
+    const place = await ghostPlace();
+    const before = await readObject(place, ghost.fetch);
+    if (!before.ok) throw new Error(before.problem);
+    expect(await removeObject(place, before.found, ghost.fetch)).toEqual({ ok: true });
+    expect(ghost.members[0].custom).toEqual({ next: null, context: "kept" });
   });
 
   it("names a missing key by its variable, never a value", async () => {

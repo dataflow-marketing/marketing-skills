@@ -114,7 +114,7 @@ Everything planned, in the order it is built. Each row changes in the same commi
 | `spec/` | the shared formats every skill reads or writes | | spec 1 (draft) | built |
 | `packages/core` | reads settings and keys, checks settings, makes the Ghost Admin token, formats output and the run log line, builds and checks the bundled scripts | yes, beside each file | 0.1.0 | built |
 | `packages/ledger` | reads a ledger (spec 1, older words and look-alike punctuation too), carries steps forward, makes the straight line forecast; proved against real ledgers | yes, beside each file | 0.1.0 | built |
-| `packages/store` | finds where an object is kept, its version (a hash of its text), the Ghost member field calls, the write decision, backups | yes, beside each file | 0.1.0 | built |
+| `packages/store` | finds where an object is kept, its version (a hash of its text), the Ghost member field calls, the write decision, the remove, backups | yes, beside each file | 0.1.0 | built |
 | `scripts/` | checks the writing rules across the repo (`pnpm check`) | yes | 0.1.0 | built |
 | `examples/coffee-shop` | the made up business every test and example uses | | | built |
 | `examples/starter` | the starter plan: four steps a week | | | built |
@@ -186,11 +186,11 @@ The examples have no version: they are read, never installed.
 |---|---|---|---|---|
 | store-add | adds a store and a binding to settings: a folder of files or Ghost member fields (a REST backend later) | code | yes | works |
 | store-check | each binding can be read: the store answers, its key works, the member and the field are there | code | yes | works |
-| objects-read | lists the objects of a kind | code | no | planned |
+| objects-read | lists every object of a kind in settings: where each is and its version | code | yes | built |
 | object-read | one object with its version | code | yes | works |
 | object-change | changes an object only if no one else has since, a backup first, read back | code | yes | works |
-| object-add | adds an object | code | no | planned |
-| object-remove | removes an object, a backup first | code | no | planned |
+| object-add | adds an object only where the place is empty, read back | code | yes | built |
+| object-remove | empties an object only if no one else has changed it since, a backup first, read back | code | yes | built |
 
 ### dfm-cloudflare: site numbers from Cloudflare (not started)
 

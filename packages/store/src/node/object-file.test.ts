@@ -2,7 +2,7 @@ import { mkdtemp, readFile } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { objectPath, readObjectFile, writeObjectFile } from "./object-file.ts";
+import { objectPath, readObjectFile, removeObjectFile, writeObjectFile } from "./object-file.ts";
 
 describe("the file connector", () => {
   it("reads a relative path from the working folder and ~ from home", () => {
@@ -21,5 +21,14 @@ describe("the file connector", () => {
     await writeObjectFile(path, "goal: 100\n");
     expect(await readFile(path, "utf8")).toBe("goal: 100\n");
     expect(await readObjectFile(path)).toBe("goal: 100\n");
+  });
+
+  it("removes a file; a file that is not there is no problem", async () => {
+    const folder = await mkdtemp(join(tmpdir(), "dfm-store-"));
+    const path = join(folder, "ledger.txt");
+    await writeObjectFile(path, "goal: 100\n");
+    await removeObjectFile(path);
+    expect(await readObjectFile(path)).toBeUndefined();
+    await expect(removeObjectFile(path)).resolves.toBeUndefined();
   });
 });

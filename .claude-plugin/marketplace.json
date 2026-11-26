@@ -36,7 +36,7 @@
     {
       "name": "dfm-store",
       "source": "./plugins/dfm-store",
-      "description": "Where a business's objects are kept: store-add names a store and a binding in settings; store-check proves each can be read; object-read reads an object with its version; object-change changes it only if no one else has since, with a backup first and a read back after. Files and Ghost member fields."
+      "description": "Where a business's objects are kept: store-add names a store and a binding in settings; store-check proves each can be read; objects-read lists every object of a kind; object-read reads an object with its version; object-add puts one into an empty place; object-change changes it only if no one else has since, with a backup first and a read back after; object-remove empties it, with a backup first. Files and Ghost member fields."
     }
   ]
 }

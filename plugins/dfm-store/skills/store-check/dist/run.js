@@ -1093,7 +1093,7 @@ function readFlags(args, rules) {
 }
 
 // ../../../../packages/store/src/node/object-file.ts
-import { mkdir, readFile as readFile3, writeFile } from "node:fs/promises";
+import { mkdir, readFile as readFile3, rm, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 function objectPath(path, workingFolder = process.cwd()) {
   return resolve(workingFolder, expandHome(path));

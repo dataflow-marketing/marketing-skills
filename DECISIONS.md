@@ -706,4 +706,39 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** one-word quotes such as "we" or "you" stay checked
 **Over:** skipping common words through a word list
 **Why:** they are found in the source: extra report lines, not problems; a word list would need choosing
+
+## 2026-11-26: objects-read lists bindings only, with no text
+**Chose:** objects-read reads every binding of one kind in settings and prints each one's business, place, version and line count; an object with no binding is not listed; no object's text is printed; one that cannot be read is named and the exit code is 1
+**Over:** also listing a `<kind>.txt` in the working folder; printing each object's text
+**Why:** a file with no binding names no business: listing it would guess whose it is; the text is object-read's job and a list of many objects stays short
+**Source:** inferred
+
+## 2026-11-26: object-add needs no version on --go
+**Chose:** `--go` alone; the place must read as version `none` at the preview and again just before the write; anything there is refused with a pointer to object-change, even the same text; an empty `--from` file is refused
+**Over:** `--go --version none` to match object-change
+**Why:** the only version an add can go ahead from is `none`: asking for it adds a step and proves nothing more
+**Source:** inferred
+
+## 2026-11-26: object-remove empties: a file is deleted, a Ghost field set to null
+**Chose:** a remove deletes the file (a file that is already gone is no problem) or sets the member's field to null, every other field kept; `--go --version` as object-change; a backup every time; read back means version `none`; `removeObject` in packages/store/node so a runner can use it too
+**Over:** writing an empty file; deleting a member
+**Why:** an empty object already reads as `none` from either store; the binding names a member, never owns them
+**Source:** stated (the shape in the job), inferred (the file and package details)
+
+## 2026-11-26: spec/store.md says how a list, an add and a remove work
+**Chose:** a short "List, add and remove" section in spec/store.md for the file and ghost connectors
+**Over:** leaving it to the skills alone
+**Why:** a runner that uses packages/store without the skills needs the same rules; the REST contract already names list, add and remove
+**Source:** inferred
+
+## 2026-11-26: object-add's go names the version none
+**Chose:** `--go --version none`, as the preview prints, refused without it
+**Over:** a bare `--go` for an add
+**Why:** one shape for every write: a go always names the version it was shown; an add run without a preview stops
+**Source:** stated (agreed), inferred (the reason as worded)
+
+## 2026-11-26: objects-read lists bound objects only
+**Chose:** objects-read lists the bindings of a kind; a working-folder file with no binding is left out
+**Over:** listing an unbound `<kind>.txt` in the working folder too
+**Why:** with no binding it names no business; the list is about where objects are kept
 **Source:** stated (agreed), inferred (the reason as worded)
