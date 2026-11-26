@@ -2,6 +2,7 @@
 // A capital that starts a sentence is not a name ("Cake comes from next door"):
 // a word is skipped at the start of a line, a list item or a bracket
 // and after a full stop, question mark, exclamation mark or colon.
+// A capital that starts a quote is skipped too: the quote is checked whole, word for word.
 
 import type { Span } from "./span.ts";
 
@@ -13,6 +14,7 @@ const CAPITALISED_WORD = /(?<![\p{L}\p{N}])\p{Lu}\p{L}+/gu;
 const OPENING_MARKS = /[\s(["'\u201C\u2018]+$/;
 const ONLY_A_LIST_MARKER = /^[\s\-*+>#]*$/;
 const ENDS_A_SENTENCE = /[.!?:]$/;
+const OPENS_A_QUOTE = /["\u201C]$/;
 
 export function findNames(line: string): NameMention[] {
   const found: NameMention[] = [];
@@ -29,6 +31,9 @@ export function findNames(line: string): NameMention[] {
 }
 
 function startsASentence(before: string): boolean {
+  if (OPENS_A_QUOTE.test(before)) {
+    return true;
+  }
   const withoutOpeningMarks = before.replace(OPENING_MARKS, "");
   if (ONLY_A_LIST_MARKER.test(withoutOpeningMarks)) {
     return true;

@@ -252,6 +252,7 @@ var CAPITALISED_WORD = new RegExp("(?<![\\p{L}\\p{N}])\\p{Lu}\\p{L}+", "gu");
 var OPENING_MARKS = /[\s(["'\u201C\u2018]+$/;
 var ONLY_A_LIST_MARKER = /^[\s\-*+>#]*$/;
 var ENDS_A_SENTENCE = /[.!?:]$/;
+var OPENS_A_QUOTE = /["\u201C]$/;
 function findNames(line) {
   const found = [];
   for (const match of line.matchAll(CAPITALISED_WORD)) {
@@ -264,6 +265,9 @@ function findNames(line) {
   return found;
 }
 function startsASentence(before) {
+  if (OPENS_A_QUOTE.test(before)) {
+    return true;
+  }
   const withoutOpeningMarks = before.replace(OPENING_MARKS, "");
   if (ONLY_A_LIST_MARKER.test(withoutOpeningMarks)) {
     return true;

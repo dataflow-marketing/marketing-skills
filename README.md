@@ -127,7 +127,7 @@ The examples have no version: they are read, never installed.
 |---|---|---|---|---|
 | quotes-check | checks every quote, name and number in a text against its source | code | yes | works |
 | post-make | turns their own words (a transcript, notes, a reply) into a post, never invented | model | none | works |
-| profile-make | makes a business's profile from its home page and /llms-full.txt (or the pages its sitemap lists); a script reads and counts the site | model | yes | built |
+| profile-make | makes a business's profile from its home page and /llms-full.txt (or the pages its sitemap lists); a script reads and counts the site | model | yes | works |
 | share-make | words to share a post or clip on a channel | model | none | planned |
 | message-make | a direct message or 1:1 email from their words | model | none | planned |
 | ideas-make | what to make next and why, from what people asked | model | none | planned |
@@ -210,7 +210,7 @@ The examples have no version: they are read, never installed.
 
 | Skill | Does | Kind | Script | State |
 |---|---|---|---|---|
-| site-add | adds a public website on any platform to settings, by its address only: no key | code | yes | built |
+| site-add | adds a public website on any platform to settings, by its address only: no key | code | yes | works |
 | llms-check | whether a site's `/llms.txt` is on and what it holds | code | no | planned |
 | links-check | links on a site that do not work for a visitor | code | no | planned |
 
@@ -226,7 +226,7 @@ The examples have no version: they are read, never installed.
 |---|---|---|
 | recording-run | a transcript (by hand until transcript-make is built), post-make, quotes-check, post-draft | works |
 | week-run | the week's counts from each platform, counts-record, summary-make, followups-check | planned |
-| client-run | asks the platform, then its site-add (Ghost; any other platform as a public website), then profile-make with its check; plan-make and storing in Ghost join later | built |
+| client-run | asks which kind of site it is (any website or Ghost), runs that site-add, then profile-make with its check; plan-make and storing in Ghost join later | works |
 | clips-run | transcript-make, clips-make, video-encode, share-make, pack-make | planned |
 | calendar-run | ideas-make or schedule-make, then plan-change | planned |
 | reply-run | inbox-read, then plan-change and counts-record on a yes | planned |

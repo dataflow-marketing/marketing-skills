@@ -23,4 +23,12 @@ describe("findNames", () => {
   it("reads a capital with an accent", () => {
     expect(names("Our new Caf\u00E9 opens.")).toEqual(["Caf\u00E9"]);
   });
+
+  it("skips a capital that starts a quote: the quote is checked whole", () => {
+    expect(names('The site lists them under "The people so far" on Fridays.')).toEqual(["Fridays"]);
+  });
+
+  it("still finds a page's name inside a sentence", () => {
+    expect(names("The four pages are About and Policies.")).toEqual(["About", "Policies"]);
+  });
 });

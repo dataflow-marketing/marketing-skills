@@ -11,7 +11,7 @@ It needs `dfm-content` installed, with the plugin for the site's platform. Work 
 
 ## The steps
 
-1. **The site.** Every site starts the same way, as a public website, whatever it is built on. Ask how dfm should use it, listing the choices in this order:
+1. **The site.** Every site starts the same way, as a public website, whatever it is built on. Ask which kind of site it is, listing the choices in this order:
    - **Any website (the start for every site):** `dfm-site:site-add`. Its name and address, no key. dfm reads it and never writes to it. Describe this choice only as "any website": never name site builders or platforms for it.
    - **Ghost:** `dfm-ghost:site-add` in place of the above. Its description says what it adds: dfm can also put drafts on the site. It also names the variable its key is kept in; a first run asks for the keys file too. The person puts the key in the keys file themselves, never in the chat.
 

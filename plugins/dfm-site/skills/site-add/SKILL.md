@@ -9,6 +9,8 @@ A scripted write to settings. The script checks and writes; Claude runs it, show
 
 ## What to ask the person
 
+Ask each one in the question dialog. Where there is a usual answer, offer it as the first option, marked as suggested; never choose an answer for the person and tell them afterwards.
+
 1. **The site's name:** lowercase with hyphens, the one used for the business everywhere, such as `coffee-shop`.
 2. **Its address,** starting `https://`, such as `https://coffee-shop.example`.
 3. **The settings file:** the person's one settings file, kept outside any repo they share. Suggest `settings.txt` in the working folder: it is plain text, never Markdown.

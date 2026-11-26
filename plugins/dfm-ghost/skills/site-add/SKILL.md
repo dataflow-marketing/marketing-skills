@@ -9,6 +9,8 @@ A scripted write to settings. The script checks and writes; Claude runs it, show
 
 ## What to ask the person
 
+Ask each one in the question dialog. Where there is a usual answer, offer it as the first option, marked as suggested; never choose an answer for the person and tell them afterwards.
+
 1. **The site's name:** lowercase with hyphens, the one used for the business everywhere, such as `coffee-shop`.
 2. **Its address:** where Ghost runs, starting `https://`, such as `https://coffee-shop.example`.
 3. **The name of the variable that will hold its key,** such as `COFFEE_SHOP_GHOST_ADMIN_KEY`. Never ask for the key.

@@ -472,3 +472,18 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Chose:** client-run names the choices "Any website" and "Ghost"; what each lets dfm do (read only; drafts too) is in its description
 **Over:** names such as "Ghost, with drafts"
 **Why:** a choice reads as what the person has, not as a feature list
+
+## 2026-11-26: The setup skills work
+**Chose:** mark profile-make, client-run and dfm-site:site-add as works: on 26 Nov they set up a real public site and made its profile, checked and approved
+**Over:** keeping them at built
+**Why:** a skill works when it has done one real job (spec/skills.md)
+
+## 2026-11-26: A usual answer is offered, never chosen
+**Chose:** site-add asks each question in the dialog with a usual answer (a key's variable name, the keys file) offered first as a suggestion
+**Over:** choosing the answer and telling the person after ("unless you object")
+**Why:** in a real run the key's variable and the keys file were picked for the person in a sentence; a skill asks, never guesses
+
+## 2026-11-26: A capital that opens a quote is not a name
+**Chose:** quotes-check skips a capital word at the start of a quote when it looks for names; the quote itself is checked whole
+**Over:** reporting it as a name as well
+**Why:** in a real profile it reported words such as "The" as names; the quote was already proved word for word
