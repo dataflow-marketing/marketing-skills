@@ -593,3 +593,9 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** only a copy to paste into another AI chat
 **Why:** the person is already in an AI: copying out and pasting back is a step they need not take; an API is useful too, though not yet
 **Source:** stated (both options, the API for later), inferred (the reason as worded)
+
+## 2026-11-26: askai-here is built now, as a guided skill on askai-make's copy
+**Chose:** build askai-here now: no script; it makes the copy with askai-make and follows its brief with the person (rounds in the question dialog), saving the response as a new file for plan-change; for its length it uses only what is in the copy
+**Over:** waiting until after the trial; a second set of instructions for here
+**Why:** you asked for it now; one brief for every AI keeps what Claude does here the same as what ChatGPT does with the copy
+**Source:** stated (now), inferred (the shape)
