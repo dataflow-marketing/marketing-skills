@@ -21,7 +21,7 @@ The line between them is whether a guardrail is needed.
 | Scripted: needs a guardrail | Guided: no guardrail needed |
 |---|---|
 | anything that uses a key | reading and reshaping files: a ledger, a words file, a transcript |
-| any write to a platform or a store | working out a summary, a what if, a picture |
+| any write to a platform or a store | working out a summary, a what if |
 | every check | a one off question of the numbers |
 | the run log | anything a scripted check proves afterwards |
 

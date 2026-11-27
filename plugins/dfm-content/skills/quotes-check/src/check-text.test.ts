@@ -64,6 +64,12 @@ describe("checkText on a draft with inventions", () => {
 });
 
 describe("checkText rules from the trial", () => {
+  it("needs a percentage whole, never its number found somewhere else", () => {
+    const source = [{ name: "ledger", text: "stamp cards started: 6, 9" }];
+    expect(notFound(checkText("Visits are up 6%.", source).lines)).toEqual(["number 6%"]);
+    expect(checkText("Up 6% on last week.", [{ name: "site", text: "We are up 6% on last week." }]).problems).toBe(0);
+  });
+
   it("needs a date whole, never its parts from different places", () => {
     const source = [{ name: "site", text: "Posts from 2027-02-01 to 2026-12-04." }];
     expect(notFound(checkText("The latest post is 2027-01-04.", source).lines)).toEqual(["number 2027-01-04"]);

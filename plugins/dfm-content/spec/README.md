@@ -52,7 +52,8 @@ Any of these can be built on the formats here. None of them is a skill.
 | [settings](settings.md) | a user's sites, stores, bindings, time zone and house rules | in full |
 | [check report](check-report.md) | each quote and claim in a text, found in its source or not | in full |
 | [store](store.md) | how any object is read and written, wherever it lives | in full |
-| [the others](named.md) | counts, people, media, inbox, forecast, run log | named, one line each |
+| [inbox](inbox.md) | messages in for a business: one record a message, easy to grep | draft |
+| [the others](named.md) | counts, people, media, forecast, run log | named, one line each |
 | [profile](profile.md) | what a business's website says and how, summarised from its own text and checked | in full |
 | [forecast](forecast.md) | how a summary works out when the goal is likely: plain arithmetic, no AI | in full |
 | [ask an AI](ask-ai.md) | the copy for any AI chat, its instructions and the `Change:` lines that come back | in full |

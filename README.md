@@ -163,13 +163,12 @@ The examples have no version: they are read, never installed.
 | askai-make | a copy of the ledger and profile for any AI chat, with its instructions inside | code | yes | built |
 | askai-here | the same copy, answered by the AI the person is already in (Claude in this session): the same rounds, ending in Change: lines for plan-change | model | none | built |
 | askai-send | sends the copy to an AI's API with the person's own key; the response comes back for plan-change | code | no | later |
-| inbox-read | proposes changes from messages in and says what needs a reply | model | none | planned |
+| inbox-read | messages in become an inbox (no one named), then proposed changes through counts-record and plan-change on a yes; lists what needs a reply for message-make | model | none | built |
 | followups-check | what needs following up | code | no | planned |
 | rates-record | learns how well each link works from the counts | code | no | planned |
 | whatif-make | what a change would bring; the forecast is kept | code | no | planned |
-| picture-make | a ledger's flow as a diagram | code | no | planned |
 | people-read | counts a people list by group and state | code | no | planned |
-| report-make | a short report for a period | model | none | planned |
+| report-make | a short report for a period from a ledger, the same layout every time; every number from its summary or done lines, checked with quotes-check; reports, never advises | model | none | built |
 | weeks-archive | past 75% of a store's limit, moves old weeks whole into the business's history; nothing lost | code | yes | built |
 | spec-migrate | moves a ledger to a newer spec | code | no | planned |
 
@@ -239,7 +238,7 @@ The examples have no version: they are read, never installed.
 | calendar-run | ideas-make or schedule-make, then plan-change | planned |
 | reply-run | inbox-read, then plan-change and counts-record on a yes | planned |
 | report-run | summary-make, rates-record, report-make | planned |
-| review-run | whatif-make, picture-make | planned |
+| review-run | whatif-make | planned |
 | health-run | llms-check, links-check, stripe links-check, profile-make | planned |
 | watch-run | profile-make on any public site (a competitor, a peer, a client before they are one), then profile-compare with its last profile; run on a schedule, such as monthly, by a runner. Reads politely (the site's robots.txt, a few pages at a time) and profiles businesses, never private people | planned |
 

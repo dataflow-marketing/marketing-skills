@@ -1077,3 +1077,27 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** waiting until after Monday's tests
 **Why:** your yes to building it after ideas-make
 **Source:** stated
+
+## 2026-11-28: picture-make out of scope
+**Chose:** take picture-make (a ledger's flow as a diagram) out of the project's plan; review-run keeps whatif-make only
+**Over:** keeping it planned
+**Why:** your call: "descope this from the project"; no reason given
+**Source:** stated (the call), the reason not given
+
+## 2026-11-28: report-make after inbox-read
+**Chose:** build report-make (a short report for a period) after inbox-read
+**Over:** taking it out of scope with member-signin and picture-make
+**Why:** your answer: "Build it"
+**Source:** stated
+
+## 2026-11-28: quotes-check needs a percentage whole
+**Chose:** a percentage is one number with its sign: "6%" must be found as "6%" in a source
+**Over:** its digits found anywhere in the sources
+**Why:** proving report-make on the coffee shop example, an invented "up 6%" passed because the ledger has a 6 (stamp cards started)
+**Source:** inferred
+
+## 2026-11-28: whatif-make on hold
+**Chose:** hold whatif-make (the simulation engine moved into the public package, with its skill and the kept forecast)
+**Over:** planning it for its own session now
+**Why:** your call: "lets hold off on whatif-make"; it is about one long session of work
+**Source:** stated (the hold), inferred (the size)

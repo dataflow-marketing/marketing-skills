@@ -401,7 +401,7 @@ function valueOf(words) {
 }
 
 // src/find-numbers.ts
-var FIGURES = /\d(?:[\d,.]*\d)?/g;
+var FIGURES = /\d(?:[\d,.]*\d)?%?/g;
 function findNumbers(line) {
   const found = [];
   for (const date of findDates(line)) {

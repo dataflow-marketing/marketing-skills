@@ -1,4 +1,4 @@
-// Finds the numbers in one line, in figures ("6.30", "1,000"), as dates ("2026-11-28")
+// Finds the numbers in one line, in figures ("6.30", "1,000", "6%"), as dates ("2026-11-28")
 // or in words ("four"). Each comes with the key it is matched on: "four" and "4" are
 // the same number; a date is matched whole.
 
@@ -12,7 +12,8 @@ export type NumberMention = Span & {
   key: string;
 };
 
-const FIGURES = /\d(?:[\d,.]*\d)?/g;
+// a percentage keeps its sign: "6%" must be found as "6%", never as a 6 somewhere else
+const FIGURES = /\d(?:[\d,.]*\d)?%?/g;
 
 export function findNumbers(line: string): NumberMention[] {
   const found: NumberMention[] = [];
