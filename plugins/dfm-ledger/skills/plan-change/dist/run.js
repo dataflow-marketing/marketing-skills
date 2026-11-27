@@ -5390,6 +5390,10 @@ function replaces(line) {
 function scriptStep(line) {
   return /^script ([^:]+):/.exec(line)?.[1];
 }
+var REPEAT = /^every (?:day|week|month) (.+?)(?: from \d{4}-\d{2}-\d{2})?(?: by .+)?$/;
+function repeatStep(line) {
+  return REPEAT.exec(line)?.[1];
+}
 
 // src/change-plan.ts
 function changePlan(ledgerText, changes) {
@@ -5414,13 +5418,20 @@ function changePlan(ledgerText, changes) {
       continue;
     }
     const change = parts[each.part] ??= { remove: [], add: [] };
-    const beginnings = [...replaces(each.line), ...newScript(each.line, scriptsSeen)];
+    const beginnings = [...replaces(each.line), ...newScript(each.line, scriptsSeen), ...earlierRepeats(each.line, existing)];
     const old = existing.filter((line) => beginnings.some((beginning) => line.startsWith(beginning)));
     change.remove.push(...beginnings);
     change.add.push(each.line);
     items.push(old.length > 0 ? { kind: "replace", part: each.part, line: each.line, old } : { kind: "add", part: each.part, line: each.line });
   }
   return { ok: true, parts, items };
+}
+function earlierRepeats(line, existing) {
+  const step = repeatStep(line);
+  if (step === void 0) {
+    return [];
+  }
+  return existing.filter((each) => repeatStep(each) === step);
 }
 function newScript(line, seen) {
   const step = scriptStep(line);

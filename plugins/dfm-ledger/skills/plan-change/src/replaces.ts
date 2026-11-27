@@ -30,3 +30,11 @@ export function replaces(line: string): string[] {
 export function scriptStep(line: string): string | undefined {
   return /^script ([^:]+):/.exec(line)?.[1];
 }
+
+// every week new post from 2026-11-23 by Sam: the step a repeat line is for. A step has one repeat: a new one
+// takes the place of the step's earlier repeat lines (27 Nov 2026), found by their step, never by a prefix
+const REPEAT = /^every (?:day|week|month) (.+?)(?: from \d{4}-\d{2}-\d{2})?(?: by .+)?$/;
+
+export function repeatStep(line: string): string | undefined {
+  return REPEAT.exec(line)?.[1];
+}

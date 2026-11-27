@@ -35,6 +35,22 @@ describe("changePlan", () => {
     });
   });
 
+  it("moves a step's repeat: the new repeat line replaces the step's earlier one", () => {
+    const ledger = [
+      "spec 1",
+      "=== plan ===",
+      "every week new post from 2026-11-23",
+      "every week new posts round up from 2026-11-23",
+      "every week reply to comments",
+    ].join("\n");
+    const plan = changePlan(ledger, ["every week new post from 2027-01-18", "every week reply to comments from 2027-01-18"]);
+    expect(plan.ok && plan.items).toEqual([
+      { kind: "replace", part: "plan", line: "every week new post from 2027-01-18", old: ["every week new post from 2026-11-23"] },
+      { kind: "replace", part: "plan", line: "every week reply to comments from 2027-01-18", old: ["every week reply to comments"] },
+    ]);
+    expect(plan.ok && plan.parts.plan?.remove).toEqual(["every week new post from 2026-11-23", "every week reply to comments"]);
+  });
+
   it("stops on a line that is not a ledger line; also on no change lines at all", () => {
     expect(changePlan(LEDGER, ["make the posts better"])).toEqual({ ok: false, problems: ["Not a ledger line: make the posts better"] });
     expect(changePlan(LEDGER, []).ok).toBe(false);

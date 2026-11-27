@@ -867,3 +867,9 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** leaving them as built
 **Why:** each ran for real on 27 Nov 2026 for six businesses' ledgers kept in Ghost member fields: plan-check passed all seven ledgers (after plan-change added three unknown-rate links and changed six fact sources); visits-read and numbers-read read the week, matching the runner they replace (email numbers exactly, site numbers within the time zone edge); counts-record and summary-make wrote each ledger, then dfm-store:object-change wrote it back with a backup and a read back
 **Source:** stated (mark them), inferred (the evidence)
+
+## 2026-11-27: A step's repeat replaces its earlier repeat in plan-change
+**Chose:** a step has one repeat: a Change line `every week <step> from <date>` takes the place of that step's repeat lines, matched by the step they are for, never by a prefix
+**Over:** adding it beside the earlier repeat, which left the step running from the old date
+**Why:** moving when a step starts (a pause until a later week) is a real change a person asks for; with two repeats the step would run from both dates
+**Source:** stated (fix plan-change first), inferred (one repeat a step)

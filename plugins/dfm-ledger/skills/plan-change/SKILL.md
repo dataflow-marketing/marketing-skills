@@ -10,7 +10,7 @@ A scripted write ([the way back](../../spec/ask-ai.md)). The script finds every 
 ## What it does with each line
 
 - **Added** at the end of its part (graph, plan or done): a new step, link, fact or said line.
-- **Replaced:** a line that takes another's place: a step's `how` or `ask`, the goal, the start, a fact's source, a link's rate. A step's `script` lines replace its earlier script lines as a set.
+- **Replaced:** a line that takes another's place: a step's `how` or `ask`, the goal, the start, a fact's source, a link's rate. A step's `script` lines replace its earlier script lines as a set. A step's repeat (`every week <step> from <date>`) replaces its earlier repeat: a step has one. This moves when a step starts.
 - **Already there:** left alone.
 - **Not a ledger line:** the whole change is refused and nothing is written. Show the line and ask the person what they meant; never reword it yourself.
 

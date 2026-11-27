@@ -3,7 +3,7 @@
 //   1. place each line in its part (done, graph or plan); a line no part reads stops the change
 //   2. a line already in the ledger is left: nothing to add
 //   3. a line that takes another's place (a how, a goal, a fact's source, a link's rate) replaces it;
-//      a step's script lines replace its earlier script lines as a set
+//      a step's script lines replace its earlier script lines as a set; a step's repeat replaces its earlier repeat
 //   4. every other line is added at the end of its part
 //
 // Pure: takes the ledger's text and the change lines, gives back the change for each part and what it would do.
@@ -11,7 +11,7 @@
 import type { PartChange } from "@dataflow-marketing/ledger/put-in-part";
 import type { PartName } from "@dataflow-marketing/ledger/read";
 import { placeLine } from "./place-line.ts";
-import { replaces, scriptStep } from "./replaces.ts";
+import { repeatStep, replaces, scriptStep } from "./replaces.ts";
 
 export type ChangeItem =
   | { kind: "add"; part: PartName; line: string }
@@ -48,13 +48,22 @@ export function changePlan(ledgerText: string, changes: string[]): ChangePlan {
       continue;
     }
     const change = (parts[each.part] ??= { remove: [], add: [] });
-    const beginnings = [...replaces(each.line), ...newScript(each.line, scriptsSeen)];
+    const beginnings = [...replaces(each.line), ...newScript(each.line, scriptsSeen), ...earlierRepeats(each.line, existing)];
     const old = existing.filter((line) => beginnings.some((beginning) => line.startsWith(beginning)));
     change.remove.push(...beginnings);
     change.add.push(each.line);
     items.push(old.length > 0 ? { kind: "replace", part: each.part, line: each.line, old } : { kind: "add", part: each.part, line: each.line });
   }
   return { ok: true, parts, items };
+}
+
+// a repeat line takes the place of the same step's repeat lines that are there, matched whole
+function earlierRepeats(line: string, existing: readonly string[]): string[] {
+  const step = repeatStep(line);
+  if (step === undefined) {
+    return [];
+  }
+  return existing.filter((each) => repeatStep(each) === step);
 }
 
 // the first script line for a step replaces that step's earlier script lines; the rest join it
