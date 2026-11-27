@@ -135,6 +135,7 @@ The examples have no version: they are read, never installed.
 | ideas-make | what to make next and why, from what people asked | model | none | planned |
 | schedule-make | a run of weeks, each with its post and share | model | none | planned |
 | profile-compare | what changed in a business's profile between two reads (part by part) or several businesses side by side; a script compares, Claude summarises from it | code | yes | built |
+| market-report | a month's market report in the same layout every month (side by side, what changed, three moves), from what profile-compare printed, checked with quotes-check | model | none | built |
 
 ### dfm-ghost: Ghost sites (0.1.0)
 
@@ -233,6 +234,7 @@ The examples have no version: they are read, never installed.
 | recording-run | a transcript (by hand until transcript-make is built), post-make, quotes-check, post-draft | works |
 | week-run | plan-check, the week's numbers (read from Cloudflare and Ghost, the rest told) and what went out, summary-make; for one business or every business bound in settings, through the store with one yes for all the writes; followups-check joins later | built |
 | client-run | asks which kind of site it is (any website or Ghost), runs that site-add, then profile-make with its check, then plan-make; storing in Ghost joins later | built |
+| market-run | each other business's site read for only what changed (profile-make --since), their profiles brought up to date and checked, profile-compare over time and side by side, market-report | built |
 | clips-run | transcript-make, clips-make, video-encode, share-make, pack-make | planned |
 | calendar-run | ideas-make or schedule-make, then plan-change | planned |
 | reply-run | inbox-read, then plan-change and counts-record on a yes | planned |

@@ -915,3 +915,39 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** the market lens and a market recipe first
 **Why:** your words: "then do 1 & 2 & 3"; repeating is where the value is; these make a repeat cost a fraction of the first run
 **Source:** stated
+
+## 2026-11-27: A page with a published date is a post
+**Chose:** reading a plain sitemap, profile-make counts a page as a post when it says when it was published (article:published_time; otherwise a dated time element); the counts give the first and last days posts were published
+**Over:** every page in a plain sitemap counted as a page (posts: 0)
+**Why:** how often a business publishes is one of the values a market comparison surfaces; most blog platforms mark a post this way
+**Source:** inferred
+
+## 2026-11-27: A later read keeps only what changed, by fingerprint
+**Chose:** every read writes fingerprints.txt (a short hash of each page's title and text); a read with --since an earlier folder writes changed.txt with only the new and changed pages in full and the pages gone
+**Over:** reading and rewriting every page each month
+**Why:** a repeat then costs a fraction of the first run (about a third of the words in the demo's second month)
+**Source:** inferred
+
+## 2026-11-27: profile-compare is a script, Claude only summarises
+**Chose:** profile-compare compares profiles part by part in code (sentences out and in; parts side by side); Claude writes the summary from what it prints
+**Over:** a model comparing two profiles, as the road map first had it
+**Why:** what changed must be exact and checkable; a model comparing from memory could miss or invent a change
+**Source:** inferred
+
+## 2026-11-27: Month three, a market-run recipe and a report skill before showing anyone
+**Chose:** a third demo month with one twist, then a market-run recipe (read since last month, profile, compare, side by side) and a market-report skill (the same page layout every month)
+**Over:** showing the two month report to a business owner as it stands and building only on their yes
+**Why:** your call; a third month made by one command shows the repeat catching something new, the "regular basis" part of the pitch
+**Source:** stated
+
+## 2026-11-27: The demo's month three twist is a claim with no proof
+**Chose:** in month three a cafe already in the market starts saying it was "voted the best coffee" on its street and names no vote
+**Over:** a new cafe opening
+**Why:** a repeat read catches a changed claim on its own; a new business is only caught once the person adds its site; it is also the problem a real client has with others' unproven claims
+**Source:** inferred
+
+## 2026-11-27: market-report is a words skill with a fixed layout, checked by quotes-check
+**Chose:** market-report writes from profile-compare's output in the same layout every month (rows kept, changes marked new, three moves), with no script of its own; quotes-check proves it against the side by side, the compare and last month's report
+**Over:** a script that builds the report table
+**Why:** which rows tell businesses apart is a judgement; the exact part (what changed) is already a script in profile-compare
+**Source:** inferred
