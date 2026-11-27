@@ -132,7 +132,7 @@ The examples have no version: they are read, never installed.
 | profile-make | makes a business's profile from its home page and /llms-full.txt (or the pages its sitemap lists); a script reads and counts the site; on a later read it keeps only the pages that changed | model | yes | works |
 | share-make | words to share a post or clip on a channel, from the post's words and the person's own, checked with quotes-check | model | none | built |
 | message-make | a direct message or 1:1 email from their words: short, never quoting their message back, no offer they did not make, checked with quotes-check | model | none | built |
-| ideas-make | what to make next and why, from what people asked | model | none | planned |
+| ideas-make | what to make next and why: the questions people asked, word for word with no one named, how often and by which group, answered on the site or by a neighbour; never writes the post | model | none | built |
 | schedule-make | a run of weeks, each with its post and share | model | none | planned |
 | profile-compare | what changed in a business's profile between two reads (part by part) or several businesses side by side; a script compares, Claude summarises from it | code | yes | built |
 | market-read | keeps a market ledger: a business's site read the way the public sees it, read after read; code writes each read, its counts, posts, ticks and summary; also a business's ledger beside its own market ledger | code | yes | built |
@@ -150,7 +150,6 @@ The examples have no version: they are read, never installed.
 | fields-change | changes one custom field for one member, read back | code | no | planned |
 | field-add | adds a custom field definition | code | no | planned |
 | post-change | changes a published page's text on an explicit ask, with a backup | code | no | planned |
-| member-signin | a sign in link for a member, to the terminal only | code | no | planned |
 
 ### dfm-ledger: the method, on any platform (0.1.0)
 

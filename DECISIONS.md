@@ -1065,3 +1065,15 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** ideas written fresh from a topic
 **Why:** your yes to building it; a post stays in the person's own words, made by post-make once they answer the question
 **Source:** stated (build it), inferred (the shape)
+
+## 2026-11-28: member-signin out of scope
+**Chose:** take member-signin (a sign in link for a member, to the terminal only) out of the project's plan
+**Over:** keeping it planned in dfm-ghost
+**Why:** your call: "descope this from the project"; no reason given
+**Source:** stated (the call), the reason not given
+
+## 2026-11-28: inbox-read next
+**Chose:** build inbox-read: messages in become proposed ledger changes through counts-record and plan-change on a yes, with the messages that need a reply listed for message-make
+**Over:** waiting until after Monday's tests
+**Why:** your yes to building it after ideas-make
+**Source:** stated
