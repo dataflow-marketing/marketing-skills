@@ -855,3 +855,15 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** a copy in each plugin
 **Why:** every platform's numbers must use the same week, in the business's time zone
 **Source:** inferred
+
+## 2026-11-27: main shows the working version, tagged v0.1.0
+**Chose:** merge develop into main and tag it v0.1.0
+**Over:** keeping main untouched until later
+**Why:** the rule was develop only until real work; the skills now run real businesses' weekly numbers: the public default branch should show them
+**Source:** stated (merge, tag), inferred (why now)
+
+## 2026-11-27: Six skills marked works, proved on real businesses
+**Chose:** visits-read, numbers-read, counts-record, summary-make, plan-check and plan-change marked works
+**Over:** leaving them as built
+**Why:** each ran for real on 27 Nov 2026 for six businesses' ledgers kept in Ghost member fields: plan-check passed all seven ledgers (after plan-change added three unknown-rate links and changed six fact sources); visits-read and numbers-read read the week, matching the runner they replace (email numbers exactly, site numbers within the time zone edge); counts-record and summary-make wrote each ledger, then dfm-store:object-change wrote it back with a backup and a read back
+**Source:** stated (mark them), inferred (the evidence)

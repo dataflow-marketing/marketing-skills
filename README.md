@@ -142,7 +142,7 @@ The examples have no version: they are read, never installed.
 |---|---|---|---|---|
 | site-add | adds a site to settings; the key goes in through a hidden prompt | code | yes | works |
 | post-draft | puts a words file on Ghost as a draft and reads its status back | code | yes | works |
-| numbers-read | a week's new members and the emails sent, their opens and clicks; read only (paid plans later) | code | yes | built |
+| numbers-read | a week's new members and the emails sent, their opens and clicks; read only (paid plans later) | code | yes | works |
 | fields-read | a member's custom fields | code | no | planned |
 | fields-change | changes one custom field for one member, read back | code | no | planned |
 | field-add | adds a custom field definition | code | no | planned |
@@ -154,10 +154,10 @@ The examples have no version: they are read, never installed.
 | Skill | Does | Kind | Script | State |
 |---|---|---|---|---|
 | plan-make | a first ledger: the starter plan, shaped in conversation one thing at a time, checked by plan-check | model | yes | built |
-| plan-change | takes Change: lines into the ledger, each shown first, written on a yes | code | yes | built |
-| plan-check | reads every line and names the problems | code | yes | built |
-| counts-record | adds the counts, totals and ticks a person tells for a week | code | yes | built |
-| summary-make | writes a ledger's summary: each line a want, an expectation or what happened | code | yes | built |
+| plan-change | takes Change: lines into the ledger, each shown first, written on a yes | code | yes | works |
+| plan-check | reads every line and names the problems | code | yes | works |
+| counts-record | adds the counts, totals and ticks a person tells for a week | code | yes | works |
+| summary-make | writes a ledger's summary: each line a want, an expectation or what happened | code | yes | works |
 | askai-make | a copy of the ledger and profile for any AI chat, with its instructions inside | code | yes | built |
 | askai-here | the same copy, answered by the AI the person is already in (Claude in this session): the same rounds, ending in Change: lines for plan-change | model | none | built |
 | askai-send | sends the copy to an AI's API with the person's own key; the response comes back for plan-change | code | no | later |
@@ -196,7 +196,7 @@ The examples have no version: they are read, never installed.
 
 | Skill | Does | Kind | Script | State |
 |---|---|---|---|---|
-| visits-read | a week's visits, views and visits from another site, for every fact whose source is cloudflare; read only | code | yes | built |
+| visits-read | a week's visits, views and visits from another site, for every fact whose source is cloudflare; read only | code | yes | works |
 | site-add | names a Cloudflare site, its account and its key's variable in settings | code | no | planned |
 | pages-read | the most read pages | code | no | planned |
 | referrers-read | where visitors came from | code | no | planned |
