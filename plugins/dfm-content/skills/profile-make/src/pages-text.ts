@@ -14,6 +14,6 @@ export function pagesText(items: readonly SiteItem[]): string {
   return `${sections.join("\n")}\n`;
 }
 
-function itemText(item: SiteItem): string {
+export function itemText(item: SiteItem): string {
   return `### ${item.title}\nURL: ${item.url}\n${item.text.trim()}`;
 }

@@ -909,3 +909,9 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** a special path for demo sites
 **Why:** the market demo serves its made up sites on this computer; they must go through exactly the same skills as a real business
 **Source:** inferred
+
+## 2026-11-27: Next: what changed in a market, cheaply
+**Chose:** build a check of which pages changed since the last read and profile-compare (over time and side by side), fix profile-make's post count and titles; prove them on a second month of the made up market demo
+**Over:** the market lens and a market recipe first
+**Why:** your words: "then do 1 & 2 & 3"; repeating is where the value is; these make a repeat cost a fraction of the first run
+**Source:** stated

@@ -4,6 +4,8 @@
 
 export type SiteItem = {
   kind: "page" | "post";
+  // the day a post says it was published, when the page says so
+  published?: string;
   title: string;
   url: string;
   text: string;

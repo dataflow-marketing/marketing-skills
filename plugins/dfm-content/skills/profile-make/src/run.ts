@@ -3,11 +3,14 @@
 // per post. The fourteen parts of the profile are written by Claude from these files (SKILL.md); the counts are
 // code, never a model.
 //
-// node dist/run.js --address <https://...> [--folder <folder>] [--from-sitemap] [--json]
+// node dist/run.js --address <https://...> [--folder <folder>] [--from-sitemap] [--since <folder>] [--json]
 // Exit code: 0 done, 2 refused or failed (such as a site with no /llms-full.txt and no --from-sitemap).
 
 import { EXIT_DONE, EXIT_REFUSED_OR_FAILED, outputMode } from "@dataflow-marketing/core";
-import { printOutput } from "@dataflow-marketing/core/node";
+import { printOutput, readText } from "@dataflow-marketing/core/node";
+import { join } from "node:path";
+import { changedText, changesSince, fingerprints } from "./changed-pages.ts";
+import type { Changes } from "./changed-pages.ts";
 import { countSite } from "./count-site.ts";
 import { countedSection } from "./counted-section.ts";
 import type { CountedIn } from "./counted-section.ts";
@@ -47,17 +50,23 @@ async function main(args: string[]): Promise<number> {
   }
 
   const counts = countSite(pages.read.items);
+  const since = await changesFrom(asked.args.since, pages.read.items);
+  if (!since.ok) {
+    return failed(since.problem);
+  }
   const written = await writeSiteFiles(asked.args.folder, {
     home: pageText(home.text),
     pages: pages.read.text,
     pagesName: pages.read.fileName,
     counted: countedSection(counts, pages.read.countedIn),
+    fingerprints: await fingerprints(pages.read.items),
+    changed: since.changes ? changedText(since.changes) : undefined,
   });
   if (!written.ok) {
     return failed(written.problem);
   }
 
-  printOutput(describeResult({ ...written.files, countedIn: pages.read.countedIn, counts, listed: pages.read.listed }), output);
+  printOutput(describeResult({ ...written.files, countedIn: pages.read.countedIn, counts, listed: pages.read.listed, changes: since.changes }), output);
   return EXIT_DONE;
 }
 
@@ -78,6 +87,18 @@ async function readPages(llmsFullUrl: string, origin: string, fromSitemap: boole
   }
   const items = readLlmsFull(llmsFull.text);
   return { ok: true, read: { text: llmsFull.text, fileName: "llms-full.txt", countedIn: "/llms-full.txt", items } };
+}
+
+// what changed since the read in an earlier folder, from its fingerprints.txt
+async function changesFrom(since: string | undefined, items: readonly SiteItem[]): Promise<{ ok: true; changes?: Changes } | { ok: false; problem: string }> {
+  if (since === undefined) {
+    return { ok: true };
+  }
+  const before = await readText(join(since, "fingerprints.txt"));
+  if (before === undefined) {
+    return { ok: false, problem: `There is no fingerprints.txt in ${since}: read the site there first.` };
+  }
+  return { ok: true, changes: await changesSince(before, items) };
 }
 
 function failed(problem: string): number {

@@ -32,9 +32,11 @@ export function pageText(html: string): string {
   return linesOf(putBackEntities(withoutTags)).join("\n");
 }
 
-function putBackEntities(text: string): string {
-  const named = text.replace(/&[a-z]+;|&#x27;|&#39;/gi, (entity) => ENTITIES[entity] ?? entity);
-  return named.replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)));
+// the characters an entity stands for: named ones in the list, numbered ones (&#39; or &#x27;) by their number
+export function putBackEntities(text: string): string {
+  const named = text.replace(/&[a-z]+;/gi, (entity) => ENTITIES[entity.toLowerCase()] ?? entity);
+  const decimal = named.replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)));
+  return decimal.replace(/&#x([0-9a-f]+);/gi, (_, code: string) => String.fromCodePoint(parseInt(code, 16)));
 }
 
 // Each line tidied: spaces joined, empty lines dropped

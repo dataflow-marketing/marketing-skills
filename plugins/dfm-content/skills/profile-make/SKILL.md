@@ -24,7 +24,11 @@ It reads the home page and the site's `/llms-full.txt`, every page and post as p
 
 **No `/llms-full.txt`:** show what it printed and ask the person which way to go:
 - **Turn it on,** where their site builder can (on Ghost it is on unless the site is private or the setting is off), then run this step again.
-- **Read the sitemap instead:** run it again with `--from-sitemap`. It reads the pages the site's sitemap lists, up to 50, the same way it reads the home page, into `site/pages.txt`. The counted part then says `(in the sitemap)`.
+- **Read the sitemap instead:** run it again with `--from-sitemap`. It reads the pages the site's sitemap lists, up to 50, the same way it reads the home page, into `site/pages.txt`. The counted part then says `(in the sitemap)`. A page that says when it was published (`article:published_time` or a dated `<time>`) counts as a post; the counted part then gives the first and last days posts were published.
+
+## Again, a month later
+
+Every read also keeps `fingerprints.txt`: one line a page, a short hash of its title and text. Read again into a new folder with `--since <last read's folder>`: `changed.txt` then holds only the new and changed pages in full, then the pages gone. Read `changed.txt` instead of every page. Rewrite only the parts of the profile those pages touch. Then `dfm-content:profile-compare` shows what changed.
 
 Never read the site any other way.
 

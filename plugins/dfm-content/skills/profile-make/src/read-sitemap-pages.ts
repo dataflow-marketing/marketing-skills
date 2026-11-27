@@ -5,6 +5,7 @@ import type { Fetch } from "./fetch-text.ts";
 import { fetchText } from "./fetch-text.ts";
 import { pageText } from "./page-text.ts";
 import { pageTitle } from "./page-title.ts";
+import { publishedDate } from "./published-date.ts";
 import type { SiteItem } from "./read-llms-full.ts";
 import { pagesAndPostsSitemaps, readSitemap } from "./sitemap.ts";
 
@@ -23,10 +24,20 @@ export async function readSitemapPages(origin: string, send: Fetch): Promise<Sit
   for (const page of listed.pages.slice(0, PAGE_LIMIT)) {
     const fetched = await fetchText(page.address, send);
     if (fetched.ok) {
-      items.push({ kind: page.kind, title: pageTitle(fetched.text, page.address), url: page.address, text: pageText(fetched.text) });
+      items.push(itemOf(page, fetched.text));
     }
   }
   return { ok: true, items, listed: listed.pages.length };
+}
+
+// a page with a published day is a post, even in a plain sitemap that does not say which pages are posts
+function itemOf(page: Listed, html: string): SiteItem {
+  const published = publishedDate(html);
+  const item: SiteItem = { kind: published ? "post" : page.kind, title: pageTitle(html, page.address), url: page.address, text: pageText(html) };
+  if (published) {
+    item.published = published;
+  }
+  return item;
 }
 
 // Every page the sitemap lists, following an index one level down

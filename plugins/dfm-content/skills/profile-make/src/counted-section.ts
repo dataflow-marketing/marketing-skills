@@ -11,5 +11,8 @@ export function countedSection(counts: SiteCounts, countedIn: CountedIn = "/llms
     const { average, fewest, most } = counts.wordsPerPost;
     lines.push(`words per post: about ${average} on average, ${fewest} to ${most}`);
   }
+  if (counts.published) {
+    lines.push(`posts published: ${counts.published.first} to ${counts.published.last}`);
+  }
   return lines.join("\n");
 }

@@ -7,6 +7,7 @@ describe("describeResult", () => {
       homeFile: "site/home.txt",
       pagesFile: "site/llms-full.txt",
       countedFile: "site/counted.txt",
+      fingerprintsFile: "site/fingerprints.txt",
       countedIn: "/llms-full.txt",
       counts: { pages: 1, posts: 2, wordsPerPost: { average: 15, fewest: 10, most: 20 } },
     }).text;
@@ -19,6 +20,7 @@ describe("describeResult", () => {
       homeFile: "site/home.txt",
       pagesFile: "site/pages.txt",
       countedFile: "site/counted.txt",
+      fingerprintsFile: "site/fingerprints.txt",
       countedIn: "the sitemap",
       counts: { pages: 40, posts: 10 },
       listed: 80,
@@ -26,5 +28,19 @@ describe("describeResult", () => {
     expect(text).toContain("read the pages the sitemap lists into site/pages.txt");
     expect(text).toContain("the sitemap lists 80 pages: the first 50 were read");
     expect(text).toContain("(in the sitemap)");
+  });
+
+  it("says what changed since the last read", () => {
+    const text = describeResult({
+      homeFile: "m2/home.txt",
+      pagesFile: "m2/pages.txt",
+      countedFile: "m2/counted.txt",
+      fingerprintsFile: "m2/fingerprints.txt",
+      changedFile: "m2/changed.txt",
+      changes: { added: [], changed: [], removed: [], same: 4 },
+      countedIn: "the sitemap",
+      counts: { pages: 4, posts: 0 },
+    }).text;
+    expect(text).toContain("since the last read: 0 new, 0 changed, 0 gone, 4 the same; the new and changed pages are in m2/changed.txt");
   });
 });

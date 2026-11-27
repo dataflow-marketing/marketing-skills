@@ -6,6 +6,8 @@ export type SiteCounts = {
   pages: number;
   posts: number;
   wordsPerPost?: { average: number; fewest: number; most: number };
+  // the first and last days posts say they were published, when they say so
+  published?: { first: string; last: string };
 };
 
 export function countSite(items: readonly SiteItem[]): SiteCounts {
@@ -13,6 +15,10 @@ export function countSite(items: readonly SiteItem[]): SiteCounts {
   const counts: SiteCounts = { pages: items.length - posts.length, posts: posts.length };
   if (posts.length > 0) {
     counts.wordsPerPost = wordsPerPost(posts.map((post) => wordCount(post.text)));
+  }
+  const days = posts.flatMap((post) => post.published ?? []).sort();
+  if (days.length > 0) {
+    counts.published = { first: days[0], last: days[days.length - 1] };
   }
   return counts;
 }
