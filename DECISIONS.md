@@ -1053,3 +1053,15 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** outside lines on every ledger; counting a member's own steps by their posts
 **Why:** a member's summary must not change (none of their ledgers has a read line); a member ticks their own steps, a post never does it for them
 **Source:** inferred
+
+## 2026-11-28: share-make and message-make next
+**Chose:** build share-make (words to share a post or clip on a channel) and message-make (a direct message or one to one email from the person's own words), in the pattern of post-make
+**Over:** inbox-read, member-signin or the media skills first
+**Why:** your pick; both are words skills with no script, used every week
+**Source:** stated
+
+## 2026-11-28: ideas-make next, ideas as the questions people asked
+**Chose:** ideas-make gives ideas whose titles are the questions people asked, word for word with no one named, each with why (how often, by which group, answered on the site or not, answered by a neighbour or not); it never writes the post
+**Over:** ideas written fresh from a topic
+**Why:** your yes to building it; a post stays in the person's own words, made by post-make once they answer the question
+**Source:** stated (build it), inferred (the shape)

@@ -130,8 +130,8 @@ The examples have no version: they are read, never installed.
 | quotes-check | checks every quote, name and number in a text against its source | code | yes | works |
 | post-make | turns their own words (a transcript, notes, a reply) into a post, never invented | model | none | works |
 | profile-make | makes a business's profile from its home page and /llms-full.txt (or the pages its sitemap lists); a script reads and counts the site; on a later read it keeps only the pages that changed | model | yes | works |
-| share-make | words to share a post or clip on a channel | model | none | planned |
-| message-make | a direct message or 1:1 email from their words | model | none | planned |
+| share-make | words to share a post or clip on a channel, from the post's words and the person's own, checked with quotes-check | model | none | built |
+| message-make | a direct message or 1:1 email from their words: short, never quoting their message back, no offer they did not make, checked with quotes-check | model | none | built |
 | ideas-make | what to make next and why, from what people asked | model | none | planned |
 | schedule-make | a run of weeks, each with its post and share | model | none | planned |
 | profile-compare | what changed in a business's profile between two reads (part by part) or several businesses side by side; a script compares, Claude summarises from it | code | yes | built |

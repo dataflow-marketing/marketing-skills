@@ -11,7 +11,7 @@
     {
       "name": "dfm-content",
       "source": "./plugins/dfm-content",
-      "description": "Words from the person's own: profile-make makes a checked profile of a site (and on a later read, only what changed); profile-compare shows what changed or puts businesses side by side; market-read keeps a business's site as a ledger read from outside, the way the public sees it; market-report writes the month's report; post-make makes a post from their words; quotes-check proves every quote, name, number and amount is in its source."
+      "description": "Words from the person's own: profile-make makes a checked profile of a site (and on a later read, only what changed); profile-compare shows what changed or puts businesses side by side; market-read keeps a business's site as a ledger read from outside, the way the public sees it; market-report writes the month's report; post-make makes a post from their words; share-make the words to share it on a channel; message-make a message to one person; quotes-check proves every quote, name, number and amount is in its source."
     },
     {
       "name": "dfm-ghost",
