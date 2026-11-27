@@ -5302,10 +5302,13 @@ function readPlan(lines) {
   return { plan, unread };
 }
 function readOneLine2(plan, numbered) {
-  const { text } = splitSource(numbered.text);
+  const { text, source } = splitSource(numbered.text);
   const shape = parsePlanLine(text);
   if (shape !== void 0) {
     addToPlan(plan, shape, numbered.line);
+    if (shape.kind === "every" && source === "inferred") {
+      plan.repeats[plan.repeats.length - 1].inferred = true;
+    }
     return true;
   }
   const repeat = readOtherRepeat(text, numbered.line);
@@ -5614,7 +5617,7 @@ function weekSteps(plan, done, week) {
 }
 function repeatsIn(plan, week) {
   const entries = [];
-  for (const repeat of plan.repeats) {
+  for (const repeat of plan.repeats.filter((each) => !each.inferred)) {
     const from = repeat.from ?? plan.start;
     if (from === void 0 || from <= addDays(week, 6)) {
       entries.push({ date: week, op: "=", methods: repeat.methods, line: repeat.line });

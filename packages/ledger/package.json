@@ -16,7 +16,10 @@
     "./numbers": "./src/numbers.ts",
     "./summary": "./src/summary/write-summary.ts",
     "./put-summary": "./src/summary/put-summary.ts",
-    "./put-in-part": "./src/edit/put-in-part.ts"
+    "./put-in-part": "./src/edit/put-in-part.ts",
+    "./ledger-text": "./src/text/ledger-text.ts",
+    "./done-text": "./src/text/done-text.ts",
+    "./cycles": "./src/text/cycles.ts"
   },
   "scripts": {
     "test": "vitest run",

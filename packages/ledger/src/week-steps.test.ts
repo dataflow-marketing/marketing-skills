@@ -28,4 +28,10 @@ describe("weekSteps", () => {
     const steps = weekSteps(LEDGER.plan!, NOTHING_TICKED, "2026-11-23");
     expect(steps.steps).toEqual(["open the cafe", "flyer drop"]);
   });
+
+  it("leaves out a step worked out from what a business published: it is not its own step", () => {
+    const ledger = readLedger(["spec 1", "=== plan ===", "start 2026-11-16", "every week new post", "every week a post from 2026-11-02 (inferred)"].join("\n"));
+    expect(ledger.plan?.repeats.map((repeat) => [repeat.methods[0].name, repeat.inferred ?? false])).toEqual([["new post", false], ["a post", true]]);
+    expect(weekSteps(ledger.plan!, NOTHING_TICKED, "2026-11-30").steps).toEqual(["new post"]);
+  });
 });

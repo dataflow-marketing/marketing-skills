@@ -71,7 +71,8 @@ export type Graph = {
 export type Want = { fact: string; n?: number; by?: string; per?: { n: number; every: "week" | "month" }; grows?: true };
 
 // `every week new post`, from the plan's start or from a later date
-export type Repeat = { every: "week"; methods: Part[]; from?: string; line: number };
+// inferred: worked out from what a business published, never told (spec/ledger.md, Timing): not its own step
+export type Repeat = { every: "week"; methods: Part[]; from?: string; line: number; inferred?: true };
 
 // a dated line: "=" planned, "+" added that week, "-" taken off that week
 export type Entry = { date: string; op: "=" | "+" | "-"; methods: Part[]; line: number };

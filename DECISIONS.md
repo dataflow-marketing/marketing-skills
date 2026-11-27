@@ -1029,3 +1029,15 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** changing the grammar and the shapes every skill already uses
 **Why:** every member's ledger must read exactly as before (proved on today's copies of all seven); nothing that carries a week forward should play a monthly step by mistake; a step named "new post" must stay a tick, which a test caught
 **Source:** inferred
+
+## 2026-11-27: The ledger as text, its done writer, its merges and cycles live in the ledger package
+**Chose:** split and join a ledger's text, read, write and merge its done lines keeping every line as written, weekly and other cycles: moved into packages/ledger (text/) as they were, with the people and private tools taken out of their comments; a step worked out from what a business published (inferred) is marked by the reader and never counted as one of its own steps
+**Over:** each page and tool keeping its own copy
+**Why:** your ask that a page and the skills read and write a ledger with one set of code; the inferred guard keeps a member's page showing only the steps they plan, before any outside line goes into a member's ledger
+**Source:** stated (one set of code), inferred (the guard)
+
+## 2026-11-28: develop rewritten to take a client's words out of its history
+**Chose:** fold three commits of 27 Nov into one and force push develop
+**Over:** a later commit that fixed the words while the history kept them
+**Why:** your yes: a comment ported from a private repo had a client's own example in it; this repo never names a client
+**Source:** stated

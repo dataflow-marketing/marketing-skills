@@ -16,7 +16,8 @@ export function weekSteps(plan: Plan, done: Done, week: string): WeekSteps {
 // each every week step that has begun by this week, as a step planned for its Monday
 function repeatsIn(plan: Plan, week: string): Entry[] {
   const entries: Entry[] = [];
-  for (const repeat of plan.repeats) {
+  // a step worked out from what a business published is not one of its own steps
+  for (const repeat of plan.repeats.filter((each) => !each.inferred)) {
     const from = repeat.from ?? plan.start;
     if (from === undefined || from <= addDays(week, 6)) {
       entries.push({ date: week, op: "=", methods: repeat.methods, line: repeat.line });

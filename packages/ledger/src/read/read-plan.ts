@@ -28,10 +28,13 @@ export function readPlan(lines: NumberedLine[]): PlanReading {
 
 // a plan line may end with its source word ("(inferred)" on a plan worked out from a site): taken off first
 function readOneLine(plan: Plan, numbered: NumberedLine): boolean {
-  const { text } = splitSource(numbered.text);
+  const { text, source } = splitSource(numbered.text);
   const shape = parsePlanLine(text);
   if (shape !== undefined) {
     addToPlan(plan, shape, numbered.line);
+    if (shape.kind === "every" && source === "inferred") {
+      plan.repeats[plan.repeats.length - 1].inferred = true;
+    }
     return true;
   }
   const repeat = readOtherRepeat(text, numbered.line);
