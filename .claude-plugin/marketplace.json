@@ -31,7 +31,7 @@
     {
       "name": "dfm-ledger",
       "source": "./plugins/dfm-ledger",
-      "description": "A business's ledger: plan-make starts one; plan-check names every problem; counts-record adds a week's told numbers; summary-make writes the summary; askai-make makes a copy for any AI chat (askai-here answers it in this session); plan-change takes its Change lines back."
+      "description": "A business's ledger: plan-make starts one; plan-check names every problem; counts-record adds a week's told numbers; summary-make writes the summary; askai-make makes a copy for any AI chat (askai-here answers it in this session); plan-change takes its Change lines back; weeks-archive moves old weeks into the history when a ledger gets big."
     },
     {
       "name": "dfm-store",

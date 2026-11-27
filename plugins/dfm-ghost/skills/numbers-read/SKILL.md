@@ -1,6 +1,6 @@
 ---
 name: numbers-read
-description: Read a week's numbers from a Ghost site's Admin API (new members; the emails sent that week, their opens and clicks) for every fact in a ledger whose source is a Ghost measure, with a script. Reads only: dfm-ledger:counts-record records the numbers on a yes. Use when someone asks for their email or member numbers for a week ("how many opened this week's email", "new members this week") and in step 2 of dfm-recipes:week-run.
+description: Read a week's numbers from a Ghost site's Admin API (new members, paid plans started; the emails sent that week, their opens and clicks, also for each group by tag) for every fact in a ledger whose source is a Ghost measure, with a script. Reads only: dfm-ledger:counts-record records the numbers on a yes. Use when someone asks for their email or member numbers for a week ("how many opened this week's email", "new members this week") and in step 2 of dfm-recipes:week-run.
 ---
 
 # numbers-read
@@ -19,10 +19,13 @@ fact opens: ghost coffee-shop email opens
 | Measure | Counts, for the week |
 |---|---|
 | `new members` | members who joined, the person's own addresses (`own email:` lines in settings) left out |
+| `paid plans` | paid subscriptions that started |
 | `emails` | emails sent: a post sent as an email counts in the week it was sent |
 | `emails sent` | the people those emails went to |
 | `email opens` | their opens |
 | `email clicks` | their clicks |
+
+**For each group by tag** (`group Parents: tag parents`), the email measures are also counted for the emails whose post carries that tag, written with the group's name: `email opens [Parents]`. A group by anything else (paid, an email address, opens) is not counted yet.
 
 A fact with another Ghost measure is named as `not read`: ask the person for it or leave it out.
 

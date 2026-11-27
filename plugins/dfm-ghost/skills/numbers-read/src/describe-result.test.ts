@@ -23,7 +23,7 @@ describe("describeResult", () => {
 
   it("names the facts it does not read", () => {
     const result = describeResult("ledger.txt", RANGE, "UTC", [], ["nudge opens"]);
-    expect(result.text).toContain("not read: nudge opens (numbers-read reads new members, emails, emails sent, email opens, email clicks)");
+    expect(result.text).toContain("not read: nudge opens (numbers-read reads new members, paid plans, emails, emails sent, email opens, email clicks)");
   });
 
   it("says when no fact comes from Ghost", () => {

@@ -32,14 +32,14 @@ describe("askGhost", () => {
     expect(await askGhost(ASKED)).toEqual({
       ok: true,
       members: [
-        { email: "a@example.test", createdAt: "2026-11-23T00:00:00.000Z" },
-        { email: "b@example.test", createdAt: "2026-10-01T00:00:00.000Z" },
+        { email: "a@example.test", createdAt: "2026-11-23T00:00:00.000Z", paidStarts: [] },
+        { email: "b@example.test", createdAt: "2026-10-01T00:00:00.000Z", paidStarts: [] },
       ],
-      emails: [{ sentAt: "2026-11-24T00:00:00.000Z", sent: 9, opens: 4, clicks: 1 }],
+      emails: [{ sentAt: "2026-11-24T00:00:00.000Z", sent: 9, opens: 4, clicks: 1, tags: [] }],
     });
 
     const postsUrl = String(fetchMock.mock.calls[2][0]);
-    expect(postsUrl).toContain("include=email,count.clicks");
+    expect(postsUrl).toContain("include=email,count.clicks,tags");
     expect(postsUrl).not.toContain("fields=");
     expect(decodeURIComponent(postsUrl)).toContain("published_at:>='2026-08-24'+published_at:<'2026-11-27'");
     const init = fetchMock.mock.calls[0][1] as RequestInit;

@@ -885,3 +885,21 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** a yes per business; skipping told numbers in the run; a new writer for said lines (counts-record --said); every post for everyone
 **Why:** the shape the first run for every business took by hand on 27 Nov; plan-change already adds said lines with a preview and a read back
 **Source:** stated
+
+## 2026-11-27: Next builds: replies on the store, Ghost numbers by tag, weeks-archive
+**Chose:** rewrite the reply skill onto plan-change and the store; add Ghost measures by tag to numbers-read (an audience's email numbers, paid plans started); build weeks-archive so a ledger stays under a store's size limit; the running total forecast waits
+**Over:** the running total forecast now
+**Why:** your words: "yes 1 and 2 and 3"; replies were the gap that could catch you out since the old push was archived
+**Source:** stated
+
+## 2026-11-27: numbers-read counts paid plans and each group by tag
+**Chose:** numbers-read adds `paid plans` (paid subscriptions started in the week) and counts every email measure again for each group whose rule is a tag, from the emails whose post carries it, written `email opens [Parents]`; groups by anything else are not counted yet
+**Over:** counting groups by who received each email (paid, an email address, opens), which needs every email's recipients
+**Why:** the tag groups come from what numbers-read already reads; the counts match what the runner wrote before the flip, in the same form
+**Source:** inferred
+
+## 2026-11-27: weeks-archive moves old weeks whole to a history object, past 75% of the limit
+**Chose:** when a ledger passes 75% of its store's limit, weeks-archive moves the done lines of all but the last 26 weeks, whole, into the business's history object (a second object bound in settings); nothing is lost and ledgers are read as before
+**Over:** folding old weeks into monthly lines in the same ledger (weekly detail lost, the reader and forecast would need month lines); moving weeks at a fixed age or only on request
+**Why:** stated, each a choice offered with its trade off
+**Source:** stated

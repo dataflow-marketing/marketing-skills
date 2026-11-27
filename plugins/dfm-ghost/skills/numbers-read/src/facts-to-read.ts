@@ -4,7 +4,10 @@
 // The site is a settings site name. numbers-read reads the measures below; a fact with another Ghost measure is
 // named as not read, for the person to tell. Every other fact is left alone.
 
-export const MEASURES = ["new members", "emails", "emails sent", "email opens", "email clicks"] as const;
+export const MEASURES = ["new members", "paid plans", "emails", "emails sent", "email opens", "email clicks"] as const;
+
+// the measures that are about the week's emails: each is also counted for every group a post's tag names
+export const EMAIL_MEASURES: readonly Measure[] = ["emails", "emails sent", "email opens", "email clicks"];
 
 export type Measure = (typeof MEASURES)[number];
 

@@ -14,11 +14,17 @@ export function addUp(members: readonly Member[], emails: readonly Email[], week
 
   return {
     "new members": joined.length,
+    "paid plans": members.filter((member) => member.paidStarts.some((start) => inWeek(start, week))).length,
     emails: sent.length,
     "emails sent": total(sent, (email) => email.sent),
     "email opens": total(sent, (email) => email.opens),
     "email clicks": total(sent, (email) => email.clicks),
   };
+}
+
+// the week's email numbers for the emails whose post carries a tag: the group that tag names
+export function emailsFor(tag: string, emails: readonly Email[]): Email[] {
+  return emails.filter((email) => email.tags.includes(tag));
 }
 
 function inWeek(moment: string, week: Week): boolean {

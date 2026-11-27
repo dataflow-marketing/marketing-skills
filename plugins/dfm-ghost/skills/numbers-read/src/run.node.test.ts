@@ -15,6 +15,7 @@ const LEDGER = [
   "fact new subscribers: ghost coffee-shop new members",
   "fact opens: ghost coffee-shop email opens",
   "fact nudge opens: ghost coffee-shop nudge opens",
+  "group Regulars: tag regulars",
   "fact cups served: told",
   "",
 ].join("\n");
@@ -59,15 +60,19 @@ describe("dfm-ghost:numbers-read dist/run.js", () => {
         { email: "owner@coffee-shop.example", created_at: "2026-11-17T01:00:00.000Z" },
         { email: "b@example.test", created_at: "2026-11-01T01:00:00.000Z" },
       ],
-      [{ email: { email_count: 20, opened_count: 12, created_at: "2026-11-18T00:00:00.000Z" }, count: { clicks: 3 } }],
+      [
+        { email: { email_count: 20, opened_count: 12, created_at: "2026-11-18T00:00:00.000Z" }, count: { clicks: 3 }, tags: [{ slug: "regulars" }] },
+        { email: { email_count: 5, opened_count: 2, created_at: "2026-11-19T00:00:00.000Z" }, count: { clicks: 0 }, tags: [] },
+      ],
     );
     const ran = await run("--week", "2026-11-16");
 
     expect(ran.code).toBe(0);
     expect(ran.stdout).toContain("new subscribers=1 (ghost coffee-shop new members)");
-    expect(ran.stdout).toContain("opens=12 (ghost coffee-shop email opens)");
+    expect(ran.stdout).toContain("opens=14 (ghost coffee-shop email opens)");
+    expect(ran.stdout).toContain("opens [Regulars]=12 (ghost coffee-shop email opens, tagged regulars)");
     expect(ran.stdout).toContain("not read: nudge opens");
-    expect(ran.stdout).toContain('dfm-ledger:counts-record --count "new subscribers=1" --count "opens=12"');
+    expect(ran.stdout).toContain('dfm-ledger:counts-record --count "new subscribers=1" --count "opens=14" --count "opens [Regulars]=12"');
     expect(await readFile(join(folder, "ledger.txt"), "utf8")).toBe(LEDGER);
 
     const asked = (await readFile(join(folder, "fake-ghost-numbers-requests.jsonl"), "utf8")).trim().split("\n").map((line) => JSON.parse(line));

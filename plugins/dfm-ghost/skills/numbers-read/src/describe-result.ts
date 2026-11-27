@@ -16,7 +16,8 @@ import type { WeekRange } from "@dataflow-marketing/ledger/week-range";
 import { MEASURES } from "./facts-to-read.ts";
 import type { FactToRead } from "./facts-to-read.ts";
 
-export type Counted = FactToRead & { n: number };
+// tag: the post tag a group count was made from
+export type Counted = FactToRead & { n: number; tag?: string };
 
 export function describeResult(ledger: string, range: WeekRange, timeZone: string, counted: readonly Counted[], notRead: readonly string[]): ScriptResult {
   const countArgs = counted.map((each) => `${each.fact}=${each.n}`);
@@ -26,7 +27,7 @@ export function describeResult(ledger: string, range: WeekRange, timeZone: strin
     lines.push("no fact in the graph comes from Ghost: nothing to read");
   }
   for (const each of counted) {
-    lines.push(`${each.fact}=${each.n} (ghost ${each.site} ${each.measure})`);
+    lines.push(`${each.fact}=${each.n} (ghost ${each.site} ${each.measure}${each.tag ? `, tagged ${each.tag}` : ""})`);
   }
   if (notRead.length > 0) {
     lines.push(`not read: ${notRead.join(", ")} (numbers-read reads ${MEASURES.join(", ")})`);

@@ -142,7 +142,7 @@ The examples have no version: they are read, never installed.
 |---|---|---|---|---|
 | site-add | adds a site to settings; the key goes in through a hidden prompt | code | yes | works |
 | post-draft | puts a words file on Ghost as a draft and reads its status back | code | yes | works |
-| numbers-read | a week's new members and the emails sent, their opens and clicks; read only (paid plans later) | code | yes | works |
+| numbers-read | a week's new members, paid plans started and the emails sent, their opens and clicks, also for each group by tag; read only | code | yes | works |
 | said-read | what a business sent or published in a week, as said lines in its own words; read only, plan-change adds them | code | yes | built |
 | fields-read | a member's custom fields | code | no | planned |
 | fields-change | changes one custom field for one member, read back | code | no | planned |
@@ -169,7 +169,7 @@ The examples have no version: they are read, never installed.
 | picture-make | a ledger's flow as a diagram | code | no | planned |
 | people-read | counts a people list by group and state | code | no | planned |
 | report-make | a short report for a period | model | none | planned |
-| weeks-archive | rolls old weeks into months to keep a ledger small | code | no | planned |
+| weeks-archive | past 75% of a store's limit, moves old weeks whole into the business's history; nothing lost | code | yes | built |
 | spec-migrate | moves a ledger to a newer spec | code | no | planned |
 
 ### dfm-media: recordings and clips (not started)

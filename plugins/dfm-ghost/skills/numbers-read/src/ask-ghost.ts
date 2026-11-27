@@ -4,9 +4,11 @@
 
 export const ACCEPT_VERSION = "v5.0";
 
-export type Member = { email: string; createdAt: string };
+// paidStarts: when each of their paid subscriptions started
+export type Member = { email: string; createdAt: string; paidStarts: string[] };
 
-export type Email = { sentAt: string; sent: number; opens: number; clicks: number };
+// tags: the slugs of the post's tags, which name the groups an email was for
+export type Email = { sentAt: string; sent: number; opens: number; clicks: number; tags: string[] };
 
 export type Asked = { address: string; token: string; from: string; to: string };
 
@@ -35,7 +37,7 @@ async function everyMember(asked: Asked): Promise<{ ok: true; members: Member[] 
       return fetched;
     }
     for (const member of fetched.body.members ?? []) {
-      members.push({ email: String(member.email ?? "").toLowerCase(), createdAt: String(member.created_at ?? "") });
+      members.push(toMember(member));
     }
     if (!fetched.body.meta?.pagination?.next) {
       return { ok: true, members };
@@ -49,12 +51,21 @@ async function emailsAround(asked: Asked): Promise<{ ok: true; emails: Email[] }
   const since = dateOf(Date.parse(asked.from) - 90 * 86_400_000);
   const until = dateOf(Date.parse(asked.to) + 86_400_000);
   const filter = encodeURIComponent(`published_at:>='${since}'+published_at:<'${until}'`);
-  const fetched = await adminGet(asked, `/posts/?limit=all&filter=${filter}&include=email,count.clicks`);
+  const fetched = await adminGet(asked, `/posts/?limit=all&filter=${filter}&include=email,count.clicks,tags`);
   if (!fetched.ok) {
     return fetched;
   }
   const withEmail = (fetched.body.posts ?? []).filter((post: any) => post.email && post.email.email_count);
   return { ok: true, emails: withEmail.map(toEmail) };
+}
+
+function toMember(member: any): Member {
+  const subscriptions: any[] = member.subscriptions ?? [];
+  return {
+    email: String(member.email ?? "").toLowerCase(),
+    createdAt: String(member.created_at ?? ""),
+    paidStarts: subscriptions.map((subscription) => String(subscription.start_date ?? "")).filter((start) => start !== ""),
+  };
 }
 
 function toEmail(post: any): Email {
@@ -63,6 +74,7 @@ function toEmail(post: any): Email {
     sent: Number(post.email.delivered_count ?? post.email.email_count ?? 0),
     opens: Number(post.email.opened_count ?? 0),
     clicks: Number(post.count?.clicks ?? 0),
+    tags: (post.tags ?? []).map((tag: any) => String(tag.slug)),
   };
 }
 

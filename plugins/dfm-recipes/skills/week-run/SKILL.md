@@ -20,7 +20,9 @@ It needs `dfm-ledger` installed and a ledger with settings. A ledger is a file i
 
 3. **`dfm-ledger:summary-make`.** Preview the new summary, then write it on a yes. Show it in full. **Yes?**
 
-4. **Offer `dfm-ledger:askai-make`,** to take the week to any AI chat for help with next week. Only when the person wants it.
+4. **If the ledger is past 75% of its store's limit,** run `dfm-ledger:weeks-archive` (it says so in its preview): old weeks move whole into the business's history, then summary-make again. **Yes?**
+
+5. **Offer `dfm-ledger:askai-make`,** to take the week to any AI chat for help with next week. Only when the person wants it.
 
 ## Every business in settings
 
@@ -45,7 +47,7 @@ Stop. Show what the step printed. Fix what it names and run that step again: nev
 
 - **Ask with the question dialog** where there is one: every question and every yes, with options such as "Yes, go on", "Change something" and "Stop". Where there is no dialog, the question is the last line of the message. A question in the middle of a long message is easily missed.
 - **Ask for what is missing; never guess it.** When an answer could mean more than one thing, ask which.
-- **Say which step this is** at the start of each message: "Step 2 of 4: counts-record". For every business, also say which: "coffee-shop, step 2 of 4".
+- **Say which step this is** at the start of each message: "Step 2 of 5: counts-record". For every business, also say which: "coffee-shop, step 2 of 5".
 
 ## Next
 

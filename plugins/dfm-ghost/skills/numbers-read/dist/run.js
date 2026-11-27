@@ -5894,11 +5894,15 @@ function addUp(members, emails, week, ownEmails) {
   const sent = emails.filter((email) => inWeek(email.sentAt, week));
   return {
     "new members": joined.length,
+    "paid plans": members.filter((member) => member.paidStarts.some((start) => inWeek(start, week))).length,
     emails: sent.length,
     "emails sent": total(sent, (email) => email.sent),
     "email opens": total(sent, (email) => email.opens),
     "email clicks": total(sent, (email) => email.clicks)
   };
+}
+function emailsFor(tag2, emails) {
+  return emails.filter((email) => email.tags.includes(tag2));
 }
 function inWeek(moment, week) {
   const at = Date.parse(moment);
@@ -5929,7 +5933,7 @@ async function everyMember(asked) {
       return fetched;
     }
     for (const member of fetched.body.members ?? []) {
-      members.push({ email: String(member.email ?? "").toLowerCase(), createdAt: String(member.created_at ?? "") });
+      members.push(toMember(member));
     }
     if (!fetched.body.meta?.pagination?.next) {
       return { ok: true, members };
@@ -5940,19 +5944,28 @@ async function emailsAround(asked) {
   const since = dateOf(Date.parse(asked.from) - 90 * 864e5);
   const until = dateOf(Date.parse(asked.to) + 864e5);
   const filter = encodeURIComponent(`published_at:>='${since}'+published_at:<'${until}'`);
-  const fetched = await adminGet(asked, `/posts/?limit=all&filter=${filter}&include=email,count.clicks`);
+  const fetched = await adminGet(asked, `/posts/?limit=all&filter=${filter}&include=email,count.clicks,tags`);
   if (!fetched.ok) {
     return fetched;
   }
   const withEmail = (fetched.body.posts ?? []).filter((post) => post.email && post.email.email_count);
   return { ok: true, emails: withEmail.map(toEmail) };
 }
+function toMember(member) {
+  const subscriptions = member.subscriptions ?? [];
+  return {
+    email: String(member.email ?? "").toLowerCase(),
+    createdAt: String(member.created_at ?? ""),
+    paidStarts: subscriptions.map((subscription) => String(subscription.start_date ?? "")).filter((start) => start !== "")
+  };
+}
 function toEmail(post) {
   return {
     sentAt: String(post.email.created_at ?? ""),
     sent: Number(post.email.delivered_count ?? post.email.email_count ?? 0),
     opens: Number(post.email.opened_count ?? 0),
-    clicks: Number(post.count?.clicks ?? 0)
+    clicks: Number(post.count?.clicks ?? 0),
+    tags: (post.tags ?? []).map((tag2) => String(tag2.slug))
   };
 }
 async function adminGet(asked, path) {
@@ -5973,7 +5986,8 @@ function dateOf(moment) {
 }
 
 // src/facts-to-read.ts
-var MEASURES = ["new members", "emails", "emails sent", "email opens", "email clicks"];
+var MEASURES = ["new members", "paid plans", "emails", "emails sent", "email opens", "email clicks"];
+var EMAIL_MEASURES = ["emails", "emails sent", "email opens", "email clicks"];
 var GHOST_SOURCE = /^ghost (\S+) ([^(]+?)\s*(\(.*\))?$/;
 function factsToRead(facts) {
   const result = { facts: [], notRead: [] };
@@ -6003,7 +6017,7 @@ function describeResult(ledger, range, timeZone, counted, notRead) {
     lines.push("no fact in the graph comes from Ghost: nothing to read");
   }
   for (const each of counted) {
-    lines.push(`${each.fact}=${each.n} (ghost ${each.site} ${each.measure})`);
+    lines.push(`${each.fact}=${each.n} (ghost ${each.site} ${each.measure}${each.tag ? `, tagged ${each.tag}` : ""})`);
   }
   if (notRead.length > 0) {
     lines.push(`not read: ${notRead.join(", ")} (numbers-read reads ${MEASURES.join(", ")})`);
@@ -6086,7 +6100,9 @@ async function main(args) {
   if (ledgerText === void 0) {
     return failed(`Cannot read the ledger: ${asked.args.ledger}`);
   }
-  const facts = factsToRead(readLedger(ledgerText).graph?.facts ?? []);
+  const graph = readLedger(ledgerText).graph;
+  const facts = factsToRead(graph?.facts ?? []);
+  const groups = tagGroups(graph?.groups ?? []);
   const sites = findSites(facts.facts, settings.settings.sites);
   if (sites.problems.length > 0) {
     return failed(sites.problems.join("\n"));
@@ -6096,14 +6112,17 @@ async function main(args) {
   if (!range.ok) {
     return failed(range.problem);
   }
-  const counted = await countEachFact(facts.facts, sites.sites, range.range, settings.settings);
+  const counted = await countEachFact(facts.facts, groups, sites.sites, range.range, settings.settings);
   if (!counted.ok) {
     return failed(counted.problem);
   }
   printOutput(describeResult(asked.args.ledger, range.range, timeZone, counted.counted, facts.notRead), outputMode(args));
   return EXIT_DONE;
 }
-async function countEachFact(facts, sites, range, settings) {
+function tagGroups(groups) {
+  return groups.flatMap((group) => group.rule.kind === "tag" && group.rule.tag ? [{ name: group.name, tag: group.rule.tag }] : []);
+}
+async function countEachFact(facts, groups, sites, range, settings) {
   const counted = [];
   for (const site of sites) {
     const token = await tokenFor(site, settings);
@@ -6117,6 +6136,13 @@ async function countEachFact(facts, sites, range, settings) {
     const numbers = addUp(answer.members, answer.emails, range, settings.ownEmails);
     for (const fact of facts.filter((each) => each.site === site.name)) {
       counted.push({ ...fact, n: numbers[fact.measure] });
+      if (!EMAIL_MEASURES.includes(fact.measure)) {
+        continue;
+      }
+      for (const group of groups) {
+        const forGroup = addUp([], emailsFor(group.tag, answer.emails), range, settings.ownEmails);
+        counted.push({ ...fact, fact: `${fact.fact} [${group.name}]`, n: forGroup[fact.measure], tag: group.tag });
+      }
     }
   }
   return { ok: true, counted };

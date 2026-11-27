@@ -12,11 +12,11 @@ import { mondayOf } from "@dataflow-marketing/ledger/dates";
 import { readLedger } from "@dataflow-marketing/ledger/read";
 import { weekRange } from "@dataflow-marketing/ledger/week-range";
 import type { WeekRange } from "@dataflow-marketing/ledger/week-range";
-import { addUp } from "./add-up.ts";
+import { addUp, emailsFor } from "./add-up.ts";
 import { askGhost } from "./ask-ghost.ts";
 import { describeResult } from "./describe-result.ts";
 import type { Counted } from "./describe-result.ts";
-import { factsToRead } from "./facts-to-read.ts";
+import { EMAIL_MEASURES, factsToRead } from "./facts-to-read.ts";
 import type { FactToRead } from "./facts-to-read.ts";
 import { findSites } from "./find-sites.ts";
 import type { GhostSite } from "./find-sites.ts";
@@ -40,7 +40,9 @@ async function main(args: string[]): Promise<number> {
     return failed(`Cannot read the ledger: ${asked.args.ledger}`);
   }
 
-  const facts = factsToRead(readLedger(ledgerText).graph?.facts ?? []);
+  const graph = readLedger(ledgerText).graph;
+  const facts = factsToRead(graph?.facts ?? []);
+  const groups = tagGroups(graph?.groups ?? []);
   const sites = findSites(facts.facts, settings.settings.sites);
   if (sites.problems.length > 0) {
     return failed(sites.problems.join("\n"));
@@ -52,7 +54,7 @@ async function main(args: string[]): Promise<number> {
     return failed(range.problem);
   }
 
-  const counted = await countEachFact(facts.facts, sites.sites, range.range, settings.settings);
+  const counted = await countEachFact(facts.facts, groups, sites.sites, range.range, settings.settings);
   if (!counted.ok) {
     return failed(counted.problem);
   }
@@ -62,7 +64,21 @@ async function main(args: string[]): Promise<number> {
 }
 
 // one reading of Ghost per site, then each fact takes its measure from its site's numbers
-async function countEachFact(facts: readonly FactToRead[], sites: readonly GhostSite[], range: WeekRange, settings: Settings): Promise<Outcome<{ counted: Counted[] }>> {
+// the groups whose rule is a tag: a post carrying the tag was for that group
+type TagGroup = { name: string; tag: string };
+
+function tagGroups(groups: readonly { name: string; rule: { kind: string; tag?: string } }[]): TagGroup[] {
+  return groups.flatMap((group) => (group.rule.kind === "tag" && group.rule.tag ? [{ name: group.name, tag: group.rule.tag }] : []));
+}
+
+// an email fact is also counted for each group a tag names: `email opens [Parents]`
+async function countEachFact(
+  facts: readonly FactToRead[],
+  groups: readonly TagGroup[],
+  sites: readonly GhostSite[],
+  range: WeekRange,
+  settings: Settings,
+): Promise<Outcome<{ counted: Counted[] }>> {
   const counted: Counted[] = [];
 
   for (const site of sites) {
@@ -77,6 +93,13 @@ async function countEachFact(facts: readonly FactToRead[], sites: readonly Ghost
     const numbers = addUp(answer.members, answer.emails, range, settings.ownEmails);
     for (const fact of facts.filter((each) => each.site === site.name)) {
       counted.push({ ...fact, n: numbers[fact.measure] });
+      if (!EMAIL_MEASURES.includes(fact.measure)) {
+        continue;
+      }
+      for (const group of groups) {
+        const forGroup = addUp([], emailsFor(group.tag, answer.emails), range, settings.ownEmails);
+        counted.push({ ...fact, fact: `${fact.fact} [${group.name}]`, n: forGroup[fact.measure], tag: group.tag });
+      }
     }
   }
 

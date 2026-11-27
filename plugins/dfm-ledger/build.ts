@@ -8,6 +8,7 @@ import { countsRecordBundle } from "./skills/counts-record/bundle.ts";
 import { planChangeBundle } from "./skills/plan-change/bundle.ts";
 import { planMakeBundle } from "./skills/plan-make/bundle.ts";
 import { summaryMakeBundle } from "./skills/summary-make/bundle.ts";
+import { weeksArchiveBundle } from "./skills/weeks-archive/bundle.ts";
 
 async function main(): Promise<void> {
   const pluginFolder = fileURLToPath(new URL(".", import.meta.url));
@@ -23,6 +24,9 @@ async function main(): Promise<void> {
   process.stdout.write("built skills/askai-make/dist/run.js\n");
   await bundleScript(planChangeBundle(pluginFolder));
   process.stdout.write("built skills/plan-change/dist/run.js\n");
+
+  await bundleScript(weeksArchiveBundle(pluginFolder));
+  process.stdout.write("built skills/weeks-archive/dist/run.js\n");
 }
 
 await main();
