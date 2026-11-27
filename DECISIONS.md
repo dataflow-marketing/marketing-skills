@@ -969,3 +969,33 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** free text after a claim ("no award named", "its awards are named")
 **Why:** writing the demo by hand, a claim with "no award named" was missed by a search for claims with no proof; fixed words let a script find every one
 **Source:** inferred
+
+## 2026-11-27: The market ledger takes the ledger's own words, then market-read
+**Chose:** in spec/market.md: counts as fact total lines, one said line shape with the ledger, the ledger's on word for closures (and until for an offer that ends), claim sorting marked inferred, the last part named summary; then build market-read, reading the business's own site too so its ledger can be checked against what its site says
+**Over:** reshaping the market ledger into the ledger's four parts with a plan inferred from a business's posts (still open)
+**Why:** your yes to "fix 2 to 6 in the spec now, since they're small and change only words. Then build market-read with 1 included"
+**Source:** stated
+
+## 2026-11-27: The market ledger is the ledger, read from outside
+**Chose:** reshape spec/market.md into the ledger's four parts: graph (what stands, no dates), plan (inferred from a business's posts), done (each read, its counts, posts and what changed) and summary, with the seven improvements folded in; prove it on The Long Table by hand before market-read
+**Over:** a format of its own (business, seen, now) with only the shared words aligned, as chosen earlier today
+**Why:** your point: "a plan could be inferred from the past actions of the cafes"; then one format for any business and the ledger's tools read it
+**Source:** stated
+
+## 2026-11-27: quotes-check proves a market ledger's graph and done, code proves its plan and summary
+**Chose:** quotes-check runs on the graph and done parts; the plan and summary are worked out by code from them and proved by its tests; a new on in done is named by its words and page, never by the dates worked out from them
+**Over:** checking the whole file against the site
+**Why:** on The Long Table the check rightly failed dates worked out from a post (2026-12-24, 2027-01-01) that are on no page; counts such as 7 of 9 weeks are calculated, never on the site
+**Source:** inferred
+
+## 2026-11-27: A market ledger's done lines are keyed by the read's Monday
+**Chose:** every done line in a market ledger is dated by a Monday: a read and the changes it found by the Monday of the read's week (the read's own day kept on its line); a post and the step it ticks by the Monday of the week it was published, as the ledger's said lines are
+**Over:** the day of the read as the key
+**Why:** your words: "the cadency is weekly so it should be pinned to the monday"; the ledger keys every week by its Monday (stated); a post by its own week (inferred, from how said lines already work)
+**Source:** stated, the post's week inferred
+
+## 2026-11-27: A market ledger's plan is followed by the ledger's own ticks
+**Chose:** plan lines in the ledger's plain words (every plan line is inferred, said once for the part); each post ticks its steps in the week it was published (`<Monday> <step>: done`); the summary counts the ticks and gives the strength; the dates worked out (each Monday, each date from words) are listed in a file the check reads and a person reads
+**Over:** a strength note at the end of each plan line and a new missed word
+**Why:** the ledger's reader skipped plan lines with a note on the end and already reads a tick; a week with no tick is already a step not done
+**Source:** inferred
