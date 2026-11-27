@@ -3,7 +3,7 @@
 //   every month guest coffee from 2026-10-01
 //   on 2026-12-24 to 2027-01-01: "<their words>" [<page>]
 
-export type OtherRepeat = { every: "month" | "2 weeks"; name: string; from?: string; line: number };
+export type OtherRepeat = { every: "month" | "2 weeks"; name: string; from?: string; line: number; inferred?: true };
 export type On = { from: string; to: string; words: string; line: number };
 
 const EVERY = /^every (month|2 weeks) (.+?)(?: from (\d{4}-\d{2}-\d{2}))?$/;

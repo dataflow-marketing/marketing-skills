@@ -16,7 +16,7 @@ A scripted copy ([ask an AI](../../spec/ask-ai.md)). The script puts together th
 
 ## The instructions are a template
 
-The default instructions are [ask-ai-instructions.txt](../../spec/ask-ai-instructions.txt). Any text file can take their place with `--instructions <file>`: a business's own way of asking, another language, a different job for the AI. Two blanks are filled in wherever they appear: `{who}` and `{send to}`. The profile and the plan always follow it. A template that changes how the response comes back should still end in `Change:` lines if the plan is to take them.
+The default instructions are [ask-ai-instructions.txt](../../spec/ask-ai-instructions.txt). Any text file can take their place with `--instructions <file>`: a business's own way of asking, another language, a different job for the AI. Two blanks are filled in wherever they appear: `{who}` and `{send to}`. **For a site read from outside** (a ledger made by `dfm-content:market-read`, a neighbour's or the business's own), use [ask-ai-outside-instructions.txt](../../spec/ask-ai-outside-instructions.txt): `{who}` is then the person asking, not the business read. The profile and the plan always follow it. A template that changes how the response comes back should still end in `Change:` lines if the plan is to take them.
 
 ## Run
 

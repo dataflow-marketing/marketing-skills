@@ -11,6 +11,7 @@
     "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.work.json"
   },
   "devDependencies": {
-    "@dataflow-marketing/core": "workspace:*"
+    "@dataflow-marketing/core": "workspace:*",
+    "@dataflow-marketing/ledger": "workspace:*"
   }
 }

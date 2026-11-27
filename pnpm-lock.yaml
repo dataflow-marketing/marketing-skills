@@ -242,6 +242,9 @@ importers:
       '@dataflow-marketing/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@dataflow-marketing/ledger':
+        specifier: workspace:*
+        version: link:../../packages/ledger
 
   plugins/dfm-ghost:
     devDependencies:

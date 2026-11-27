@@ -3,7 +3,7 @@
 
 import { splitParts } from "./ledger-parts.ts";
 import { namedLines, type Named } from "./graph-lines.ts";
-import { listOf } from "./words.ts";
+import { listOf } from "./list-of.ts";
 
 export type Gaps = { notOnSite: Named[]; notInLedger: Named[]; planned: string[]; seen: string[] };
 

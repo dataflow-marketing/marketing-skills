@@ -1041,3 +1041,15 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** a later commit that fixed the words while the history kept them
 **Why:** your yes: a comment ported from a private repo had a client's own example in it; this repo never names a client
 **Source:** stated
+
+## 2026-11-28: One summary writer; instructions for a site read from outside
+**Chose:** the ledger's summary writer learns the outside lines (how often each inferred step was done, what changed, offers ended, claims with no proof), moved from market-read, which then uses it; askai-make gets a second instructions template for a site read from outside
+**Over:** market-read keeping its own summary; one set of instructions for every copy
+**Why:** your yes; askai-make wrote a fresh summary that dropped every outside line; its instructions told the AI the person who copied it runs that business
+**Source:** stated
+
+## 2026-11-28: Outside summary lines only on a ledger read from outside
+**Chose:** the ledger's summary writer adds its outside lines only when the ledger has a read line; only steps marked inferred are counted by posts; market-read writes its summary with the ledger's writer as of the day of its last read
+**Over:** outside lines on every ledger; counting a member's own steps by their posts
+**Why:** a member's summary must not change (none of their ledgers has a read line); a member ticks their own steps, a post never does it for them
+**Source:** inferred

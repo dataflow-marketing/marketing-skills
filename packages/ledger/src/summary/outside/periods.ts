@@ -1,8 +1,8 @@
 // The periods a step is counted in: weeks from a Monday, fortnights from a Monday or calendar months.
 // Each is a start day and the day after it ends.
 
-import { addDays, mondayOf } from "./mondays.ts";
-import type { Every } from "./plan-steps.ts";
+import { addDays, mondayOf } from "../../dates.ts";
+import type { Every } from "./outside-steps.ts";
 
 export type Period = { start: string; end: string };
 

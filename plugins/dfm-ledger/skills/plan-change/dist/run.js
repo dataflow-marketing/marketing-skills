@@ -5294,6 +5294,9 @@ function readOneLine2(plan, numbered) {
   }
   const repeat = readOtherRepeat(text, numbered.line);
   if (repeat !== void 0) {
+    if (source === "inferred") {
+      repeat.inferred = true;
+    }
     plan.otherRepeats = [...plan.otherRepeats ?? [], repeat];
     return true;
   }

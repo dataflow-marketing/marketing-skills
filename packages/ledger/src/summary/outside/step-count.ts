@@ -3,7 +3,7 @@
 // fell in is counted only when it is already done: it is not over yet.
 
 import { periodsFrom, type Period } from "./periods.ts";
-import { postIsFor, type Closure, type Step } from "./plan-steps.ts";
+import { postIsFor, type Closure, type Step } from "./outside-steps.ts";
 
 export type StepCount = { done: number; of: number; notDone: string[]; closed: string[] };
 

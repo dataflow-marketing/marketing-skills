@@ -14,7 +14,7 @@ describe("a read, then the ticks and the summary", () => {
     });
     expect(first.newPosts).toBe(2);
 
-    const planned = first.text.replace("=== plan ===\n", "=== plan ===\nevery week this week's special from 2026-11-16\n");
+    const planned = first.text.replace("=== plan ===\n", "=== plan ===\nevery week this week's special from 2026-11-16 (inferred)\n");
     const second = addRead(planned, {
       day: "2026-12-09",
       counts: { pages: 6, posts: 3 },

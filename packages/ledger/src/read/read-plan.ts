@@ -39,6 +39,9 @@ function readOneLine(plan: Plan, numbered: NumberedLine): boolean {
   }
   const repeat = readOtherRepeat(text, numbered.line);
   if (repeat !== undefined) {
+    if (source === "inferred") {
+      repeat.inferred = true;
+    }
     plan.otherRepeats = [...(plan.otherRepeats ?? []), repeat];
     return true;
   }

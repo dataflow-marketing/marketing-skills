@@ -5221,6 +5221,9 @@ function readOneLine2(plan, numbered) {
   }
   const repeat = readOtherRepeat(text, numbered.line);
   if (repeat !== void 0) {
+    if (source === "inferred") {
+      repeat.inferred = true;
+    }
     plan.otherRepeats = [...plan.otherRepeats ?? [], repeat];
     return true;
   }
@@ -5622,6 +5625,175 @@ function notCountedLines(graph, done) {
   return [`not counted: ${never.join(", ")} (unknown is not zero)`];
 }
 
+// ../../../../packages/ledger/src/summary/outside/outside-steps.ts
+function outsideOf(ledger) {
+  const plan = ledger.plan;
+  const weeks = ledger.done?.weeks ?? {};
+  const mondays = Object.keys(weeks).sort();
+  const reads = mondays.flatMap((monday) => weeks[monday].readOn ? [{ monday, day: weeks[monday].readOn }] : []);
+  const last = reads.at(-1);
+  return {
+    steps: inferredSteps(ledger),
+    closures: (plan?.ons ?? []).map((on) => ({ from: on.from, to: on.to })),
+    reads,
+    posts: mondays.flatMap((monday) => (weeks[monday].said ?? []).filter((said) => said.how === "on site").map((said) => ({ day: said.on, title: said.title }))),
+    changes: mondays.flatMap((monday) => (weeks[monday].changes ?? []).map((text) => ({ monday, text }))),
+    postsTotal: last ? weeks[last.monday].totals.posts : void 0
+  };
+}
+function inferredSteps(ledger) {
+  const plan = ledger.plan;
+  const steps = [];
+  for (const repeat of plan?.repeats ?? []) {
+    const from = repeat.from ?? plan?.start;
+    if (repeat.inferred && from) {
+      steps.push({ every: "week", name: repeat.methods.map((method) => method.name).join(", "), from });
+    }
+  }
+  for (const repeat of plan?.otherRepeats ?? []) {
+    const from = repeat.from ?? plan?.start;
+    if (repeat.inferred && from) {
+      steps.push({ every: repeat.every, name: repeat.name, from });
+    }
+  }
+  return steps;
+}
+function postIsFor(step, title) {
+  return step.name === "a post" || title.toLowerCase().includes(step.name.toLowerCase());
+}
+
+// ../../../../packages/ledger/src/summary/outside/periods.ts
+function periodsFrom(every, from, through) {
+  const periods = [];
+  let start = firstStart(every, from);
+  while (start <= through) {
+    const end = nextStart(every, start);
+    periods.push({ start, end });
+    start = end;
+  }
+  return periods;
+}
+function firstStart(every, from) {
+  return every === "month" ? `${from.slice(0, 7)}-01` : mondayOf(from);
+}
+function nextStart(every, start) {
+  if (every === "week") {
+    return addDays(start, 7);
+  }
+  if (every === "2 weeks") {
+    return addDays(start, 14);
+  }
+  const year = Number(start.slice(0, 4));
+  const month = Number(start.slice(5, 7));
+  return month === 12 ? `${year + 1}-01-01` : `${year}-${String(month + 1).padStart(2, "0")}-01`;
+}
+
+// ../../../../packages/ledger/src/summary/outside/step-count.ts
+function countStep(step, posts, closures, lastRead) {
+  const days = posts.filter((post) => postIsFor(step, post.title)).map((post) => post.day);
+  const count = { done: 0, of: 0, notDone: [], closed: [] };
+  for (const period of periodsFrom(step.every, step.from, lastRead)) {
+    const done = days.some((day) => inPeriod(day, period));
+    const current = inPeriod(lastRead, period);
+    if (insideAClosure(period.start, closures)) {
+      count.closed.push(period.start);
+    } else if (done) {
+      count.done += 1;
+      count.of += 1;
+    } else if (!current) {
+      count.of += 1;
+      count.notDone.push(period.start);
+    }
+  }
+  return count;
+}
+function strengthOf(count) {
+  if (count.of >= 6 && count.done === count.of) {
+    return "believed";
+  }
+  return count.done >= 3 ? "assumed" : "unknown";
+}
+function inPeriod(day, period) {
+  return day >= period.start && day < period.end;
+}
+function insideAClosure(day, closures) {
+  return closures.some((closure) => day >= closure.from && day <= closure.to);
+}
+
+// ../../../../packages/ledger/src/summary/outside/words.ts
+function listOf(items) {
+  if (items.length <= 1) {
+    return items.join("");
+  }
+  return `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
+}
+var PERIOD_WORDS = {
+  week: { many: "weeks", one: "the week of", ones: "the weeks of" },
+  "2 weeks": { many: "fortnights", one: "the fortnight from", ones: "the fortnights from" },
+  month: { many: "months", one: "the month of", ones: "the months of" }
+};
+
+// ../../../../packages/ledger/src/summary/outside/outside-lines.ts
+function outsideLines(ledger) {
+  const outside = outsideOf(ledger);
+  const first = outside.reads[0];
+  const last = outside.reads.at(-1);
+  if (!first || !last) {
+    return [];
+  }
+  const lines = [`as at ${last.monday}, read ${outside.reads.length} ${outside.reads.length === 1 ? "time" : "times"} from ${first.monday}`];
+  lines.push(postsLine(outside));
+  lines.push(...planLines(outside, last.day));
+  lines.push(`changed at the last read: ${changesAt(outside, (monday) => monday === last.monday)}`);
+  if (outside.reads.length > 2) {
+    lines.push(`changed at earlier reads: ${changesAt(outside, (monday) => monday !== first.monday && monday !== last.monday)}`);
+  }
+  const ended = offersEnded(ledger, last.monday);
+  if (ended.length > 0) {
+    lines.push(`offers ended: ${listOf(ended)}`);
+  }
+  const noProof = claimsWithNoProof(ledger);
+  lines.push(`claims with no proof: ${noProof.length > 0 ? noProof.join(", ") : "none"}`);
+  return lines.map((line) => `${line} (calculated)`);
+}
+function postsLine(outside) {
+  const days = outside.posts.map((post) => post.day).sort();
+  const total = outside.postsTotal ?? days.length;
+  if (total === 0) {
+    return "posts: none on the site";
+  }
+  const range = days.length > 0 ? `, published from ${days[0]} to ${days[days.length - 1]}` : "";
+  return `posts: ${total}${range}`;
+}
+function planLines(outside, lastReadDay) {
+  if (outside.steps.length === 0) {
+    return [outside.posts.length === 0 ? "plan: none worked out, no posts to work from" : "plan: none worked out"];
+  }
+  return outside.steps.map((step) => {
+    const count = countStep(step, outside.posts, outside.closures, lastReadDay);
+    const words = PERIOD_WORDS[step.every];
+    const parts = [`every ${step.every} ${step.name}: done ${count.done} of ${count.of} ${words.many}`];
+    if (count.notDone.length > 0) {
+      parts.push(`not in ${count.notDone.length === 1 ? words.one : words.ones} ${listOf(count.notDone)}`);
+    }
+    if (count.closed.length > 0) {
+      parts.push(`${count.closed.length === 1 ? words.one : words.ones} ${listOf(count.closed)} inside a closure`);
+    }
+    parts.push(strengthOf(count));
+    return parts.join(", ");
+  });
+}
+function changesAt(outside, at) {
+  const changes = outside.changes.filter((change) => at(change.monday)).map((change) => `${change.monday} ${change.text}`);
+  return changes.length > 0 ? changes.join("; ") : "nothing";
+}
+function offersEnded(ledger, asAt) {
+  return (ledger.graph?.things ?? []).filter((thing) => thing.word === "offer" && thing.until && thing.until < asAt).map((thing) => `${thing.name} on ${thing.until}`);
+}
+function claimsWithNoProof(ledger) {
+  return (ledger.graph?.things ?? []).filter((thing) => thing.word === "claim" && thing.proved === false).map((thing) => `"${thing.name}"`);
+}
+
 // ../../../../packages/ledger/src/summary/lines/rate-lines.ts
 function rateLines(graph) {
   const known = (graph?.links ?? []).filter((link) => link.result.kind !== "unknown" && (link.label === "proven" || link.label === "believed"));
@@ -5760,7 +5932,8 @@ function writeSummary(ledger, today) {
     ...forecastLines(want, done, today),
     ...contentLines(done),
     ...scannerLines(done),
-    ...notCountedLines(ledger.graph, done)
+    ...notCountedLines(ledger.graph, done),
+    ...outsideLines(ledger)
   ];
 }
 

@@ -7,6 +7,7 @@ import { contentLines } from "./lines/content-lines.ts";
 import { soFarLines, totalLines, weeklyLines } from "./lines/count-lines.ts";
 import { forecastLines, goalLines } from "./lines/goal-lines.ts";
 import { notCountedLines } from "./lines/not-counted-lines.ts";
+import { outsideLines } from "./outside/outside-lines.ts";
 import { rateLines } from "./lines/rate-lines.ts";
 import { scannerLines } from "./lines/scanner-lines.ts";
 import { stepLines } from "./lines/step-lines.ts";
@@ -25,5 +26,6 @@ export function writeSummary(ledger: Ledger, today: string): string[] {
     ...contentLines(done),
     ...scannerLines(done),
     ...notCountedLines(ledger.graph, done),
+    ...outsideLines(ledger),
   ];
 }

@@ -54,6 +54,10 @@ A business's own lines from both sides are matched by name. A script lists what 
 
 Until the readers take outside words in a ledger a live page reads, a business's outside lines are kept in a file of their own beside its ledger (`market-<business>.txt`) and the check reads the two.
 
+## Taken to an AI
+
+`dfm-ledger:askai-make` with [ask-ai-outside-instructions.txt](ask-ai-outside-instructions.txt): the AI is told the ledger is a site read from outside, who is asking and that a claim with no proof is never called false. Its ideas come back as changes to the asker's own plan, never to this ledger.
+
 ## Kept
 
 A neighbour's ledger: a file `market-<business>.txt` in the market's folder. Or an object of kind `market` in a store (see [store](store.md)) with the business's name as its id. When done grows large, old reads move into its history, as weeks do.
