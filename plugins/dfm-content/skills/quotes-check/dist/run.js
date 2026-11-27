@@ -275,6 +275,22 @@ function startsASentence(before) {
   return ENDS_A_SENTENCE.test(withoutOpeningMarks);
 }
 
+// src/dates.ts
+var DATE = /(?<!\d)\d{4}-\d{2}-\d{2}(?!\d)/g;
+var WHOLE_DATE = /^\d{4}-\d{2}-\d{2}$/;
+function findDates(line) {
+  return [...line.matchAll(DATE)].map((match) => {
+    const start = match.index ?? 0;
+    return { start, end: start + match[0].length };
+  });
+}
+function isDate(key) {
+  return WHOLE_DATE.test(key);
+}
+function dateParts(date) {
+  return date.split("-").map((part) => String(Number(part)));
+}
+
 // src/number-words.ts
 var SMALL = {
   zero: 0,
@@ -388,8 +404,15 @@ function valueOf(words) {
 var FIGURES = /\d(?:[\d,.]*\d)?/g;
 function findNumbers(line) {
   const found = [];
+  for (const date of findDates(line)) {
+    const written = line.slice(date.start, date.end);
+    found.push({ ...date, written, key: written });
+  }
   for (const match of line.matchAll(FIGURES)) {
     const start = match.index ?? 0;
+    if (insideAny(found, start)) {
+      continue;
+    }
     found.push({
       start,
       end: start + match[0].length,
@@ -406,6 +429,9 @@ function findNumbers(line) {
     });
   }
   return found.sort((first, second) => first.start - second.start);
+}
+function insideAny(spans, at) {
+  return spans.some((span) => at >= span.start && at < span.end);
 }
 
 // src/find-quotes.ts
@@ -528,6 +554,11 @@ function addNumbersAndMoney(index, source) {
     const where = { source: source.name, line: lineIndex + 1 };
     for (const number of findNumbers(line)) {
       keepFirst(index.numbers, number.key, where);
+      if (isDate(number.key)) {
+        for (const part of dateParts(number.key)) {
+          keepFirst(index.numbers, part, where);
+        }
+      }
     }
     for (const amount of findMoney(line)) {
       keepFirst(index.money, amount.key, where);

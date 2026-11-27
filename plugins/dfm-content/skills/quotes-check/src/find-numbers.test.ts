@@ -10,8 +10,11 @@ describe("findNumbers", () => {
     ]);
   });
 
-  it("reads the parts of a date as numbers", () => {
-    const found = findNumbers("2026-11-28");
-    expect(found.map((number) => number.key)).toEqual(["2026", "11", "28"]);
+  it("reads a date as one number, matched whole", () => {
+    const found = findNumbers("Posted on 2026-11-28, the 3rd this month.");
+    expect(found.map((number) => [number.written, number.key])).toEqual([
+      ["2026-11-28", "2026-11-28"],
+      ["3", "3"],
+    ]);
   });
 });

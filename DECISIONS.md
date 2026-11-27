@@ -951,3 +951,9 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** a script that builds the report table
 **Why:** which rows tell businesses apart is a judgement; the exact part (what changed) is already a script in profile-compare
 **Source:** inferred
+
+## 2026-11-27: quotes-check needs a date whole
+**Chose:** a date written year first (2026-11-28) is one number in the text and must be found whole; a source still offers its year, month and day: "since 2026" is found in a source that only has the full date
+**Over:** a date read as three numbers, each found anywhere in the sources
+**Why:** in the demo, 2027-01-04 passed as 2027 and 01 and 04 found on different lines; a wrong date could pass the same way
+**Source:** inferred

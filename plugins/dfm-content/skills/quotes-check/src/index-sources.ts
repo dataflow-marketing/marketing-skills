@@ -1,7 +1,9 @@
 // Makes the sources ready to search, once, before any mention is looked for:
 // each source as one plain text with where each of its lines starts. Every number
-// and amount of money in it is kept with the line it is first on.
+// and amount of money in it is kept with the line it is first on; a date also
+// keeps its year, month and day.
 
+import { dateParts, isDate } from "./dates.ts";
 import { currencyOf, findMoney } from "./find-money.ts";
 import { findNumbers } from "./find-numbers.ts";
 import { plain } from "./plain.ts";
@@ -65,6 +67,11 @@ function addNumbersAndMoney(index: SourceIndex, source: Source): void {
 
     for (const number of findNumbers(line)) {
       keepFirst(index.numbers, number.key, where);
+      if (isDate(number.key)) {
+        for (const part of dateParts(number.key)) {
+          keepFirst(index.numbers, part, where);
+        }
+      }
     }
     for (const amount of findMoney(line)) {
       keepFirst(index.money, amount.key, where);

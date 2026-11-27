@@ -64,6 +64,13 @@ describe("checkText on a draft with inventions", () => {
 });
 
 describe("checkText rules from the trial", () => {
+  it("needs a date whole, never its parts from different places", () => {
+    const source = [{ name: "site", text: "Posts from 2027-02-01 to 2026-12-04." }];
+    expect(notFound(checkText("The latest post is 2027-01-04.", source).lines)).toEqual(["number 2027-01-04"]);
+    expect(checkText("The latest post is 2026-12-04.", source).problems).toBe(0);
+    expect(checkText("Posting since 2026.", source).problems).toBe(0);
+  });
+
   it("matches a number word to its figure both ways", () => {
     const counts = [COUNTS];
     expect(checkText("There are four short posts.", counts).problems).toBe(0);
