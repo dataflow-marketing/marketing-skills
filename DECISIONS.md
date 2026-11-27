@@ -999,3 +999,15 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** a strength note at the end of each plan line and a new missed word
 **Why:** the ledger's reader skipped plan lines with a note on the end and already reads a tick; a week with no tick is already a step not done
 **Source:** inferred
+
+## 2026-11-27: profile-make keeps each post's published day in its pages file
+**Chose:** a post read from a sitemap that says when it was published gets a "Published: <day>" line under its URL, read back into the post
+**Over:** market-read finding a post's day in the page's text
+**Why:** the day showed in the demo's text only because its pages print a time element; most sites do not
+**Source:** inferred
+
+## 2026-11-27: market-read writes a read into a new file and rewrites only what code owns
+**Chose:** a read is written to a new file, never over one; --summary rewrites in place only the ticks and the summary, every other line kept as written; Claude writes the graph, the plan and what changed
+**Over:** a read written over the last ledger; code writing the graph
+**Why:** as profile-make never writes over an earlier read; what stands on a site and what changed are judgements in the site's words, the counts and dates are not
+**Source:** inferred

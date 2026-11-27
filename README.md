@@ -135,6 +135,7 @@ The examples have no version: they are read, never installed.
 | ideas-make | what to make next and why, from what people asked | model | none | planned |
 | schedule-make | a run of weeks, each with its post and share | model | none | planned |
 | profile-compare | what changed in a business's profile between two reads (part by part) or several businesses side by side; a script compares, Claude summarises from it | code | yes | built |
+| market-read | keeps a market ledger: a business's site read the way the public sees it, read after read; code writes each read, its counts, posts, ticks and summary; also a business's ledger beside its own market ledger | code | yes | built |
 | market-report | a month's market report in the same layout every month (side by side, what changed, three moves), from what profile-compare printed, checked with quotes-check | model | none | built |
 
 ### dfm-ghost: Ghost sites (0.1.0)

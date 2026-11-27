@@ -1,6 +1,6 @@
 # Market ledger (spec 1, draft)
 
-A [ledger](ledger.md) read from the outside: what a business says on its own site, read after read. It has the ledger's four parts and the ledger's words. A business's own ledger is told from the inside: what it plans and counts. A market ledger is read off its site: its plan is worked out from what it did. Kept for the neighbours in a market. Also for the business itself: its own market ledger beside its ledger shows what it does that its site never says. The [profile](profile.md) stays for how a business speaks.
+A [ledger](ledger.md) read from the outside: what a business says on its own site, read after read. It has the ledger's four parts and the ledger's words. A business's own ledger is told from the inside: what it plans and counts. A market ledger is read off its site: its plan is worked out from what it did. Kept for the neighbours in a market. Also for the business itself: its own market ledger beside its ledger shows what it does that its site never says. Any business can be read this way, a neighbour or the business itself: its site as the public sees it. The [profile](profile.md) stays for how a business speaks.
 
 Each word is marked as in the ledger: **in use** (the ledger's word, meaning the same), **new** or **to settle**.
 

@@ -2,6 +2,7 @@
 
 import { fileURLToPath } from "node:url";
 import { bundleScript } from "@dataflow-marketing/core/build";
+import { marketReadBundle } from "./skills/market-read/bundle.ts";
 import { profileCompareBundle } from "./skills/profile-compare/bundle.ts";
 import { profileMakeBundle } from "./skills/profile-make/bundle.ts";
 import { quotesCheckBundle } from "./skills/quotes-check/bundle.ts";
@@ -14,6 +15,8 @@ async function main(): Promise<void> {
   process.stdout.write("built skills/profile-make/dist/run.js\n");
   await bundleScript(profileCompareBundle(pluginFolder));
   process.stdout.write("built skills/profile-compare/dist/run.js\n");
+  await bundleScript(marketReadBundle(pluginFolder));
+  process.stdout.write("built skills/market-read/dist/run.js\n");
 }
 
 await main();

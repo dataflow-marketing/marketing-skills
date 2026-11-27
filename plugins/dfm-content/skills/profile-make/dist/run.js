@@ -71,9 +71,11 @@ function pagesText(items) {
 `;
 }
 function itemText(item) {
+  const published = item.published ? `Published: ${item.published}
+` : "";
   return `### ${item.title}
 URL: ${item.url}
-${item.text.trim()}`;
+${published}${item.text.trim()}`;
 }
 
 // src/changed-pages.ts
@@ -319,6 +321,7 @@ function readArgs(args) {
 }
 
 // src/read-llms-full.ts
+var PUBLISHED = /^Published: (\d{4}-\d{2}-\d{2})$/;
 function readLlmsFull(text) {
   const lines = text.split(/\r?\n/);
   const items = [];
@@ -335,6 +338,11 @@ function readLlmsFull(text) {
     if (startsItem) {
       current = { kind, title: line.slice(4).trim(), url: lines[index + 1].slice(5).trim(), text: "" };
       items.push(current);
+      return;
+    }
+    const published = PUBLISHED.exec(line);
+    if (current && published) {
+      current.published = published[1];
       return;
     }
     if (current && !isItemDetail(line)) {

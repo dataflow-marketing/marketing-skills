@@ -14,6 +14,8 @@ export function pagesText(items: readonly SiteItem[]): string {
   return `${sections.join("\n")}\n`;
 }
 
+// a post that says when it was published keeps that day on its own line, as /llms-full.txt keeps "Last updated:"
 export function itemText(item: SiteItem): string {
-  return `### ${item.title}\nURL: ${item.url}\n${item.text.trim()}`;
+  const published = item.published ? `Published: ${item.published}\n` : "";
+  return `### ${item.title}\nURL: ${item.url}\n${published}${item.text.trim()}`;
 }

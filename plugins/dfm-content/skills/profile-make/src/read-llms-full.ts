@@ -1,5 +1,6 @@
 // Reads a site's /llms-full.txt into its pages and posts.
 // Ghost writes "## Pages" and "## Posts", then each item as "### <title>" followed by a "URL: " line.
+// pages.txt, read from a sitemap, has the same shape, with a "Published: " line for a post that says its day.
 // A "## " heading inside an item's text is part of the text, not a new section.
 
 export type SiteItem = {
@@ -10,6 +11,9 @@ export type SiteItem = {
   url: string;
   text: string;
 };
+
+// the day a post was published, as profile-make writes it in pages.txt
+const PUBLISHED = /^Published: (\d{4}-\d{2}-\d{2})$/;
 
 export function readLlmsFull(text: string): SiteItem[] {
   const lines = text.split(/\r?\n/);
@@ -28,6 +32,11 @@ export function readLlmsFull(text: string): SiteItem[] {
     if (startsItem) {
       current = { kind, title: line.slice(4).trim(), url: lines[index + 1].slice(5).trim(), text: "" };
       items.push(current);
+      return;
+    }
+    const published = PUBLISHED.exec(line);
+    if (current && published) {
+      current.published = published[1];
       return;
     }
     if (current && !isItemDetail(line)) {

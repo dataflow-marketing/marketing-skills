@@ -45,6 +45,8 @@ Reads only what each site makes public. Profiles businesses, never private peopl
 
    Check each with `dfm-content:quotes-check` against that read's pages, home page and counted part, until each says `result: passed`. Show only what changed in each profile, never all of them in full, with each passing report. **Yes?**
 
+   **Each market ledger too,** where the market keeps them: `dfm-content:market-read` adds the read (`--ledger <last read>/market-<site>.txt --out <read>/market-<site>.txt`), then the graph lines and what changed, then its summary and check.
+
 4. **What changed and side by side.** `dfm-content:profile-compare`:
    - **Over time:** `--before <last read>/<site>/profile.txt --after <read>/<site>/profile.txt` for every site the last read has, one after another into `<read>/compare.txt`, each under a line `######## <site>`. A new site is listed as `######## <site>` then `new to the market`.
    - **Side by side:** `--side-by-side own=own-profile.txt <site>=<read>/<site>/profile.txt ...` into `<read>/side-by-side.txt`, the business's own first.
