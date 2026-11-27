@@ -957,3 +957,15 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** a date read as three numbers, each found anywhere in the sources
 **Why:** in the demo, 2027-01-04 passed as 2027 and 01 and 04 found on different lines; a wrong date could pass the same way
 **Source:** inferred
+
+## 2026-11-27: Each business in a market gets its own ledger like file
+**Chose:** what is read about another business is kept in a ledger like file of its own, one record per line, dated, each line with its page and their words in quotes; the first read writes every line, later reads add + and - lines only; the profile stays for voice only
+**Over:** the free text profile as the only record of a market, compared sentence by sentence
+**Why:** your words: the ledger is "lite on free form text" with "more of a meta data approach" to "make it easy for the AI to have the required context"; "a ledger like store for each cafe would be awesome"
+**Source:** stated
+
+## 2026-11-27: A claim's proof is one of two fixed words
+**Chose:** a market ledger's claim line ends `no proof on the site` or `proof on the site`; the proof itself is its own proof line
+**Over:** free text after a claim ("no award named", "its awards are named")
+**Why:** writing the demo by hand, a claim with "no award named" was missed by a search for claims with no proof; fixed words let a script find every one
+**Source:** inferred
