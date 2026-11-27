@@ -873,3 +873,15 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** adding it beside the earlier repeat, which left the step running from the old date
 **Why:** moving when a step starts (a pause until a later week) is a real change a person asks for; with two repeats the step would run from both dates
 **Source:** stated (fix plan-change first), inferred (one repeat a step)
+
+## 2026-11-27: Next builds: week-run through the store, then said-read; CI waits
+**Chose:** build week-run for every business bound in settings (through the store), then dfm-ghost:said-read (what each business published in a week); CI on pull requests waits
+**Over:** adding CI now that v0.1.0 is out
+**Why:** your words: CI "no at this time - we wait until it is more stable"; the two builds are what the weekly run needs since the flip
+**Source:** stated
+
+## 2026-11-27: How the run for every business and said-read work
+**Chose:** week-run for every business bound in settings runs each up to its preview, shows a short table, then one yes writes them all (each with its own version check, backup and read back; any can be held back); the numbers only the person can tell are asked in one question per business, "Don't know, skip" offered and never chosen for them; said-read prints its lines as Change lines that plan-change adds to done; a post is for the groups whose tag it carries, otherwise everyone
+**Over:** a yes per business; skipping told numbers in the run; a new writer for said lines (counts-record --said); every post for everyone
+**Why:** the shape the first run for every business took by hand on 27 Nov; plan-change already adds said lines with a preview and a read back
+**Source:** stated

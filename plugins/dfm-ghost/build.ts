@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { bundleScript } from "@dataflow-marketing/core/build";
 import { numbersReadBundle } from "./skills/numbers-read/bundle.ts";
 import { postDraftBundle } from "./skills/post-draft/bundle.ts";
+import { saidReadBundle } from "./skills/said-read/bundle.ts";
 import { siteAddBundle } from "./skills/site-add/bundle.ts";
 
 async function main(): Promise<void> {
@@ -17,6 +18,9 @@ async function main(): Promise<void> {
 
   await bundleScript(numbersReadBundle(pluginFolder));
   process.stdout.write("built skills/numbers-read/dist/run.js\n");
+
+  await bundleScript(saidReadBundle(pluginFolder));
+  process.stdout.write("built skills/said-read/dist/run.js\n");
 }
 
 await main();

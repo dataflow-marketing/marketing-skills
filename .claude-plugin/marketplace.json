@@ -16,7 +16,7 @@
     {
       "name": "dfm-ghost",
       "source": "./plugins/dfm-ghost",
-      "description": "Ghost sites: site-add names a site and its key's variable in settings; post-draft puts a checked post on Ghost as a draft and reads it back; numbers-read reads a week's new members and email numbers (sent, opens, clicks)."
+      "description": "Ghost sites: site-add names a site and its key's variable in settings; post-draft puts a checked post on Ghost as a draft and reads it back; numbers-read reads a week's new members and email numbers (sent, opens, clicks); said-read reads what went out that week."
     },
     {
       "name": "dfm-site",
@@ -26,7 +26,7 @@
     {
       "name": "dfm-recipes",
       "source": "./plugins/dfm-recipes",
-      "description": "Recipes that run skills in order: client-run sets up a business with a first plan (start here if you are new to dfm); week-run brings in a week; recording-run turns a recording into a draft post."
+      "description": "Recipes that run skills in order: client-run sets up a business with a first plan (start here if you are new to dfm); week-run brings in a week, for one business or every business in settings; recording-run turns a recording into a draft post."
     },
     {
       "name": "dfm-ledger",

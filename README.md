@@ -143,6 +143,7 @@ The examples have no version: they are read, never installed.
 | site-add | adds a site to settings; the key goes in through a hidden prompt | code | yes | works |
 | post-draft | puts a words file on Ghost as a draft and reads its status back | code | yes | works |
 | numbers-read | a week's new members and the emails sent, their opens and clicks; read only (paid plans later) | code | yes | works |
+| said-read | what a business sent or published in a week, as said lines in its own words; read only, plan-change adds them | code | yes | built |
 | fields-read | a member's custom fields | code | no | planned |
 | fields-change | changes one custom field for one member, read back | code | no | planned |
 | field-add | adds a custom field definition | code | no | planned |
@@ -230,7 +231,7 @@ The examples have no version: they are read, never installed.
 | Recipe | Runs, in order | State |
 |---|---|---|
 | recording-run | a transcript (by hand until transcript-make is built), post-make, quotes-check, post-draft | works |
-| week-run | plan-check, the week's told numbers (counts-record), summary-make; platform readers and followups-check join later | built |
+| week-run | plan-check, the week's numbers (read from Cloudflare and Ghost, the rest told) and what went out, summary-make; for one business or every business bound in settings, through the store with one yes for all the writes; followups-check joins later | built |
 | client-run | asks which kind of site it is (any website or Ghost), runs that site-add, then profile-make with its check, then plan-make; storing in Ghost joins later | built |
 | clips-run | transcript-make, clips-make, video-encode, share-make, pack-make | planned |
 | calendar-run | ideas-make or schedule-make, then plan-change | planned |
