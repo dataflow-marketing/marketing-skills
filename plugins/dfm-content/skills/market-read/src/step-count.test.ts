@@ -31,4 +31,9 @@ describe("countStep", () => {
   it("calls six or more done with none missed believed", () => {
     expect(strengthOf({ done: 6, of: 6, notDone: [], closed: [] })).toBe("believed");
   });
+
+  it("reads a plan line that ends with its source", async () => {
+    const { readPlan } = await import("./plan-steps.ts");
+    expect(readPlan(["every week a post from 2026-11-02 (inferred)"]).steps).toEqual([{ every: "week", name: "a post", from: "2026-11-02" }]);
+  });
 });

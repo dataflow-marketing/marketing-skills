@@ -1,12 +1,13 @@
 // The plan's steps and closures (spec/market.md, Plan):
-//   every week this week's special from 2026-11-02     a step it repeats: week, month or 2 weeks
+//   every week this week's special from 2026-11-02 (inferred)   a step it repeats: week, month or 2 weeks
 //   on 2026-12-24 to 2027-01-01: "<their words>" [<page>] a closure; its periods are left out of a count
 
 export type Every = "week" | "month" | "2 weeks";
 export type Step = { name: string; every: Every; from: string };
 export type Closure = { from: string; to: string };
 
-const STEP = /^every (week|month|2 weeks) (.+) from (\d{4}-\d{2}-\d{2})$/;
+// a line may end with its source word: "(inferred)" on a plan worked out from a site
+const STEP = /^every (week|month|2 weeks) (.+) from (\d{4}-\d{2}-\d{2})(?: \((?:stated|observed|inferred)\))?$/;
 const CLOSURE = /^on (\d{4}-\d{2}-\d{2})(?: to (\d{4}-\d{2}-\d{2}))?:/;
 
 export function readPlan(lines: readonly string[]): { steps: Step[]; closures: Closure[] } {

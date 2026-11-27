@@ -1011,3 +1011,15 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** a read written over the last ledger; code writing the graph
 **Why:** as profile-make never writes over an earlier read; what stands on a site and what changed are judgements in the site's words, the counts and dates are not
 **Source:** inferred
+
+## 2026-11-27: One ledger, every line with its source
+**Chose:** start on one ledger format for a business seen from inside and outside: the market words and a source on every line (stated, observed, inferred; calculated in the summary) go into spec/ledger.md, a line with no source word read as stated
+**Over:** two formats, the ledger and the market ledger, kept side by side
+**Why:** your ask: "how do we close the gap and make them one ledger"; stated is the ledger's own word for a line that is neither observed nor inferred; your yes to step 1
+**Source:** stated
+
+## 2026-11-27: The words are defined once, in the ledger spec; outside lines wait in their own file
+**Chose:** spec/ledger.md holds every word, the outside ones too, with a source last on every graph and plan line (code always writes it; no word is read as stated), a rule that keeps every line easy to grep, an offer's kind moved to after its name; spec/market.md says only how a site is read from outside; a business's own outside lines stay in a market file beside its ledger until the readers take the new words
+**Over:** writing outside lines into a member's ledger now
+**Why:** your question whether it would be an issue today: on a copy of a member's ledger, the reader the live page uses stopped at one outside line ("offer" is a word it does not read yet), which would break that member's page; your ask for data that is easy to select with grep
+**Source:** stated (the questions), inferred (the test and the shape)

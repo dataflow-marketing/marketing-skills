@@ -31,7 +31,7 @@ For a first read, `--business <name> --site <address>` in place of `--ledger`; a
 In the new file, only from the read's pages (all of them on a first read, `changed.txt` after):
 
 - **The graph:** what the business is, in a line; then `opens`, `offer`, `claim`, `proof`, `answers`, `channel`, each with their words in quotes, its page in brackets and `(observed)` or `(inferred)`. A claim ends `proof on the site` or `no proof on the site`, never other words. On a business's own market ledger, an offer or channel takes the name it has in the business's ledger.
-- **The plan:** only a rhythm its posts show 3 or more times, in the ledger's words (`every week <step> from <date>`; the step's name is in the posts' titles; `a post` is any post). A closure it tells of as `on <date> to <date>: "<their words>" [<page>]`. Never a want.
+- **The plan:** only a rhythm its posts show 3 or more times, in the ledger's words, ending `(inferred)` (`every week <step> from <date> (inferred)`; the step's name is in the posts' titles; `a post` is any post). A closure it tells of as `on <date> to <date>: "<their words>" [<page>] (inferred)`. Never a want.
 - **What changed,** at the read's Monday, after its counts: `new <word> <name>` for a line first seen, `was <the line as it stood>` for a line changed, `gone <the line>` for one no longer there. A new `on` by its words and page, never by the dates worked out from them.
 - **A date worked out from words** (an offer's `until`, an `on`): add a line to the dates file saying which words and which post it came from.
 

@@ -223,7 +223,7 @@ var PERIOD_WORDS = {
 };
 
 // src/gaps.ts
-var STEP = /^every (week|month|2 weeks|day) (.+?)(?: from \d{4}-\d{2}-\d{2})?$/;
+var STEP = /^every (week|month|2 weeks|day) (.+?)(?: from \d{4}-\d{2}-\d{2})?(?: \((?:stated|observed|inferred)\))?$/;
 function findGaps(ledgerText, marketText) {
   const ledger = splitParts(ledgerText);
   const market = splitParts(marketText);
@@ -357,7 +357,7 @@ function readPosts(pagesText) {
 }
 
 // src/plan-steps.ts
-var STEP2 = /^every (week|month|2 weeks) (.+) from (\d{4}-\d{2}-\d{2})$/;
+var STEP2 = /^every (week|month|2 weeks) (.+) from (\d{4}-\d{2}-\d{2})(?: \((?:stated|observed|inferred)\))?$/;
 var CLOSURE = /^on (\d{4}-\d{2}-\d{2})(?: to (\d{4}-\d{2}-\d{2}))?:/;
 function readPlan(lines) {
   const steps = [];

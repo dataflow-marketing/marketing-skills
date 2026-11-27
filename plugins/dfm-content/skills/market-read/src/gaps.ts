@@ -7,7 +7,7 @@ import { listOf } from "./words.ts";
 
 export type Gaps = { notOnSite: Named[]; notInLedger: Named[]; planned: string[]; seen: string[] };
 
-const STEP = /^every (week|month|2 weeks|day) (.+?)(?: from \d{4}-\d{2}-\d{2})?$/;
+const STEP = /^every (week|month|2 weeks|day) (.+?)(?: from \d{4}-\d{2}-\d{2})?(?: \((?:stated|observed|inferred)\))?$/;
 
 export function findGaps(ledgerText: string, marketText: string): Gaps {
   const ledger = splitParts(ledgerText);

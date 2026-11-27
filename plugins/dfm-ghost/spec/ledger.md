@@ -2,6 +2,8 @@
 
 A ledger keeps the context of one business's marketing: how it works, what it plans to do, what happened and a summary. It is written so a person can read it aloud and an AI can work from it without inventing anything.
 
+One ledger holds a business seen from both sides: from the inside, what the person tells us and their platforms count; from the outside, what its own site shows anyone. Every line says which. A neighbour in a market has a ledger in the same format with only outside lines: [reading a business from outside](market.md) says how one is read.
+
 Each word below is marked:
 
 - **in use:** used every day in dfm on real businesses since November 2026
@@ -11,11 +13,12 @@ Each word below is marked:
 ## Rules
 
 1. **Plain text, one record per line.** A line that happened or will happen is dated. The graph has no dates: it is how things work.
-2. **Every number says where it came from and how sure it is.**
+2. **Every line says where it came from:** its source word last, in brackets (see [the source words](#where-a-number-came-from-and-how-sure-it-is)). A number also says how sure it is.
 3. **Groups, not individuals.** Named people stay in the business's own systems.
 4. **The business's own words for things.**
 5. **Want, expect and happened never mix.**
 6. **No money.** A goal is a count of actions a week, never revenue.
+7. **Easy to grep.** The word comes first: at the start of a graph or plan line, after the Monday in done (and after `new`, `was` or `gone`). The source comes last, in brackets. Their own words are in double quotes; the page they are on is in square brackets. The business is the file's or the object's name. Then one `grep` selects any kind of line: `grep '^claim .*no proof on the site'`, `grep '(observed)$'`, `grep '^2026-12-07 was '`.
 
 **How words are chosen:** the graph names things: its words are nouns. The plan says what will be done: its words are verbs or name a step. Done says what happened: its words are in the past tense. Every word has to read aloud and make sense at a glance.
 
@@ -40,7 +43,7 @@ A business just starting has only the done part. The summary is written by a ski
 | **group** | `group Regulars: tag regulars` | who is in a group, by a rule; a person can be in several | in use |
 | **needs** | `group Regulars needs: a quiet table before work` | why a group responds: its problem or want | new |
 | **moving between groups** | `[Keen] not seen 6 weeks -> [Drifting]` | people changing state; what makes a simulation | new |
-| **offer** | `offer loyalty card: the tenth coffee free (plan)` | what is offered or asked for: a sale, a plan, an ask or a seat; never a price | new |
+| **offer** | `offer loyalty card (plan): the tenth coffee free (stated)` | what is offered or asked for: a sale, a plan, an ask or a seat, in brackets after its name; never a price | new (the kind after the name is new: it was last, where the source now goes) |
 | **channel** | `channel Instagram: the cafe's own account` | where things are said or sent | new |
 | **->** | `new post -> visits: 20 to 40 of 100 views (assumed)` | this leads to that, at a rate, with its strength | in use |
 | **-> with a group** | `comeback email [Drifting] -> visits: ? (unknown)` | how one group responds | in use (read, not yet played by group) |
@@ -50,6 +53,15 @@ A business just starting has only the done part. The summary is written by a ski
 | **campaign** | `campaign winter warmers: from 2026-06-01 to 2026-08-31` | a named window that gathers a goal, a group, an offer, steps and content | new; how a line names its campaign is to settle |
 | **cycle** | `cycle weekly` | the length of one turn; only the default for a step with no timing | in use (as `cycle:`) |
 | area, icon | `area Website: visits, found the site` | how the picture is drawn | in use |
+| **site** | `site http://localhost:4104 (sitemap)` | where its site is read from outside and how | new |
+| **own** | `own` | in a market's folder: this ledger is the business's own, its site read beside what it tells us | new |
+| **opens** | `opens Monday to Friday: 6.30 to 2.00 [/] (observed)` | the hours it gives | new |
+| **claim** | `claim "Award-winning": no proof on the site [/] (inferred)` | something it says of itself a reader cannot check from the page, then `proof on the site` or `no proof on the site`, never other words | new |
+| **proof** | `proof award: "First prize, sourdough, Wattle Shire Show 2025" [/about/] (observed)` | what lets a reader check a claim: an award, a supplier or a customer named | new |
+| **answers** | `answers "Can I bring my dog?" [/questions/] (observed)` | a question its site answers, in its words | new |
+| **until** | `offer Christmas cakes (sale): "Orders close on 15 December" [/news/christmas-cake-orders-open/] until 2026-12-15 (inferred)` | the day an offer ends, when its words give one | new |
+
+**Inside and outside lines for one thing share its name.** `offer stamp card (plan): the tenth coffee free (stated)` and `offer stamp card: "the tenth coffee is on us" [/] (observed)` are the same offer seen from both sides. A name with only stated lines is something the business does that its site never says; a name with only observed lines is on its site and not in its plan.
 
 **Plain ASCII.** A ledger is written in plain ASCII: a link is `->` and a step taken off is `-`. A reader also accepts the Unicode arrow (U+2192) and minus sign (U+2212), which older ledgers and AI chats use. It reads curly quotes and apostrophes as straight ones and odd spaces (such as the no break space) as ordinary spaces. Everything else in a ledger is kept as written.
 
@@ -88,7 +100,8 @@ The planning settled "the seven group rules as they are"; dfm reads eight. This 
 
 | Kind | Written as | Example | Status |
 |---|---|---|---|
-| repeat | `every day`, `every week`, `every month`, each with an optional `from` date | `every week new post from 2026-11-23` | in use for `every week`; new for day and month |
+| repeat | `every day`, `every week`, `every 2 weeks`, `every month`, each with an optional `from` date | `every week new post from 2026-11-23` | in use for `every week`; new for day, 2 weeks and month |
+| inferred | a repeat worked out from what a business published, never told | `every week a post from 2026-11-02 (inferred)`; ticked by its posts (see Done) | new |
 | ad hoc | a dated line | `2026-12-03 market stall` | in use |
 | series | one step on several dates, each with its own detail after a colon | `2026-11-30 guest barista: Ana` then `2026-12-07 guest barista: Joe` | new (the detail) |
 | added or taken off | a date with `+` or `-` | `2026-11-23 + flyer drop` | in use |
@@ -109,6 +122,9 @@ The planning settled "the seven group rules as they are"; dfm reads eight. This 
 | **fact count by group** | `2026-11-30 fact count new regulars [Office workers]: 1` | a count for one group; the whole stays its own line | to settle |
 | **said** | `2026-11-30 said on Instagram on 2026-12-01: "Iced coffee is back" https://coffee-shop.example/iced-coffee/ [Regulars] topic: summer menu summary: "Iced coffee is back from Monday."` | what went out: the channel, the day, the title, the link, who it was for, its topic and a summary in the business's own words (never written for them). The topic is optional: with none it is unknown, left out of any comparison of topics and never guessed; a person can add one later | in use; the channel name and topic new |
 | **counted to** | `2026-11-16 counted to 2026-11-18` | the week's counts are so far, to that day | in use |
+| **read** | `2026-12-07 read on 2026-12-09` | its site was read from outside that week, on that day | new |
+| **done by a post** | `2026-12-07 this week's special: done` | an inferred step ticked by a post published that week (its said line is just before) | new |
+| **new**, **was**, **gone** | `2026-12-07 was offer kids meal: "Every kids meal is 10 dollars ..." [/questions/]` | a read found a graph or plan line first seen, changed (the line as it was) or no longer there | new |
 
 A starting total is a `fact total` line in done. Every week is keyed by its Monday, in the business's time zone.
 
@@ -126,6 +142,8 @@ A starting total is a `fact total` line in done. Every week is keyed by its Mond
 **An assumption** is any line marked `(assumed)`: a belief not yet shown by counts. Counts move it to believed or proven. They can also show it was wrong.
 
 A count by group takes the less sure of the fact and the group.
+
+**On every graph and plan line, the source is last:** `(stated)`, `(observed)` or `(inferred)`. A line with no source word, as older ledgers have, is read as `(stated)`: the person wrote it. Code always writes the word; a line gets it when it is next changed: `grep '(stated)$'` then finds every one. Not every reader takes a source on every line yet (a fact line, yes): check what reads a ledger before a new word goes into one a live page reads.
 
 ## Summary
 
