@@ -1023,3 +1023,9 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** writing outside lines into a member's ledger now
 **Why:** your question whether it would be an issue today: on a copy of a member's ledger, the reader the live page uses stopped at one outside line ("offer" is a word it does not read yet), which would break that member's page; your ask for data that is easy to select with grep
 **Source:** stated (the questions), inferred (the test and the shape)
+
+## 2026-11-27: The ledger reader learns the outside words without changing what it read before
+**Chose:** the source word is taken off the end of a graph or plan line before the grammar reads it (a fact line keeps its source in its own words, as before); business, site, own, opens, offer, claim, proof, answers and channel are read by a module of their own into the graph's things; every month, every 2 weeks and on are read into the plan apart from the weekly repeats; read and new, was, gone into the done week, after a tick; the new fields are optional
+**Over:** changing the grammar and the shapes every skill already uses
+**Why:** every member's ledger must read exactly as before (proved on today's copies of all seven); nothing that carries a week forward should play a monthly step by mistake; a step named "new post" must stay a tick, which a test caught
+**Source:** inferred

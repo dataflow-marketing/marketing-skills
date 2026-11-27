@@ -466,11 +466,8 @@ function headingAt(lines, part) {
 
 // ../../../../packages/ledger/src/read/not-read-yet.ts
 var GRAPH_WORDS = [
-  { word: "business", starts: /^business\s/ },
   { word: "needs", starts: /^group\s[^:]*\sneeds:/ },
   { word: "moving between groups", starts: /^\[[^\]]+\].*(\u2192|->)/ },
-  { word: "offer", starts: /^offer\s/ },
-  { word: "channel", starts: /^channel\s/ },
   { word: "rule", starts: /^rule\s/ },
   { word: "limit", starts: /^limit\s/ },
   { word: "campaign", starts: /^campaign\s/ }
@@ -478,9 +475,7 @@ var GRAPH_WORDS = [
 var PLAN_WORDS = [
   { word: "want for a group", starts: /^want\s.*\[[^\]]+\]/ },
   { word: "ask", starts: /^ask\s/ },
-  { word: "on", starts: /^on\s\d{4}-\d{2}-\d{2}/ },
   { word: "every day", starts: /^every day\b/ },
-  { word: "every month", starts: /^every month\b/ },
   { word: "series", starts: /^\d{4}-\d{2}-\d{2}\s[^:]+:\s*\S/ }
 ];
 var DONE_WORDS = [];
@@ -507,6 +502,8 @@ var STARTED = new RegExp(`^started ${DATE}$`);
 var SAID = new RegExp(`^${DATE} said (.+?) on ${DATE}: "(.*)" (\\S+) \\[(.*)\\](?: topic: (.+?))? summary: "(.*)"$`);
 var COUNTED_TO = new RegExp(`^${DATE} counted to ${DATE}$`);
 var ANSWER = new RegExp(`^${DATE} (.+): (done|not done)(?: at (\\S+ \\S+))?$`);
+var READ = new RegExp(`^${DATE} read on ${DATE}$`);
+var CHANGE = new RegExp(`^${DATE} ((?:new|was|gone) .+)$`);
 var FACT_TOTAL = new RegExp(`^${DATE} fact total (.+): ${NUMBER}$`);
 var FACT_COUNT = new RegExp(`^${DATE} fact count (.+): ${NUMBER}$`);
 function readDone(lines) {
@@ -536,6 +533,11 @@ function addToDone(done, text, line) {
     addSaid(weekIn(done, said[1]), said);
     return true;
   }
+  const read = READ.exec(text);
+  if (read) {
+    weekIn(done, read[1]).readOn = read[2];
+    return true;
+  }
   const countedTo = COUNTED_TO.exec(text);
   if (countedTo) {
     weekIn(done, countedTo[1]).countedTo = countedTo[2];
@@ -544,6 +546,12 @@ function addToDone(done, text, line) {
   const answer = ANSWER.exec(text);
   if (answer) {
     addAnswer(weekIn(done, answer[1]), answer);
+    return true;
+  }
+  const change = CHANGE.exec(text);
+  if (change) {
+    const week = weekIn(done, change[1]);
+    week.changes = [...week.changes ?? [], change[2]];
     return true;
   }
   const total = FACT_TOTAL.exec(text);
@@ -5114,6 +5122,67 @@ function parsePlanLine(text) {
   }
 }
 
+// ../../../../packages/ledger/src/read/read-thing.ts
+var PAGE = /\s*\[([^\]\n]+)\]\s*$/;
+var UNTIL = /\s+until (\d{4}-\d{2}-\d{2})\s*$/;
+var NAMED = /^(business|opens|offer|proof|channel)(?: ([^:]*?))?(?: \(([^)]+)\))?:\s*(.*)$/;
+var CLAIM = /^claim "([^"]+)": (proof on the site|no proof on the site)$/;
+var ANSWERS = /^answers "([^"]+)"$/;
+var SITE = /^site (\S+)(?: \(([^)]+)\))?$/;
+function readThing(text, source, line) {
+  const trimmed = text.trim();
+  if (trimmed === "own") {
+    return { word: "own", name: "own", source, line };
+  }
+  const site = SITE.exec(trimmed);
+  if (site) {
+    return { word: "site", name: site[1], ...site[2] ? { kind: site[2] } : {}, source, line };
+  }
+  const { rest, page, until } = endsOf(trimmed);
+  const claim = CLAIM.exec(rest);
+  if (claim) {
+    return withEnds({ word: "claim", name: claim[1], proved: claim[2] === "proof on the site", source, line }, page, until);
+  }
+  const answers = ANSWERS.exec(rest);
+  if (answers) {
+    return withEnds({ word: "answers", name: answers[1], source, line }, page, until);
+  }
+  const named = NAMED.exec(rest);
+  if (named) {
+    const thing = { word: named[1], name: (named[2] ?? "").trim(), words: named[4].trim(), source, line };
+    if (named[3]) {
+      thing.kind = named[3];
+    }
+    return withEnds(thing, page, until);
+  }
+  return void 0;
+}
+function endsOf(text) {
+  let rest = text;
+  const until = UNTIL.exec(rest);
+  if (until) {
+    rest = rest.slice(0, until.index);
+  }
+  const page = PAGE.exec(rest);
+  if (page) {
+    rest = rest.slice(0, page.index);
+  }
+  return { rest: rest.trim(), page: page?.[1], until: until?.[1] };
+}
+function withEnds(thing, page, until) {
+  return { ...thing, ...page ? { page } : {}, ...until ? { until } : {} };
+}
+
+// ../../../../packages/ledger/src/read/source-word.ts
+var AT_THE_END = /\s*\((stated|observed|inferred)\)\s*$/;
+function splitSource(text) {
+  const found = AT_THE_END.exec(text);
+  if (!found) {
+    return { text, source: "stated", written: false };
+  }
+  return { text: text.slice(0, found.index), source: found[1], written: true };
+}
+
 // ../../../../packages/ledger/src/read/told-for-paste.ts
 var PASTE = /^paste(?=[\s(]|$)/;
 function toldForPaste(source) {
@@ -5125,14 +5194,31 @@ function readGraph(lines) {
   const graph = emptyGraph();
   const unread = [];
   for (const numbered of lines) {
-    const shape = parseGraphLine(numbered.text);
-    if (shape === void 0) {
+    const read = readOneLine(graph, numbered);
+    if (!read) {
       unread.push(numbered);
-      continue;
     }
-    addToGraph(graph, shape, numbered.line);
   }
   return { graph, unread };
+}
+function readOneLine(graph, numbered) {
+  const whole = parseGraphLine(numbered.text);
+  if (whole !== void 0 && (whole.kind === "fact" || !splitSource(numbered.text).written)) {
+    addToGraph(graph, whole, numbered.line);
+    return true;
+  }
+  const { text, source } = splitSource(numbered.text);
+  const shape = parseGraphLine(text);
+  if (shape !== void 0) {
+    addToGraph(graph, shape, numbered.line);
+    return true;
+  }
+  const thing = readThing(text, source, numbered.line);
+  if (thing !== void 0) {
+    graph.things = [...graph.things ?? [], thing];
+    return true;
+  }
+  return false;
 }
 function emptyGraph() {
   return { facts: [], groups: [], links: [], whens: [], removes: [], areas: [], icons: [] };
@@ -5185,19 +5271,54 @@ function linkOf(shape, line) {
   return link;
 }
 
+// ../../../../packages/ledger/src/read/read-plan-extra.ts
+var EVERY = /^every (month|2 weeks) (.+?)(?: from (\d{4}-\d{2}-\d{2}))?$/;
+var ON = /^on (\d{4}-\d{2}-\d{2})(?: to (\d{4}-\d{2}-\d{2}))?:\s*(.+)$/;
+function readOtherRepeat(text, line) {
+  const found = EVERY.exec(text.trim());
+  if (!found) {
+    return void 0;
+  }
+  const repeat = { every: found[1], name: found[2].trim(), line };
+  if (found[3]) {
+    repeat.from = found[3];
+  }
+  return repeat;
+}
+function readOn(text, line) {
+  const found = ON.exec(text.trim());
+  return found ? { from: found[1], to: found[2] ?? found[1], words: found[3].trim(), line } : void 0;
+}
+
 // ../../../../packages/ledger/src/read/read-plan.ts
 function readPlan(lines) {
   const plan = emptyPlan();
   const unread = [];
   for (const numbered of lines) {
-    const shape = parsePlanLine(numbered.text);
-    if (shape === void 0) {
+    if (!readOneLine2(plan, numbered)) {
       unread.push(numbered);
-      continue;
     }
-    addToPlan(plan, shape, numbered.line);
   }
   return { plan, unread };
+}
+function readOneLine2(plan, numbered) {
+  const { text } = splitSource(numbered.text);
+  const shape = parsePlanLine(text);
+  if (shape !== void 0) {
+    addToPlan(plan, shape, numbered.line);
+    return true;
+  }
+  const repeat = readOtherRepeat(text, numbered.line);
+  if (repeat !== void 0) {
+    plan.otherRepeats = [...plan.otherRepeats ?? [], repeat];
+    return true;
+  }
+  const on = readOn(text, numbered.line);
+  if (on !== void 0) {
+    plan.ons = [...plan.ons ?? [], on];
+    return true;
+  }
+  return false;
 }
 function emptyPlan() {
   return { repeats: [], hows: {}, scripts: {}, weekHows: {}, weekScripts: {}, entries: [] };

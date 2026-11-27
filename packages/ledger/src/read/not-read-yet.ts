@@ -8,11 +8,8 @@ import type { PartName } from "./ledger-shape.ts";
 type SpecWord = { word: string; starts: RegExp };
 
 const GRAPH_WORDS: SpecWord[] = [
-  { word: "business", starts: /^business\s/ },
   { word: "needs", starts: /^group\s[^:]*\sneeds:/ },
   { word: "moving between groups", starts: /^\[[^\]]+\].*(\u2192|->)/ },
-  { word: "offer", starts: /^offer\s/ },
-  { word: "channel", starts: /^channel\s/ },
   { word: "rule", starts: /^rule\s/ },
   { word: "limit", starts: /^limit\s/ },
   { word: "campaign", starts: /^campaign\s/ },
@@ -21,9 +18,7 @@ const GRAPH_WORDS: SpecWord[] = [
 const PLAN_WORDS: SpecWord[] = [
   { word: "want for a group", starts: /^want\s.*\[[^\]]+\]/ },
   { word: "ask", starts: /^ask\s/ },
-  { word: "on", starts: /^on\s\d{4}-\d{2}-\d{2}/ },
   { word: "every day", starts: /^every day\b/ },
-  { word: "every month", starts: /^every month\b/ },
   { word: "series", starts: /^\d{4}-\d{2}-\d{2}\s[^:]+:\s*\S/ },
 ];
 

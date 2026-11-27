@@ -3,6 +3,9 @@
 // (carry forward, the forecast) take what the reader gives them as it is.
 // Every line keeps its line number in the ledger.
 
+import type { On, OtherRepeat } from "./read-plan-extra.ts";
+import type { Thing } from "./read-thing.ts";
+
 // ---- graph ----
 
 export type Label = "proven" | "believed" | "assumed" | "unknown";
@@ -49,6 +52,8 @@ export type Frequency = "daily" | "weekly" | "monthly" | "quarterly" | "yearly";
 
 export type Graph = {
   extends?: string;
+  // what a business is and shows, from inside or out (read-thing.ts); kept only when there are any
+  things?: Thing[];
   cycle?: Frequency;
   facts: Fact[];
   groups: Group[];
@@ -73,6 +78,9 @@ export type Entry = { date: string; op: "=" | "+" | "-"; methods: Part[]; line: 
 
 export type Plan = {
   extends?: string;
+  // repeats every month or every 2 weeks and on lines (read-plan-extra.ts); kept only when there are any
+  otherRepeats?: OtherRepeat[];
+  ons?: On[];
   start?: string;
   want?: Want;
   repeats: Repeat[];
@@ -94,6 +102,9 @@ export type Said = { how: string; on: string; title: string; url: string; for: s
 
 // each week is keyed by the date its lines are written with
 export type DoneWeek = {
+  // the day a site was read from outside that week; what the read found changed
+  readOn?: string;
+  changes?: string[];
   answers: Record<string, Answer>;
   when?: Record<string, string>;
   totals: Record<string, number>;

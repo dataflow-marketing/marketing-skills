@@ -21,8 +21,8 @@ describe("checkPlan", () => {
   });
 
   it("sets aside a line with a new spec 1 word, never as a problem", () => {
-    const result = checkPlan(COFFEE_SHOP_LEDGER.replace("=== plan ===", "channel Instagram: our account\n=== plan ==="));
+    const result = checkPlan(COFFEE_SHOP_LEDGER.replace("=== plan ===", "limit seats: 24\n=== plan ==="));
     expect(result.problems).toEqual([]);
-    expect(result.setAside).toEqual([{ word: "channel", line: 7 }]);
+    expect(result.setAside).toEqual([{ word: "limit", line: 7 }]);
   });
 });

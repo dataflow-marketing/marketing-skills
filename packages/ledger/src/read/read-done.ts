@@ -6,6 +6,8 @@
 //   2026-11-23 fact total loyalty list: 312               how many on that day
 //   2026-11-16 counted to 2026-11-18                      the week's counts are so far, to that day
 //   2026-11-30 said on Instagram on 2026-12-01: "..." <link> [<who>] topic: <what about> summary: "..."
+//   2026-12-07 read on 2026-12-09                         its site read from outside that week
+//   2026-12-07 was offer kids meal: "..." [/questions/]   what the read found changed: new, was or gone
 //                                                                       (the topic is optional)
 //
 // A count for one group is read as a count whose name ends with the group: `emails sent [Keen]`.
@@ -23,6 +25,9 @@ const STARTED = new RegExp(`^started ${DATE}$`);
 const SAID = new RegExp(`^${DATE} said (.+?) on ${DATE}: "(.*)" (\\S+) \\[(.*)\\](?: topic: (.+?))? summary: "(.*)"$`);
 const COUNTED_TO = new RegExp(`^${DATE} counted to ${DATE}$`);
 const ANSWER = new RegExp(`^${DATE} (.+): (done|not done)(?: at (\\S+ \\S+))?$`);
+// a read of the site from outside; what it found changed (spec/ledger.md, Done)
+const READ = new RegExp(`^${DATE} read on ${DATE}$`);
+const CHANGE = new RegExp(`^${DATE} ((?:new|was|gone) .+)$`);
 const FACT_TOTAL = new RegExp(`^${DATE} fact total (.+): ${NUMBER}$`);
 const FACT_COUNT = new RegExp(`^${DATE} fact count (.+): ${NUMBER}$`);
 
@@ -59,6 +64,12 @@ function addToDone(done: Done, text: string, line: number): boolean {
     return true;
   }
 
+  const read = READ.exec(text);
+  if (read) {
+    weekIn(done, read[1]).readOn = read[2];
+    return true;
+  }
+
   const countedTo = COUNTED_TO.exec(text);
   if (countedTo) {
     weekIn(done, countedTo[1]).countedTo = countedTo[2];
@@ -68,6 +79,14 @@ function addToDone(done: Done, text: string, line: number): boolean {
   const answer = ANSWER.exec(text);
   if (answer) {
     addAnswer(weekIn(done, answer[1]), answer);
+    return true;
+  }
+
+  // after a tick: a step may be named "new post"; "2026-11-30 new post: done" is a tick, not a change
+  const change = CHANGE.exec(text);
+  if (change) {
+    const week = weekIn(done, change[1]);
+    week.changes = [...(week.changes ?? []), change[2]];
     return true;
   }
 

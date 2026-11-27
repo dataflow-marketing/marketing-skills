@@ -4,6 +4,8 @@
 import type { Graph, NumberedLine } from "./ledger-shape.ts";
 import type { GraphLineShape } from "./line-shapes.ts";
 import { parseGraphLine } from "./parse-line.ts";
+import { readThing } from "./read-thing.ts";
+import { splitSource } from "./source-word.ts";
 import { toldForPaste } from "./told-for-paste.ts";
 
 export type GraphReading = { graph: Graph; unread: NumberedLine[] };
@@ -13,15 +15,35 @@ export function readGraph(lines: NumberedLine[]): GraphReading {
   const unread: NumberedLine[] = [];
 
   for (const numbered of lines) {
-    const shape = parseGraphLine(numbered.text);
-    if (shape === undefined) {
+    const read = readOneLine(graph, numbered);
+    if (!read) {
       unread.push(numbered);
-      continue;
     }
-    addToGraph(graph, shape, numbered.line);
   }
 
   return { graph, unread };
+}
+
+// a fact line keeps its source in its own words, as it always has; any other line has its source word taken off
+// the end first; a line the grammar does not read may be a thing a business is or shows
+function readOneLine(graph: Graph, numbered: NumberedLine): boolean {
+  const whole = parseGraphLine(numbered.text);
+  if (whole !== undefined && (whole.kind === "fact" || !splitSource(numbered.text).written)) {
+    addToGraph(graph, whole, numbered.line);
+    return true;
+  }
+  const { text, source } = splitSource(numbered.text);
+  const shape = parseGraphLine(text);
+  if (shape !== undefined) {
+    addToGraph(graph, shape, numbered.line);
+    return true;
+  }
+  const thing = readThing(text, source, numbered.line);
+  if (thing !== undefined) {
+    graph.things = [...(graph.things ?? []), thing];
+    return true;
+  }
+  return false;
 }
 
 function emptyGraph(): Graph {

@@ -5,6 +5,8 @@ import { mondayOf } from "../dates.ts";
 import type { NumberedLine, Plan, Want } from "./ledger-shape.ts";
 import type { PlanLineShape } from "./line-shapes.ts";
 import { parsePlanLine } from "./parse-line.ts";
+import { readOn, readOtherRepeat } from "./read-plan-extra.ts";
+import { splitSource } from "./source-word.ts";
 
 export type PlanReading = { plan: Plan; unread: NumberedLine[] };
 
@@ -16,15 +18,33 @@ export function readPlan(lines: NumberedLine[]): PlanReading {
   const unread: NumberedLine[] = [];
 
   for (const numbered of lines) {
-    const shape = parsePlanLine(numbered.text);
-    if (shape === undefined) {
+    if (!readOneLine(plan, numbered)) {
       unread.push(numbered);
-      continue;
     }
-    addToPlan(plan, shape, numbered.line);
   }
 
   return { plan, unread };
+}
+
+// a plan line may end with its source word ("(inferred)" on a plan worked out from a site): taken off first
+function readOneLine(plan: Plan, numbered: NumberedLine): boolean {
+  const { text } = splitSource(numbered.text);
+  const shape = parsePlanLine(text);
+  if (shape !== undefined) {
+    addToPlan(plan, shape, numbered.line);
+    return true;
+  }
+  const repeat = readOtherRepeat(text, numbered.line);
+  if (repeat !== undefined) {
+    plan.otherRepeats = [...(plan.otherRepeats ?? []), repeat];
+    return true;
+  }
+  const on = readOn(text, numbered.line);
+  if (on !== undefined) {
+    plan.ons = [...(plan.ons ?? []), on];
+    return true;
+  }
+  return false;
 }
 
 function emptyPlan(): Plan {
