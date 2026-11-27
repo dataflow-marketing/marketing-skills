@@ -12,3 +12,13 @@ describe("checkSite", () => {
     expect(checkSite("Coffee Shop", COFFEE_SHOP_ADDRESS).ok).toBe(false);
   });
 });
+
+describe("checkSite on this computer", () => {
+  it("takes http://localhost with a port, for a site served here such as a demo", () => {
+    expect(checkSite("demo-cafe", "http://localhost:4101/")).toEqual({ ok: true, site: { business: "demo-cafe", platform: "public", address: "http://localhost:4101" } });
+  });
+
+  it("still refuses plain http anywhere else", () => {
+    expect(checkSite("demo-cafe", "http://coffee-shop.example").ok).toBe(false);
+  });
+});

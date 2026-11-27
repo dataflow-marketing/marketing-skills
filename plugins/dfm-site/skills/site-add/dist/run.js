@@ -353,6 +353,11 @@ function isModeFlag(arg) {
   return arg in MODE_FLAGS;
 }
 
+// ../../../../packages/core/src/address/local-address.ts
+function isLocalAddress(url) {
+  return url.protocol === "http:" && (url.hostname === "localhost" || url.hostname === "127.0.0.1");
+}
+
 // ../../../../packages/core/src/node/expand-home.ts
 import { homedir } from "node:os";
 import { join } from "node:path";
@@ -424,7 +429,7 @@ function checkSite(name, address) {
   }
   const tidyAddress = tidyHttpsAddress(address);
   if (!tidyAddress) {
-    problems.push(`The address ${address} must look like https://coffee-shop.example: https, a host and nothing secret.`);
+    problems.push(`The address ${address} must look like https://coffee-shop.example (or http://localhost:4101 for a site on this computer): a host and nothing secret.`);
   }
   if (problems.length > 0 || !tidyAddress) {
     return { ok: false, problems };
@@ -432,13 +437,13 @@ function checkSite(name, address) {
   return { ok: true, site: { business: name, platform: PUBLIC, address: tidyAddress } };
 }
 function tidyHttpsAddress(address) {
-  if (!address.startsWith("https://")) {
-    return void 0;
-  }
   let url;
   try {
     url = new URL(address);
   } catch {
+    return void 0;
+  }
+  if (url.protocol !== "https:" && !isLocalAddress(url)) {
     return void 0;
   }
   if (url.hostname === "" || url.username !== "" || url.password !== "") {

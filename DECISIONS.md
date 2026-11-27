@@ -903,3 +903,9 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** folding old weeks into monthly lines in the same ledger (weekly detail lost, the reader and forecast would need month lines); moving weeks at a fixed age or only on request
 **Why:** stated, each a choice offered with its trade off
 **Source:** stated
+
+## 2026-11-27: A site on this computer is read like a real one
+**Chose:** site-add and profile-make take http://localhost (or 127.0.0.1) with any port, as the store's rest connector already did, through one rule in core (isLocalAddress); every other address must still be https
+**Over:** a special path for demo sites
+**Why:** the market demo serves its made up sites on this computer; they must go through exactly the same skills as a real business
+**Source:** inferred

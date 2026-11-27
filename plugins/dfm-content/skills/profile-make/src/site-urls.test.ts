@@ -15,3 +15,13 @@ describe("siteUrls", () => {
     expect(siteUrls("coffee shop").ok).toBe(false);
   });
 });
+
+describe("siteUrls on this computer", () => {
+  it("reads http://localhost, for a site served here such as a demo", () => {
+    expect(siteUrls("http://localhost:4101/")).toEqual({ ok: true, home: "http://localhost:4101/", llmsFull: "http://localhost:4101/llms-full.txt" });
+  });
+
+  it("still refuses plain http anywhere else", () => {
+    expect(siteUrls("http://coffee-shop.example").ok).toBe(false);
+  });
+});

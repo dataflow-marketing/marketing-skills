@@ -20,6 +20,11 @@ function formatOutput(result, mode) {
 var EXIT_DONE = 0;
 var EXIT_REFUSED_OR_FAILED = 2;
 
+// ../../../../packages/core/src/address/local-address.ts
+function isLocalAddress(url) {
+  return url.protocol === "http:" && (url.hostname === "localhost" || url.hostname === "127.0.0.1");
+}
+
 // ../../../../packages/core/src/node/print-output.ts
 function printOutput(result, mode) {
   const output = formatOutput(result, mode);
@@ -339,8 +344,8 @@ function siteUrls(address) {
   } catch {
     return { ok: false, problem: `Not a web address: ${address}` };
   }
-  if (url.protocol !== "https:") {
-    return { ok: false, problem: "The address must start with https://" };
+  if (url.protocol !== "https:" && !isLocalAddress(url)) {
+    return { ok: false, problem: "The address must start with https:// (or be http://localhost for a site on this computer)" };
   }
   const home = `${url.origin}/`;
   return { ok: true, home, llmsFull: `${url.origin}/llms-full.txt` };

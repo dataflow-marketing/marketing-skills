@@ -1,7 +1,8 @@
 // Checks what was asked for before anything is written: the name is lowercase with hyphens and the address is an
-// https:// address. Gives back the site as settings will hold it, with the address tidied. A public site has no key.
+// https:// address (or http://localhost for a site on this computer, such as a demo). Gives back the site as settings will hold it, with the address tidied. A public site has no key.
 
 import type { Site } from "@dataflow-marketing/core";
+import { isLocalAddress } from "@dataflow-marketing/core";
 import { PUBLIC } from "./site-line.ts";
 
 export type SiteCheck = { ok: true; site: Site } | { ok: false; problems: string[] };
@@ -17,7 +18,7 @@ export function checkSite(name: string, address: string): SiteCheck {
 
   const tidyAddress = tidyHttpsAddress(address);
   if (!tidyAddress) {
-    problems.push(`The address ${address} must look like https://coffee-shop.example: https, a host and nothing secret.`);
+    problems.push(`The address ${address} must look like https://coffee-shop.example (or http://localhost:4101 for a site on this computer): a host and nothing secret.`);
   }
 
   if (problems.length > 0 || !tidyAddress) {
@@ -29,13 +30,13 @@ export function checkSite(name: string, address: string): SiteCheck {
 // An https address with a host, no user or password, no query and no fragment.
 // The last slash is taken off: https://coffee-shop.example/ becomes https://coffee-shop.example
 function tidyHttpsAddress(address: string): string | undefined {
-  if (!address.startsWith("https://")) {
-    return undefined;
-  }
   let url: URL;
   try {
     url = new URL(address);
   } catch {
+    return undefined;
+  }
+  if (url.protocol !== "https:" && !isLocalAddress(url)) {
     return undefined;
   }
   if (url.hostname === "" || url.username !== "" || url.password !== "") {
