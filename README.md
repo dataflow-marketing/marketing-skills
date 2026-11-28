@@ -235,12 +235,12 @@ The examples have no version: they are read, never installed.
 | client-run | asks which kind of site it is (any website or Ghost), runs that site-add, then profile-make with its check, then plan-make; storing in Ghost joins later | built |
 | market-run | each other business's site read for only what changed (profile-make --since), their profiles brought up to date and checked, profile-compare over time and side by side, market-report | built |
 | clips-run | transcript-make, clips-make, video-encode, share-make, pack-make | planned |
-| calendar-run | ideas-make or schedule-make, then plan-change | planned |
-| reply-run | inbox-read, then plan-change and counts-record on a yes | planned |
-| report-run | summary-make, rates-record, report-make | planned |
+| calendar-run | ideas-make, the person's answer, post-make, plan-change; schedule-make joins later | built |
+| reply-run | inbox-read, then counts-record and plan-change on a yes, then message-make for each reply | built |
+| report-run | summary-make, report-make, for one business or every business; rates-record joins later | built |
 | review-run | whatif-make | planned |
 | health-run | llms-check, links-check, stripe links-check, profile-make | planned |
-| watch-run | profile-make on any public site (a competitor, a peer, a client before they are one), then profile-compare with its last profile; run on a schedule, such as monthly, by a runner. Reads politely (the site's robots.txt, a few pages at a time) and profiles businesses, never private people | planned |
+| watch-run | a scheduled read, code only (watch.sh, run by cron on the person's own computer: profile-make --since, market-read --read, a note of what changed), then in a session market-read's graph and changes and market-run's report, a yes before every write | built |
 
 ## Install
 

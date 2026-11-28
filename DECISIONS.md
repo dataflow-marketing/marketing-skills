@@ -1101,3 +1101,27 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** planning it for its own session now
 **Why:** your call: "lets hold off on whatif-make"; it is about one long session of work
 **Source:** stated (the hold), inferred (the size)
+
+## 2026-11-28: reply-run, report-run and calendar-run
+**Chose:** build the three recipes whose skills are all built: reply-run (inbox-read, counts-record, plan-change, message-make), report-run (summary-make, report-make), calendar-run (ideas-make, post-make, plan-change)
+**Over:** waiting for rates-record and schedule-make
+**Why:** your yes; those join their recipes when they are built
+**Source:** stated
+
+## 2026-11-28: A scheduled run happens on the person's own computer
+**Chose:** whatever runs a recipe on a schedule runs locally, on the person's own machine
+**Over:** a scheduled cloud agent
+**Why:** your words: "it has to run locally"; settings, keys and private market folders stay on the machine
+**Source:** stated
+
+## 2026-11-28: The scheduled read is code only, run by cron where the repos are
+**Chose:** on a schedule, a script runs only the code parts of a market read (profile-make --since, market-read --read) into new folders and writes a short note of what changed; the person does the judgement later with watch-run in a session, a yes before every write; cron runs it on the computer that holds the repos
+**Over:** Claude Code run unattended on a schedule; a loop inside a session; launchd on another computer
+**Why:** your answers: "Code-only read" and "In the VM, with cron"; nothing unattended needs a yes, none of the subscription's limits are used
+**Source:** stated
+
+## 2026-11-28: watch.sh finds a site's last read by the day its ledger records
+**Chose:** the last read of a site is the market ledger whose `read on` day is latest; each run is named for the day in the market's own time zone; a site that cannot be read is left out of that read and named in the note
+**Over:** the newest folder by file time; the computer's own clock
+**Why:** testing on a copy of the demo, file times picked month two over month three (copying changes them); the computer's clock is UTC, a day behind Melbourne in the morning
+**Source:** inferred
