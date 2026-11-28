@@ -254,6 +254,9 @@ importers:
       '@dataflow-marketing/ledger':
         specifier: workspace:*
         version: link:../../packages/ledger
+      '@dataflow-marketing/store':
+        specifier: workspace:*
+        version: link:../../packages/store
 
   plugins/dfm-ledger:
     devDependencies:

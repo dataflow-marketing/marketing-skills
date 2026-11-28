@@ -10,6 +10,10 @@ export type { FieldLookup, FieldRead } from "./ghost/read-field.ts";
 export { writeField } from "./ghost/write-field.ts";
 export type { FieldChange, FieldWrite } from "./ghost/write-field.ts";
 export type { Fetch } from "./ghost/member-calls.ts";
+export { fieldDefinitions } from "./ghost/field-definitions.ts";
+export type { DefinitionsRead, FieldDefinition } from "./ghost/field-definitions.ts";
+export { readFieldValue, writeFieldValue } from "./ghost/field-value.ts";
+export type { FieldValue, ValueRead, ValueWrite } from "./ghost/field-value.ts";
 
 export { readRest } from "./rest/read-rest.ts";
 export type { RestLookup, RestRead } from "./rest/read-rest.ts";

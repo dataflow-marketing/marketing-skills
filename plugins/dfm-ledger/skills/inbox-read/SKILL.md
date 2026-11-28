@@ -26,6 +26,7 @@ A guided skill. Claude reads and sorts; `dfm-ledger:counts-record` and `dfm-ledg
    - **`Change:` lines** (an AI chat's response, made with `dfm-ledger:askai-make`): `dfm-ledger:plan-change` with the message as it came.
    - **A post they shared** (its link and words): a `Change: <its Monday> said on <channel> on <its day>: "<its first line>" <its link> [everyone] summary: "<its first two sentences>"` line, their words exactly, through plan-change.
    - **What they want; what is not working:** a light change, only when the message makes it plain: a step (`Change: every week <step> from <a Monday>`) or what a step opens to (`Change: how <step>: <their words, polished>`). A line or two, never a rebuild. Show it as a proposal first.
+   - **An answer to an account question** (where they are online, what kind of business): `dfm-ghost:fields-change` for that field, the choice word for word; for a member on a Ghost site.
    - **A question; something they ask for:** it needs a reply (below). A question about what they could make is also an idea for `dfm-content:ideas-make`.
    - **Nothing to do:** say so.
 

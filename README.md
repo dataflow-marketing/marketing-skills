@@ -147,7 +147,7 @@ The examples have no version: they are read, never installed.
 | numbers-read | a week's new members, paid plans started and the emails sent, their opens and clicks, also for each group by tag; read only | code | yes | works |
 | said-read | what a business sent or published in a week, as said lines in its own words; read only, plan-change adds them | code | yes | built |
 | fields-read | a member's custom fields | code | no | planned |
-| fields-change | changes one custom field for one member, read back | code | no | planned |
+| fields-change | changes one custom field for one member: a pick list takes only its own choices; a preview, a version check, a backup, a read back; never a field that holds a ledger | code | yes | built |
 | field-add | adds a custom field definition | code | no | planned |
 | post-change | changes a published page's text on an explicit ask, with a backup | code | no | planned |
 

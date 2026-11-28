@@ -1131,3 +1131,15 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** fields-change, the media skills or schedule-make first
 **Why:** your yes; two small skills unlock a whole recipe
 **Source:** stated
+
+## 2026-11-28: fields-change now
+**Chose:** build dfm-ghost:fields-change (one custom field for one member, a preview first, a backup, a read back) before Monday's tests
+**Over:** stopping until the tests
+**Why:** your call: "yes field-change now"; inbox-read can then write a member's account answers: reply-run can then replace nudge-reply
+**Source:** stated
+
+## 2026-11-28: fields-change checks a value against the field and never touches a ledger's field
+**Chose:** a pick list field takes only its own choices word for word, sent as a list ("a | b" where more than one may be picked); a text field takes text; empty clears; a field named in a binding in settings is refused (object-change changes it); the version is the hash of what the field holds; the backup and run log name the member by id, never by email
+**Over:** sending whatever was asked; changing any field
+**Why:** how dfm already wrote answers (pnpm answer: choices word for word, a list for a pick list); a ledger's field has its own version check and read back in object-change; the run log and backups should not hold a member's address
+**Source:** inferred

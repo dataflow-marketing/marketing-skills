@@ -2,6 +2,7 @@
 
 import { fileURLToPath } from "node:url";
 import { bundleScript } from "@dataflow-marketing/core/build";
+import { fieldsChangeBundle } from "./skills/fields-change/bundle.ts";
 import { numbersReadBundle } from "./skills/numbers-read/bundle.ts";
 import { postDraftBundle } from "./skills/post-draft/bundle.ts";
 import { saidReadBundle } from "./skills/said-read/bundle.ts";
@@ -21,6 +22,8 @@ async function main(): Promise<void> {
 
   await bundleScript(saidReadBundle(pluginFolder));
   process.stdout.write("built skills/said-read/dist/run.js\n");
+  await bundleScript(fieldsChangeBundle(pluginFolder));
+  process.stdout.write("built skills/fields-change/dist/run.js\n");
 }
 
 await main();
