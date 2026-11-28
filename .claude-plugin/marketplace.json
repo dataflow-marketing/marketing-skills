@@ -21,12 +21,12 @@
     {
       "name": "dfm-site",
       "source": "./plugins/dfm-site",
-      "description": "Any public website, on any platform: site-add names it in settings with no key; dfm reads it and never writes to it."
+      "description": "Any public website, on any platform: site-add names it in settings with no key; llms-check says whether AI tools can read it; links-check finds links that do not work for a visitor; dfm reads a site and never writes to it."
     },
     {
       "name": "dfm-recipes",
       "source": "./plugins/dfm-recipes",
-      "description": "Recipes that run skills in order: client-run sets up a business with a first plan (start here if you are new to dfm); week-run brings in a week, for one business or every business in settings; recording-run turns a recording into a draft post; reply-run deals with messages in; report-run makes a period's report; calendar-run plans posts from what people asked; watch-run reads a market on a schedule, on your own computer."
+      "description": "Recipes that run skills in order: client-run sets up a business with a first plan (start here if you are new to dfm); week-run brings in a week, for one business or every business in settings; recording-run turns a recording into a draft post; reply-run deals with messages in; report-run makes a period's report; calendar-run plans posts from what people asked; watch-run reads a market on a schedule, on your own computer; health-run checks a site's health."
     },
     {
       "name": "dfm-ledger",

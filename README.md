@@ -217,8 +217,8 @@ The examples have no version: they are read, never installed.
 | Skill | Does | Kind | Script | State |
 |---|---|---|---|---|
 | site-add | adds a public website on any platform to settings, by its address only: no key | code | yes | works |
-| llms-check | whether a site's `/llms.txt` is on and what it holds | code | no | planned |
-| links-check | links on a site that do not work for a visitor | code | no | planned |
+| llms-check | whether a site's `/llms.txt` is on and what it holds (title, summary, sections, links) and whether `/llms-full.txt` has every page | code | yes | built |
+| links-check | links on a site that do not work for a visitor: the home page and up to 50 sitemap pages, each link asked once, politely | code | yes | built |
 
 ### dfm-social: channels with no API (not started)
 
@@ -239,7 +239,7 @@ The examples have no version: they are read, never installed.
 | reply-run | inbox-read, then counts-record and plan-change on a yes, then message-make for each reply | built |
 | report-run | summary-make, report-make, for one business or every business; rates-record joins later | built |
 | review-run | whatif-make | planned |
-| health-run | llms-check, links-check, stripe links-check, profile-make | planned |
+| health-run | llms-check, links-check, profile-make (and profile-compare with an earlier read); reads only; Stripe's links-check joins later | built |
 | watch-run | a scheduled read, code only (watch.sh, run by cron on the person's own computer: profile-make --since, market-read --read, a note of what changed), then in a session market-read's graph and changes and market-run's report, a yes before every write | built |
 
 ## Install

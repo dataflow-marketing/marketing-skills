@@ -2,7 +2,7 @@
   "name": "@dataflow-marketing/dfm-site",
   "version": "0.1.0",
   "private": true,
-  "description": "dataflow marketing: any public website, read and never written to. site-add names a public site in settings.",
+  "description": "dataflow marketing: any public website, read and never written to. site-add names a public site in settings; llms-check and links-check read a site's health.",
   "license": "MIT",
   "type": "module",
   "scripts": {

@@ -1125,3 +1125,9 @@ Why marketing-skills works the way it does. Each entry is a choice made over a r
 **Over:** the newest folder by file time; the computer's own clock
 **Why:** testing on a copy of the demo, file times picked month two over month three (copying changes them); the computer's clock is UTC, a day behind Melbourne in the morning
 **Source:** inferred
+
+## 2026-11-28: llms-check and links-check, then health-run
+**Chose:** build llms-check (is a site's /llms.txt on, what it holds) and links-check (the links on a site that do not work for a visitor) in dfm-site, then the health-run recipe without its Stripe check until dfm-stripe exists
+**Over:** fields-change, the media skills or schedule-make first
+**Why:** your yes; two small skills unlock a whole recipe
+**Source:** stated
